@@ -1,5 +1,5 @@
 # MiniBlog
-ASP.NET MVC'de küçük ve hafif bir bloglama sistemi
+ASP.NET MVC'de küçük ve hafif bir bloglama sistemi halen geliştirilme aşamasında olup sende katkıda bulunmak için bu projede yer alabilirsin.
 ## Proje Özellikler
 
 => Entity Framework kullanarak ile geliştirilmiştir.
