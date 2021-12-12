@@ -1,0 +1,41 @@
+﻿@model IEnumerable<MiniBlog.Models.Articles_V>
+@{
+    ViewBag.Title = ViewBag.Content;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@if(Model.ToList().Count == 0)
+{
+   
+    <h2>Üzgünüm, <span style="color: #b70909;">"@ViewBag.Content"</span> ile ilgili istediğin yazıyı buralarda bulamadım.</h2>
+ 
+}
+else
+{
+    <h1>"@ViewBag.Content" ile ilgili sonuçlar</h1>
+    foreach (var item in Model)
+    {
+        <div class="media">
+            <a class="pull-left" href="@Url.Action("Details", "Article", new { category = @Url.FriendlyURLTitle(item.CategoryName), title = @Url.FriendlyURLTitle(@item.Title), id = @item.ArticleID })" title="@item.Title">
+                @if (item.CoverPhoto == null)
+                {
+                    item.CoverPhoto = "~/Content/imgs/no-image.png";
+                }
+                <img class="img-responsive well-sm well" src="@Url.Content(item.CoverPhoto)?width=262&height=147&format=jpg&mode=crop">
+            </a>
+            <div class="media-body">
+                <div class="post-preview">
+                    <p class="post-info"><a href="@Url.Action("Category", "Article", new { category = @Url.FriendlyURLTitle(item.CategoryName), CategoryID = @item.CategoryID})" class="category-name">@item.CategoryName</a> - <i class="fa fa-eye"></i> @item.ReadNumber kez okundu.</p>
+                    <h3 class="post-title">
+                        <a href="@Url.Action("Details", "Article", new { category = @Url.FriendlyURLTitle(item.CategoryName), title = @Url.FriendlyURLTitle(@item.Title), id = @item.ArticleID })">@item.Title</a>
+                    </h3>
+                    <h4 class="post-subtitle">
+                        @(item.Summary)
+                    </h4>
+                    <p class="post-meta"><a href="#">@(item.Name + " " + item.Surname)</a> | @(Helper.TimeAgo(item.Date)) eklendi.</p>
+                </div>
+            </div>
+        </div>
+    }
+}

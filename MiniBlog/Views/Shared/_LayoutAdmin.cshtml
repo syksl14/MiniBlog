@@ -1,0 +1,92 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+    <!-- Custom Fonts -->
+    <link href="~/Content/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <link href="~/scripts/plugins/summernote/summernote.css" rel="stylesheet" type="text/css">
+    <link href="~/scripts/plugins/summernote/summernote-bs4.css" rel="stylesheet" type="text/css">
+    <link href="~/scripts/plugins/bootstrap-tags/bootstrap-tagsinput.css" rel="stylesheet" type="text/css">
+    <link href="~/scripts/plugins/DataTables/datatables.min.css" rel="stylesheet" type="text/css">
+    <link href="~/scripts/plugins/DataTables/datatables.min.css" rel="stylesheet" type="text/css">
+    <link href="~/scripts/plugins/DataTables/DataTables-1.11.3/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+    <link href="~/scripts/plugins/select2/css/select2.min.css" rel="stylesheet" />
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js"></script>
+    <script src="~/Scripts/modernizr-2.6.2.js"></script>
+    <script src="~/Scripts/plugins/summernote/summernote.min.js"></script>
+    <script src="~/Scripts/plugins/summernote/summernote-bs4.min.js"></script>
+    <script src="~/scripts/plugins/select2/js/select2.min.js"></script>
+    <script src="~/Scripts/plugins/summernote/lang/summernote-tr-TR.min.js"></script>
+    <script src="~/Scripts/plugins/bootstrap-tags/bootstrap-tagsinput.min.js"></script>
+    <script src="~/Scripts/plugins/DataTables/datatables.min.js"></script>
+    <script>
+        $.extend($.fn.dataTable.defaults, {
+            language: { url: "/Scripts/plugins/DataTables/langs/Turkish.json" }
+        });
+    </script>
+    <title>@Page.Title - selahattinYuksel.NET Panel </title>
+    @RenderSection("head", required: false)
+</head>
+<body class="admin">
+    <div class="modal-loading"></div>
+    <!-- Fixed navbar -->
+    <nav class="navbar admin-navbar navbar-default">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar_admin" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">selahattinyuksel.NET Admin</a>
+            </div>
+            @if (@HttpContext.Current.User.Identity.Name != "")
+            {
+                @Html.Action("NavBar", "Admin", new MiniBlog.Models.Author())
+            }
+        </div>
+    </nav>
+
+    <!-- Begin page content -->
+    <div class="container-fluid">
+        @RenderBody()
+    </div>
+    <hr />
+    <footer class="footer">
+        <div class="container">
+            <p class="text-muted">Blog &copy; SelahattinYuksel @DateTime.Now.Year</p>
+        </div>
+    </footer>
+
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <!-- Contact Form JavaScript -->
+    <script src="~/Scripts/jqBootstrapValidation.js"></script>
+    <script>
+        $(function () {
+            $('.modal').on('hidden.bs.modal', function () {
+                if ($(".modal").hasClass('in')) {
+                    $('body').addClass('modal-open');
+                }
+            })
+            var $body = $("body");
+            $(document).on({
+                ajaxStart: function () { $body.addClass("loading"); },
+                ajaxStop: function () { $body.removeClass("loading"); }
+            }); 
+        });
+    </script>
+</body>
+</html>

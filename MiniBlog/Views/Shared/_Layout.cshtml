@@ -1,0 +1,153 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>@ViewBag.Title - @System.Configuration.ConfigurationManager.AppSettings["site_name"].ToString() -- @System.Configuration.ConfigurationManager.AppSettings["slogan"].ToString()</title>
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <!-- Theme CSS -->
+    <link href="~/Content/clean-blog.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="~/Content/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({
+            google_ad_client: "ca-pub-2677463421568477",
+            enable_page_level_ads: true
+        });
+    </script>
+    <script src="~/Scripts/modernizr-2.6.2.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    Menu <i class="fa fa-bars"></i>
+                </button>
+                <a class="navbar-brand" href="/">selahattinyuksel.NET</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Ana Sayfa</a>
+                    </li>
+                    <li>
+                        <a href="@Url.Content("~/Home/About")">Hakkımda</a>
+                    </li>
+                    <li>
+                        <a href="@Url.Content("~/Home/Contact")">İletişim</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header class="intro-header" style="background-image: url(@Url.Content("~/Content/imgs/home-bg.jpg"))">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div class="site-heading">
+                        <h1>selahattinyuksel.NET</h1>
+                        <hr class="small">
+                        <span class="subheading">Java, ASP.NET, C#.NET, VB.NET, jQuery, AngularJS hakkında bir kaç şey...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-1 col-md-12">
+            </div>
+            <div class="col-lg-2 col-md-12">
+                @Html.Action("Categories", "Home", new MiniBlog.Models.Category())
+                @Html.Action("LatestArticles", "Home", new MiniBlog.Models.Articles_V())
+                <form class="form-inline" action="/Article/Search" id="formArama">
+                    <input class="form-control" type="search" name="content" required="required" placeholder="Blogumda ara!" maxlength="30" aria-label="Ara">
+                    <button class="btn btn-outline-success" type="submit"><i class="fa fa-search"></i>Ara</button>
+                </form>
+            </div>
+            <div class="col-lg-6 col-md-10">
+                @RenderBody()
+            </div>
+            <div class="col-lg-2 col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        Reklam alanı
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-1 col-md-12">
+            </div>
+        </div>
+    </div>
+    <hr />
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <ul class="list-inline text-center">
+                        <li>
+                            <a href="https://twitter.com/CCCMarley14" target="_blank">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.facebook.com/ccc.marley" target="_blank">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://github.com/syksl14" target="_blank">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                    <p class="copyright text-muted">Blog &copy; SelahattinYuksel @DateTime.Now.Year</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script src="~/Scripts/jquery.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <!-- Contact Form JavaScript -->
+    <script src="~/Scripts/jqBootstrapValidation.js"></script>
+    <script src="~/Scripts/contact_me.js"></script>
+
+    <!-- Theme JavaScript -->
+    <script src="~/Scripts/clean-blog.js"></script>
+</body>
+</html>

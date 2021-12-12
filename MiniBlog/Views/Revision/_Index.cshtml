@@ -1,0 +1,34 @@
+﻿@model List<MiniBlog.Models.Revision>
+<div class="modal-body">
+    <table class="table table-bordered" id="tblRevisions">
+        <thead>
+            <tr>
+                <th>Sürüm No</th>
+                <th>Revizyon Zamanı</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @{int i = 1;}
+            @foreach (var r in Model)
+            {
+                <tr>
+                    <td>@r.Date.ToString("ddMMyyhhmm").@i</td>
+                    <td><span title="@r.Date.ToString("dd MMMM yyyy HH:mm")">@Helper.TimeAgo(r.Date)</span></td>
+                    <td>
+                        <button type="button" data-id="@r.ArticleID" data-href="/Revision/Delete/@r.RevisionID" data-toggle="modal" data-target="#modalConfirmDelete2" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i> Sil</button>
+                        <button type="button" class="btn btn-xs btn-primary" onclick="revisions.view(@r.RevisionID);"><i class="fa fa-eye"></i> Görüntüle</button>
+                    </td>
+                </tr>  
+                i++;
+            }
+        </tbody>
+    </table>
+</div>
+<script>
+    $(function () {
+        $('#tblRevisions').dataTable({
+            lang: 'tr'
+        });
+    });
+</script>

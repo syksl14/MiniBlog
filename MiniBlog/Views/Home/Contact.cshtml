@@ -1,0 +1,53 @@
+﻿@{
+    ViewBag.Title = "İletişim";
+    Layout = "~/Views/Shared/_LayoutDetail.cshtml";
+}
+
+<header class="intro-header" style="background-image: url(@Url.Content("~/Content/imgs/post-bg.jpg"))">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <h1>@ViewBag.Title</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            <p>Benimle iletişime geçmek için aşağıdaki formu doldurun 24 saat içinde geri dönmeye çalışacağım!</p>
+            <form name="sentMessage" id="contactForm" novalidate>
+                <div class="row control-group">
+                    <div class="form-group col-xs-12 floating-label-form-group controls">
+                        <label>Adınız</label>
+                        <input type="text" class="form-control" placeholder="Adınız" id="name" required data-validation-required-message="Lütfen adınızı giriniz.">
+                        <p class="help-block text-danger"></p>
+                    </div>
+                </div>
+                <div class="row control-group">
+                    <div class="form-group col-xs-12 floating-label-form-group controls">
+                        <label>E-Posta Adresiniz</label>
+                        <input type="email" class="form-control" placeholder="E-Posta Adresiniz" id="email" required data-validation-required-message="Lütfen e-posta adresinizi giriniz.">
+                        <p class="help-block text-danger"></p>
+                    </div>
+                </div>
+                <div class="row control-group">
+                    <div class="form-group col-xs-12 floating-label-form-group controls">
+                        <label>Mesajınız</label>
+                        <textarea rows="5" class="form-control" placeholder="Mesajınız" id="message" required data-validation-required-message="Lütfen mesajınızı giriniz."></textarea>
+                        <p class="help-block text-danger"></p>
+                    </div>
+                </div>
+                <br>
+                <div id="success"></div>
+                <div class="row">
+                    <div class="form-group col-xs-12">
+                        <button type="submit" class="btn btn-default">Gönder</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,15 @@
+﻿@model IEnumerable<MiniBlog.Models.Category>
+
+<div class="panel panel-info divKategoriler">
+    <div class="panel-heading">
+        <i class="fa fa-list"></i> Kategoriler
+    </div>
+    <div class="panel-body">
+        <ul>
+            @foreach (var c in Model)
+            {
+                <li><a href="@Url.Action("Category", "Article", new { category = @Url.FriendlyURLTitle(c.CategoryName), CategoryID = @c.CategoryID})">@c.CategoryName</a></li>
+            }
+        </ul>
+    </div>
+</div>

@@ -1,0 +1,95 @@
+﻿@using PagedList
+@using PagedList.Mvc
+@model IPagedList<MiniBlog.Models.Category>
+@{
+    Page.Title = "Kategoriler";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<div class="row">
+    <div class="col-md-2">
+    </div>
+    <div class="col-md-8 text-right">
+        <button class="btn btn-success" type="button" onclick="categories.add();"><i class="fa fa-plus"></i> Yeni Kategori</button>
+    </div>
+    <div class="col-md-2">
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Kategori Adı</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var a in Model)
+                        {
+                            <tr>
+                                <td>@a.CategoryName</td>
+                                <td>
+                                    <button type="button" data-href="/Category/Delete/@a.CategoryID" data-toggle="modal" data-target="#modalConfirmDelete" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i> Sil</button>
+                                    <button type="button" class="btn btn-xs btn-primary" onclick="categories.edit(@a.CategoryID);"><i class="fa fa-pencil"></i> Düzenle</button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <div class="row">
+                    <div class="col-md-6"></div>
+                    <div class="col-md-6">
+                        <div class="pagedList">
+                            @Html.PagedListPager(Model, page => Url.Action("Categories", new { page }), PagedListRenderOptions.PageNumbersOnly)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2"></div>
+</div>
+<div class="modal fade" tabindex="-1" role="dialog" id="modalAddCategory">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Yeni Kategori</h4>
+            </div>
+            @Html.Partial("_NewCategory", new MiniBlog.Models.CategoryModel())
+        </div>
+    </div>
+</div>
+<div class="modal fade" tabindex="-1" role="dialog" id="modalEditCategory">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Düzenle</h4>
+            </div>
+            <div id='modalEditCategoryContent'></div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalConfirmDelete" tabindex="-1" role="dialog" aria-labelledby="modalConfirmDelete" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                Kategori Sil
+            </div>
+            <div class="modal-body">
+                Kategori ve kategoriye ait yazılar silinicektir devam edilsin mi?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">İptal</button>
+                <a class="btn btn-danger btn-ok">Sil</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/scripts/pages/admin/categories.js"></script>
+

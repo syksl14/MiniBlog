@@ -1,0 +1,17 @@
+﻿@model MiniBlog.Models.Author
+<div id="navbar_admin" class="collapse navbar-collapse">
+    <ul class="nav navbar-nav mr-auto">
+        <li class="@(ViewContext.ParentActionViewContext.RouteData.Values["Action"].ToString() == "Home" ? "active" : "")"><a href="~/Admin/Home">Ana Sayfa</a></li>
+        <li class="@(ViewContext.ParentActionViewContext.RouteData.Values["Action"].ToString() == "Articles" ? "active" : "")"><a href="~/Admin/Articles">Yazılar</a></li>
+        <li class="@(ViewContext.ParentActionViewContext.RouteData.Values["Action"].ToString() == "Categories" ? "active" : "")"><a href="~/Admin/Categories">Kategoriler</a></li>
+        <li class="@(ViewContext.ParentActionViewContext.RouteData.Values["Action"].ToString() == "Users" ? "active" : "")"><a href="~/Admin/Users">Kullanıcılar</a></li>
+        <li class="@(ViewContext.ParentActionViewContext.RouteData.Values["Action"].ToString() == "Pages" ? "active" : "")"><a href="~/Admin/Pages">Sayfalar</a></li>
+        <li class="@(ViewContext.ParentActionViewContext.RouteData.Values["Action"].ToString() == "Media" ? "active" : "")"><a href="~/Admin/Media">Medya</a></li>
+        <li class="@(ViewContext.ParentActionViewContext.RouteData.Values["Action"].ToString() == "SiteSettings" ? "active" : "")"><a href="~/Admin/SiteSettings">Site Ayarları</a></li>
+        <li class="nav-item">
+            <span class="navbar-text">
+                <i class="fa fa-user"></i> @Model.Name, <a href="~/Admin/LogOut">Çıkış Yap</a>
+            </span>
+        </li>
+    </ul>
+</div>

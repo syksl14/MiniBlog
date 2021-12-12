@@ -1,0 +1,32 @@
+﻿@model MiniBlog.Models.Revision
+
+@using (Html.BeginForm("Save", "Revision", new { id = Model.RevisionID }, FormMethod.Get))
+{
+    <div class="modal-body">
+        @Html.TextBoxFor(m => m.RevisionID, new { @class = "form-control", required = "required", type = "hidden", value = Model.RevisionID })
+        <div class="form-group">
+            <label>Revizyon Zamanı</label>
+            @Html.TextBoxFor(m => m.Date, new { @class = "form-control", disabled = "disabled", value = @Model.Date.ToString("dd.MM.yyyy HH:mm:ss") })
+        </div>
+        <div class="form-group">
+            <label>Blog Yazısı</label>
+            <div class="disabled-form-area" style="height: 450px; overflow: auto; border: 1.5px inset #ccc; padding: 5px; border-radius: 5px;">
+                @Html.Raw(Model.Revision1)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="alert alert-warning" role="alert"> <i class="fa fa-warning"></i>&nbsp;<strong>Önemli:</strong> Eğer bu sürüme geri dönerseniz son yapmış olduğunuz değişiklikler kaybolacaktır. </div>
+
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>
+        <button type="submit" class="btn btn-warning"><i class="fa fa-clock-o"></i>&nbsp;Sürüme Geri Dön</button>
+    </div>
+}
+<script>
+    $(function () {
+        $(".alert").effect("highlight", { "background-color": "#e69c1e" }, 5000);
+    });
+</script>

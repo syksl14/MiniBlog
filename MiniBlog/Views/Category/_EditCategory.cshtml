@@ -1,0 +1,23 @@
+﻿@model MiniBlog.Models.CategoryModel
+@using (Html.BeginForm("Save", "Category"))
+{
+    <div class="modal-body">
+        @if (ViewData.ModelState[""] != null && ViewData.ModelState[""].Errors.Count > 0)
+        {
+            <div class="alert alert-danger">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                @Html.ValidationSummary(true, "")
+            </div>
+        }
+        @Html.TextBoxFor(m => m.CategoryID, new { @class = "form-control", required = "required", type = "hidden", value = Model.CategoryID })
+        <div class="form-group">
+            @Html.LabelFor(m => m.CategoryName)
+            @Html.TextBoxFor(m => m.CategoryName, new { @class = "form-control", required = "required", value = Model.CategoryName })
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>
+        <button type="submit" class="btn btn-success">Kaydet</button>
+    </div>
+}

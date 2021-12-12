@@ -1,0 +1,38 @@
+﻿@model List<MiniBlog.Models.Articles_V>
+<h3>Taslaklar</h3>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th style="width: 400px;">Başlık</th>
+            <th>Kategori</th> 
+            <th style="width: 200px;">Eklenme Tarihi</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var a in Model)
+        {
+        <tr>
+            <td>@a.Title</td>
+            <td>@a.CategoryName</td> 
+            <td>@a.Date.ToString("dd.MM.yyyy hh:mm")</td>
+            <td width="150">
+                <button type="button" data-href="/Article/Delete/@a.ArticleID" data-toggle="modal" data-target="#modalConfirmDelete" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i> Sil</button>
+                <button type="button" class="btn btn-xs btn-primary" onclick="articles.edit(@a.ArticleID);"><i class="fa fa-pencil"></i> Düzenle</button>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+<div class="row">
+    <div class="col-md-6"></div>
+    <div class="col-md-6"> 
+    </div>
+</div>
+<script>
+    $(function () {
+        $('#divDrafts table').dataTable({
+            "order": [[3, "desc"]]
+        });
+    });
+</script>

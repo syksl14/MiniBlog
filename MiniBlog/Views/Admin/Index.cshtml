@@ -1,0 +1,33 @@
+﻿@model MiniBlog.Models.LoginModel
+@{
+    Page.Title = "Oturum Aç";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+} 
+<div class="row">
+    <div class="col-md-5"></div>
+    <div class="col-md-2">
+        @using (Html.BeginForm("Index", "Admin", FormMethod.Post,  new { Class = "form-signin" } ))
+        {
+            if (ViewData.ModelState[""] != null && ViewData.ModelState[""].Errors.Count > 0)
+            {
+                <div class="alert alert-danger">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+                    @Html.ValidationSummary(true, "")
+                </div>
+            }
+            <p class="text-center login-icon"><i class="fa fa-lock fa-5x"></i></p>
+            <h1 class="h3 mb-3 font-weight-normal text-center">Oturum Aç</h1>
+            <label for="inputEmail" class="sr-only">E-Posta Adresiniz</label>
+            @Html.TextBoxFor(f => f.EMail, new { title = "E-Posta Adresinizi giriniz.", @Value = @ViewBag.user, Class = "form-control", placeholder = "E-Posta Adresiniz", required = "required", autofocus = "autofocus", type = "email" })
+            <label for="inputPassword" class="sr-only">Şifreniz</label>
+            @Html.PasswordFor(f => f.Password, new { title = "Şifrenizi giriniz.", @Value = @ViewBag.password, Class = "form-control", placeholder = "Şifreniz", required = "required" })
+            <div class="checkbox mb-3 text-center">
+                <label>
+                    <input type="checkbox" value="remember-me"> Beni Hatırla
+                </label>
+            </div>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Giriş Yap</button>
+        }
+    </div>
+    <div class="col-md-4"></div>
+</div>

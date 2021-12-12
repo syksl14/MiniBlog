@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="9d6f8d1696284b65a79935f245a6e1d3" Name="Diagram1">
+        <EntityTypeShape EntityType="MyBlogModel.Article" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="MyBlogModel.Author" Width="1.5" PointX="0.75" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="MyBlogModel.Article_V" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MyBlogModel.Articles_V" Width="1.5" PointX="3" PointY="5.25" IsExpanded="true" />
+        <AssociationConnector Association="MyBlogModel.FK_Articles_Authors" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="MyBlogModel.Category" Width="1.5" PointX="5.5" PointY="2.375" />
+        <AssociationConnector Association="MyBlogModel.FK_Articles_Categories" />
+        <EntityTypeShape EntityType="MyBlogModel.Level" Width="1.5" PointX="7.375" PointY="4.75" />
+        <EntityTypeShape EntityType="MyBlogModel.Page" Width="1.5" PointX="9.375" PointY="4.875" />
+        <EntityTypeShape EntityType="MyBlogModel.Revision" Width="1.5" PointX="5.25" PointY="5" />
+        <AssociationConnector Association="MyBlogModel.FK_Revisions_Articles" />
+        <EntityTypeShape EntityType="MyBlogModel.Revisions_V" Width="1.5" PointX="5.25" PointY="7.125" />
+        <AssociationConnector Association="MyBlogModel.FK_Authors_Levels" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

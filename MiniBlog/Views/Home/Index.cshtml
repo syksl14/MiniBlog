@@ -1,0 +1,53 @@
+﻿@using PagedList
+@using PagedList.Mvc
+@model IPagedList<MiniBlog.Models.Articles_V>
+@{
+    ViewBag.Title = "Yazılar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4 class="index-title">Yazılar <a href="~/Article/Rss" target="_blank" title="RSS"><i class="fa fa-rss  rss-logo"></i></a></h4>
+<ul class="timeline">
+    @foreach (var item in Model)
+    {
+        <li>
+            <div class="media">
+                <a class="pull-left" href="@Url.Action("Details", "Article", new { category = @Url.FriendlyURLTitle(item.CategoryName), title = @Url.FriendlyURLTitle(@item.Title), id = @item.ArticleID })" title="@item.Title">
+                    @if (item.CoverPhoto == null)
+                {
+                    item.CoverPhoto = "Content/imgs/no-image.png";
+                }
+                    <img class="img-responsive well-sm well" src="@item.CoverPhoto?width=262&height=147&format=jpg&mode=crop">
+                </a>
+                <div class="media-body">
+                    <div class="post-preview">
+                        <p class="post-info"><a href="@Url.Action("Category", "Article", new { category = @Url.FriendlyURLTitle(item.CategoryName), CategoryID = @item.CategoryID})" class="category-name">@item.CategoryName</a> - <i class="fa fa-eye"></i> @item.ReadNumber kez okundu.</p>
+                        <h3 class="post-title">
+                            <a href="@Url.Action("Details", "Article", new { category = @Url.FriendlyURLTitle(item.CategoryName), title = @Url.FriendlyURLTitle(@item.Title), id = @item.ArticleID })">@item.Title</a>
+                        </h3>
+                        <h4 class="post-subtitle">
+                            @(item.Summary)
+                        </h4>
+                        <p class="post-meta">
+                            <a href="#">@(item.Name + " " + item.Surname)</a> | @(Helper.TimeAgo(item.Date)) eklendi.
+                            @if (item.UpdateDate != null)
+                            {
+                                @Html.Raw("| <i class='fa fa-pencil'></i>&nbsp;" + Helper.TimeAgo(item.UpdateDate.Value) + " güncellendi.");
+                            }
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </li>
+    }
+</ul>
+
+<div class="row">
+    <div class="col-md-6"></div>
+    <div class="col-md-6">
+        <div class="pagedList">
+            @Html.PagedListPager(Model, page => Url.Action("", new { page }), PagedListRenderOptions.PageNumbersOnly)
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,152 @@
+﻿@model List<MiniBlog.Models.Articles_V>
+@{
+    Page.Title = "Yazılar";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var numberFormatter = new System.Globalization.CultureInfo("tr-TR", false).NumberFormat;
+}
+<div class="row">
+    <div class="col-md-2">
+    </div>
+    <div class="col-md-8 text-right">
+        <button class="btn btn-success" type="button" onclick="articles.add();"><i class="fa fa-plus"></i> Yeni Yazı</button>
+    </div>
+    <div class="col-md-2">
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <table class="table table-bordered" id="tblArticles">
+                    <thead>
+                        <tr>
+                            <th style="width: 80px;">Kapak</th>
+                            <th style="width: 400px;">Başlık</th>
+                            <th>Kategori</th>
+                            <th style="width: 120px;">Okunma Sayısı</th>
+                            <th>Eklenme Zamanı</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var a in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @if (a.CoverPhoto == null)
+                                    {
+                                        a.CoverPhoto = "/Content/imgs/no-image.png";
+                                    }
+                                    <img class="img-responsive" src="@a.CoverPhoto?width=100&height=47&format=jpg&mode=crop">
+                                </td>
+                                <td><a target="_blank" href="@Url.Action("Details", "Article", new { category = @Url.FriendlyURLTitle(a.CategoryName), title = @Url.FriendlyURLTitle(@a.Title), id = @a.ArticleID })">@a.Title</a></td>
+                                <td>@a.CategoryName</td>
+                                <td class="text-right">@a.ReadNumber.ToString("#,###.##", numberFormatter)</td>
+                                <td>@a.Date.ToString("dd MMMM yyyy")</td>
+                                <td width="130" class="text-center">
+                                    <button type="button" data-href="/Article/Delete/@a.ArticleID" data-toggle="modal" data-target="#modalConfirmDelete" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i> Sil</button>
+                                    <button type="button" class="btn btn-xs btn-primary" onclick="articles.edit(@a.ArticleID);"><i class="fa fa-pencil"></i> Düzenle</button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <div class="row">
+                    <div class="col-md-6"></div>
+                    <div class="col-md-6">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2"></div>
+</div>
+<div class="modal fade" tabindex="-1" role="dialog" id="modalAddArticle">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Yeni Yazı</h4>
+            </div>
+            @Html.Partial("_NewArticle", new MiniBlog.Models.ArticleModel())
+        </div>
+    </div>
+</div>
+<div class="modal fade" tabindex="-1" role="dialog" id="modalEditArticle">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Düzenle</h4>
+            </div>
+            <div id='modalEditArticleContent'></div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" tabindex="-1" role="dialog" id="modalRevision">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Revizyonlar</h4>
+            </div>
+            <div id='modalRevisionContent'></div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" tabindex="1" role="dialog" id="modalViewRevision">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Revizyon</h4>
+            </div>
+            <div id='modalViewRevisionContent'></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalConfirmDelete" tabindex="-1" role="dialog" aria-labelledby="modalConfirmDelete" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                Blog Sil
+            </div>
+            <div class="modal-body">
+                Blog yazısı silinicektir devam edilsin mi?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">İptal</button>
+                <a class="btn btn-danger btn-ok">Sil</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalConfirmDelete2" tabindex="2" role="dialog" aria-labelledby="modalConfirmDelete" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                Revizyon Sil
+            </div>
+            <div class="modal-body">
+                Revizyon silinecektir eğer silerseniz yazınızın bir önceki sürümüne geri dönemezsiniz devam edilsin mi?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">İptal</button>
+                <a class="btn btn-danger btn-ok">Sil</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/scripts/pages/admin/articles.js"></script>
+<script>
+    $(function () {
+        $('#tblArticles').dataTable({
+            "order": [[5, "desc"]],
+            "scrollY": true
+        });
+    });
+</script>

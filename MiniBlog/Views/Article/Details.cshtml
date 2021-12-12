@@ -1,0 +1,129 @@
+﻿@model MiniBlog.Models.Article_V
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({
+        google_ad_client: "ca-pub-2677463421568477",
+        enable_page_level_ads: true
+    });
+</script>
+@{
+    ViewBag.Keywords = Model.Keywords;
+    ViewBag.Title = Model.Title;
+    Layout = "~/Views/Shared/_LayoutDetail.cshtml";
+}
+@if (Model.CoverPhoto == null)
+{
+    Model.CoverPhoto = "~/Content/imgs/no-image.png";
+}
+
+
+<header class="intro-header" style="background-image: url('@Url.Content(Model.CoverPhoto)')">
+    <div class="header-filtre">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div class="post-heading">
+                        <h1>@Model.Title</h1>
+                        <span class="meta">Gönderen <a href="#">@Model.Name @Model.Surname</a> @Model.Date.ToString("dd MMMM yyyy") tarihinde yazıldı.</span>
+                        <i class="fa fa-eye"></i> @Model.ReadNumber kez okundu.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-1 col-md-12">
+        </div>
+        <div class="col-lg-2 col-md-12">
+            @Html.Action("LatestArticles", "Home", new MiniBlog.Models.Articles_V())
+            <form class="form-inline" action="/Article/Search" id="formArama">
+                <input class="form-control" type="search" name="content" required="required" placeholder="Blogumda ara!" maxlength="30" aria-label="Ara">
+                <button class="btn btn-outline-success" type="submit"><i class="fa fa-search"></i>Ara</button>
+            </form>
+        </div>
+        <div class="col-lg-6 col-md-10">
+            @if (@HttpContext.Current.User.Identity.Name != "")
+            {
+                <!-- Admin access area -->
+                <div class="text-right">
+                    <button type="button" class="btn btn-primary" onclick="articles.edit(@Model.ArticleID);"><i class="fa fa-pencil"></i>&nbsp;Düzenle</button>
+                    <button type="button" class="btn btn-danger" data-href="/Article/Delete/@Model.ArticleID" data-toggle="modal" data-target="#modalConfirmDelete"><i class="fa fa-trash"></i>&nbsp;Sil</button>
+                </div>
+                <div class="modal fade" id="modalConfirmDelete" tabindex="-1" role="dialog" aria-labelledby="modalConfirmDelete" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                Blog Sil
+                            </div>
+                            <div class="modal-body">
+                                Blog yazısı silinicektir devam edilsin mi?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">İptal</button>
+                                <a class="btn btn-danger btn-ok">Sil</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <script>
+                    $(function () {
+                        $('#modalConfirmDelete').on('show.bs.modal', function (e) {
+                            $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
+                        });
+                    });
+                    var articles = {
+                        edit: function(ArticleID){
+                            localStorage.setItem("ArticleID", ArticleID);
+                            location.href = "/Admin/Articles";
+                        }
+                    }
+                </script>
+               <!-- Admin access area -->
+            }
+            <p>@Html.Raw(Model.Article)</p>
+        </div>
+        <div class="col-lg-2 col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    Reklam alanı
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-1 col-md-12">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            <b class="tags">Etiketler: </b>
+            @foreach (string key in Model.Keywords.Split(',').ToList())
+            {
+                <span class="badge badge-primary">@Html.ActionLink(key, "Tag", new { keyword = key })</span>
+            }
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            <div id="disqus_thread"></div>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+</div>
+<script>
+    var disqus_config = function () {
+        this.page.url = location.href;
+        this.page.identifier = @Model.ArticleID;
+    };
+    (function() {
+        hljs.initHighlightingOnLoad();
+        var d = document, s = d.createElement('script');
+        s.src = 'https://pocketkafe.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>

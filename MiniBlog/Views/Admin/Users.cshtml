@@ -1,0 +1,99 @@
+﻿@using PagedList
+@using PagedList.Mvc
+@model IPagedList<MiniBlog.Models.Author>
+@{
+    Page.Title = "Kullanıcılar"; 
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<div class="row">
+    <div class="col-md-2">
+       
+    </div>
+    <div class="col-md-8 text-right">
+        <button class="btn btn-success" type="button" onclick="users.add();"><i class="fa fa-plus"></i> Yeni Kullanıcı</button>
+    </div>
+    <div class="col-md-2">
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>E-Posta Adresi</th>
+                            <th>Ad Soyad</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var a in Model)
+                        {
+                            <tr>
+                                <td>@a.Email</td>
+                                <td>@a.Name @a.Surname</td>
+                                <td>
+                                    @if(@HttpContext.Current.User.Identity.Name != @a.AuthorID.ToString()) { 
+                                    <button type="button" data-href="/User/Delete/@a.AuthorID" data-toggle="modal" data-target="#modalConfirmDelete" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i> Sil</button>
+                                    }
+                                      <button type="button" class="btn btn-xs btn-primary" onclick="users.edit(@a.AuthorID);"><i class="fa fa-pencil"></i> Düzenle</button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <div class="row">
+                    <div class="col-md-6"></div>
+                    <div class="col-md-6">
+                        <div class="pagedList">
+                            @Html.PagedListPager(Model, page => Url.Action("Categories", new { page }), PagedListRenderOptions.PageNumbersOnly)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2"></div>
+</div>
+<div class="modal fade" tabindex="-1" role="dialog" id="modalAddUser">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Yeni Kullanıcı</h4>
+            </div>
+            @Html.Partial("_NewUser", new MiniBlog.Models.UserModel())
+        </div>
+    </div>
+</div>
+<div class="modal fade" tabindex="-1" role="dialog" id="modalEditUser">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Kullanıcı Düzenle</h4>
+            </div>
+            <div id='modalEditUserContent'></div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalConfirmDelete" tabindex="-1" role="dialog" aria-labelledby="modalConfirmDelete" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                Kullanıcı Sil
+            </div>
+            <div class="modal-body">
+                Bu kullanıcı ve yazdığı blog yazıları silinecektir devam edilsin mi?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">İptal</button>
+                <a class="btn btn-danger btn-ok">Sil</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/scripts/pages/admin/users.js"></script>
