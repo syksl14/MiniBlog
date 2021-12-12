@@ -25,7 +25,7 @@ namespace MiniBlog.Controllers
         public ActionResult Index(int page = 1)
         {
             var articles = from e in db.Articles_V where e.Privacy == "P" orderby e.ArticleID descending select e; //Public Articles
-            return View(articles.ToList().ToPagedList(page, 5));
+            return View(articles.ToList().ToPagedList(page, 5)); 
         }
         // GET: Home/About
         [OutputCache(Duration = 86000)] //yaklaşık 24 saat önbellekte tutulur
