@@ -18,7 +18,7 @@
     <AssemblyName>MiniBlog</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort />
+    <IISExpressSSLPort>44355</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
@@ -180,6 +180,8 @@
     <Content Include="scripts\ai.0.22.9-build00167.js" />
     <Content Include="scripts\ai.0.22.9-build00167.min.js" />
     <Content Include="scripts\jquery-3.3.1.min.js" />
+    <Content Include="scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="scripts\pages\admin\articles.js" />
     <Content Include="scripts\pages\admin\categories.js" />
     <Content Include="scripts\pages\admin\users.js" />
@@ -951,6 +953,7 @@
     <Content Include="scripts\plugins\DataTables\Buttons-2.1.1\css\common.scss" />
     <Content Include="scripts\plugins\DataTables\Buttons-2.1.1\css\mixins.scss" />
     <Content Include="scripts\plugins\DataTables\langs\Turkish.json" />
+    <Content Include="Views\User\_List.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

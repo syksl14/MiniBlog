@@ -2,6 +2,8 @@
     $('#modalConfirmDelete').on('show.bs.modal', function (e) {
         $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
     });
+    $("select#selectLevels").select2({width: '200px'});
+    $("#divUsers").load("/User/List?page=1");
 });
 var users = {
     add: function () {

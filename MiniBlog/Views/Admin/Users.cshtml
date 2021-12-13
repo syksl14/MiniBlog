@@ -1,15 +1,18 @@
-﻿@using PagedList
-@using PagedList.Mvc
-@model IPagedList<MiniBlog.Models.Author>
+﻿@model MiniBlog.Models.UserModel
 @{
-    Page.Title = "Kullanıcılar"; 
+    Page.Title = "Kullanıcılar";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 <div class="row">
     <div class="col-md-2">
-       
+     
     </div>
-    <div class="col-md-8 text-right">
+    <div class="col-md-4">
+        <label>Kullanıcı Seviyesi</label>
+        @Html.DropDownListFor(m => m.AuthorityLevel, ViewBag.Levels as SelectList, "Seçiniz", new { @class = "form-control", @id= "selectLevels" })
+        <button class="btn btn-info" type="button"><i class="fa fa-list"></i>&nbsp;Listele</button>
+    </div> 
+    <div class="col-md-4 text-right">
         <button class="btn btn-success" type="button" onclick="users.add();"><i class="fa fa-plus"></i> Yeni Kullanıcı</button>
     </div>
     <div class="col-md-2">
@@ -18,43 +21,8 @@
 <br />
 <div class="row">
     <div class="col-md-2"></div>
-    <div class="col-md-8">
-        <div class="panel panel-default">
-            <div class="panel-body">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>E-Posta Adresi</th>
-                            <th>Ad Soyad</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var a in Model)
-                        {
-                            <tr>
-                                <td>@a.Email</td>
-                                <td>@a.Name @a.Surname</td>
-                                <td>
-                                    @if(@HttpContext.Current.User.Identity.Name != @a.AuthorID.ToString()) { 
-                                    <button type="button" data-href="/User/Delete/@a.AuthorID" data-toggle="modal" data-target="#modalConfirmDelete" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i> Sil</button>
-                                    }
-                                      <button type="button" class="btn btn-xs btn-primary" onclick="users.edit(@a.AuthorID);"><i class="fa fa-pencil"></i> Düzenle</button>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-                <div class="row">
-                    <div class="col-md-6"></div>
-                    <div class="col-md-6">
-                        <div class="pagedList">
-                            @Html.PagedListPager(Model, page => Url.Action("Categories", new { page }), PagedListRenderOptions.PageNumbersOnly)
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="col-md-8" id="divUsers">
+
     </div>
     <div class="col-md-2"></div>
 </div>

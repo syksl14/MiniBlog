@@ -5,16 +5,25 @@ using System.Web;
 using System.Web.Mvc;
 using MiniBlog.Models;
 using System.Net;
+using PagedList;
 
 namespace MiniBlog.Controllers
 {
     public class UserController : Controller
     {
+        private AuthorsContext admin = new AuthorsContext();
         private AuthorsContext db = new AuthorsContext();
         // GET: User
         public ActionResult Index()
         {
             return View();
+        }
+
+        [_SessionControl]
+        public ActionResult List(int page = 1)
+        {
+            var users = from e in admin.User orderby e.AuthorID descending select e;
+            return PartialView("_List", users.ToList().ToPagedList(page, 5));
         }
 
         [_SessionControl]
@@ -41,6 +50,8 @@ namespace MiniBlog.Controllers
         {
             var c = db.User.Where(a => a.AuthorID == id).SingleOrDefault();
             UserModel model = new UserModel();
+            var levels = from e in admin.Level orderby e.LevelID ascending select e;
+            ViewBag.Levels = new SelectList(levels, "LevelID", "Name", model.AuthorityLevel);
             model.Email = c.Email;
             model.Name = c.Name;
             model.Surname = c.Surname;
@@ -59,7 +70,7 @@ namespace MiniBlog.Controllers
                 current.Name = model.Name;
                 current.Surname = model.Surname;
                 current.Email = model.Email;
-                if(model.Password == null || model.Password == String.Empty)
+                if (model.Password == null || model.Password == String.Empty)
                 {
                     var usr = db.User.Where(a => a.AuthorID == model.AuthorID).SingleOrDefault();
                     current.Password = usr.Password;

@@ -22,7 +22,11 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+
     <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js"></script>
     <script src="~/Scripts/modernizr-2.6.2.js"></script>
     <script src="~/Scripts/plugins/summernote/summernote.min.js"></script>
@@ -34,6 +38,11 @@
     <script>
         $.extend($.fn.dataTable.defaults, {
             language: { url: "/Scripts/plugins/DataTables/langs/Turkish.json" }
+        });
+        var $body = $("body");
+        $(document).on({
+            ajaxStart: function () { $body.addClass("loading"); },
+            ajaxStop: function () { $body.removeClass("loading"); }
         });
     </script>
     <title>@Page.Title - selahattinYuksel.NET Panel </title>
@@ -80,12 +89,7 @@
                 if ($(".modal").hasClass('in')) {
                     $('body').addClass('modal-open');
                 }
-            })
-            var $body = $("body");
-            $(document).on({
-                ajaxStart: function () { $body.addClass("loading"); },
-                ajaxStop: function () { $body.removeClass("loading"); }
-            }); 
+            }) 
         });
     </script>
 </body>

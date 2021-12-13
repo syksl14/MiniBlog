@@ -24,6 +24,14 @@ namespace MiniBlog.Controllers
         }
 
         [_SessionControl]
+        public ActionResult Users()
+        {
+            var levels = from e in admin.Level orderby e.LevelID ascending select e;
+            ViewBag.Levels = new SelectList(levels, "LevelID", "Name");
+            return View();
+        }
+
+        [_SessionControl]
         public ActionResult Drafts(int page= 1)
         {
             var articles = from e in db.Articles_V where e.Privacy == "D" orderby e.ArticleID descending select e; //Draft articles...
@@ -57,14 +65,7 @@ namespace MiniBlog.Controllers
             var categories = from e in db.Category orderby e.CategoryName ascending select e;
             return View(categories.ToList().ToPagedList(page, 10));
         }
-        [_SessionControl]
-        public ActionResult Users(int page = 1)
-        {
-            var users = from e in admin.User orderby e.AuthorID descending select e;
-            var levels = from e in admin.Level orderby e.LevelID ascending select e;
-            ViewBag.Levels = new SelectList(levels, "LevelID", "Name");
-            return View(users.ToList().ToPagedList(page, 10));
-        }
+     
         [AllowAnonymous]
         [HttpPost]
         public ActionResult Index(LoginModel model, string returnurl)
