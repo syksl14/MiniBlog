@@ -248,3 +248,15 @@ body.loading {
     body.loading .modal-loading {
         display: block;
     }
+img.avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+img.big-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+}

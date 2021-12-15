@@ -18,6 +18,7 @@
         <AssociationConnector Association="MyBlogModel.FK_Revisions_Articles" />
         <EntityTypeShape EntityType="MyBlogModel.Revisions_V" Width="1.5" PointX="5.25" PointY="7.125" />
         <AssociationConnector Association="MyBlogModel.FK_Authors_Levels" />
+        <EntityTypeShape EntityType="MyBlogModel.Users_V" Width="1.5" PointX="9.5" PointY="2.125" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -147,6 +147,24 @@ warning 6002: The table/view 'MyBlog.dbo.Revisions_V' does not have a primary ke
           <Property Name="Title" Type="nvarchar" MaxLength="500" Nullable="false" />
           <Property Name="Date" Type="datetime" Nullable="false" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'MyBlog.dbo.Users_V' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Users_V">
+          <Key>
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="Surname" />
+            <PropertyRef Name="Email" />
+            <PropertyRef Name="AuthorID" />
+            <PropertyRef Name="LevelName" />
+          </Key>
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Surname" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="ProfilePicture" Type="nvarchar" MaxLength="255" />
+          <Property Name="AuthorityLevel" Type="int" />
+          <Property Name="AuthorID" Type="int" Nullable="false" />
+          <Property Name="LevelName" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
         <Association Name="FK_Articles_Authors">
           <End Role="Authors" Type="Self.Authors" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -253,6 +271,17 @@ warning 6002: The table/view 'MyBlog.dbo.Revisions_V' does not have a primary ke
     [Revisions_V].[Title] AS [Title], 
     [Revisions_V].[Date] AS [Date]
     FROM [dbo].[Revisions_V] AS [Revisions_V]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Users_V" EntityType="Self.Users_V" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Users_V].[Name] AS [Name], 
+    [Users_V].[Surname] AS [Surname], 
+    [Users_V].[Email] AS [Email], 
+    [Users_V].[ProfilePicture] AS [ProfilePicture], 
+    [Users_V].[AuthorityLevel] AS [AuthorityLevel], 
+    [Users_V].[AuthorID] AS [AuthorID], 
+    [Users_V].[LevelName] AS [LevelName]
+    FROM [dbo].[Users_V] AS [Users_V]</DefiningQuery>
           </EntitySet>
           <AssociationSet Name="FK_Articles_Authors" Association="Self.FK_Articles_Authors">
             <End Role="Authors" EntitySet="Authors" />
@@ -408,6 +437,7 @@ warning 6002: The table/view 'MyBlog.dbo.Revisions_V' does not have a primary ke
             <End Role="Level" EntitySet="Levels" />
             <End Role="Author" EntitySet="Authors" />
           </AssociationSet>
+          <EntitySet Name="Users_V" EntityType="MyBlogModel.Users_V" />
         </EntityContainer>
         <EntityType Name="Category">
           <Key>
@@ -500,6 +530,22 @@ warning 6002: The table/view 'MyBlog.dbo.Revisions_V' does not have a primary ke
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Users_V">
+          <Key>
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="Surname" />
+            <PropertyRef Name="Email" />
+            <PropertyRef Name="AuthorID" />
+            <PropertyRef Name="LevelName" />
+          </Key>
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Surname" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ProfilePicture" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="AuthorityLevel" Type="Int32" />
+          <Property Name="AuthorID" Type="Int32" Nullable="false" />
+          <Property Name="LevelName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -626,6 +672,19 @@ warning 6002: The table/view 'MyBlog.dbo.Revisions_V' does not have a primary ke
                 <ScalarProperty Name="ArticleID" ColumnName="ArticleID" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="RevisionID" ColumnName="RevisionID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users_V">
+            <EntityTypeMapping TypeName="MyBlogModel.Users_V">
+              <MappingFragment StoreEntitySet="Users_V">
+                <ScalarProperty Name="LevelName" ColumnName="LevelName" />
+                <ScalarProperty Name="AuthorID" ColumnName="AuthorID" />
+                <ScalarProperty Name="AuthorityLevel" ColumnName="AuthorityLevel" />
+                <ScalarProperty Name="ProfilePicture" ColumnName="ProfilePicture" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

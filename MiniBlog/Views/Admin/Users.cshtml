@@ -3,19 +3,21 @@
     Page.Title = "Kullanıcılar";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
-<div class="row">
-    <div class="col-md-2">
-     
-    </div>
-    <div class="col-md-4">
-        <label>Kullanıcı Seviyesi</label>
-        @Html.DropDownListFor(m => m.AuthorityLevel, ViewBag.Levels as SelectList, "Seçiniz", new { @class = "form-control", @id= "selectLevels" })
-        <button class="btn btn-info" type="button"><i class="fa fa-list"></i>&nbsp;Listele</button>
-    </div> 
-    <div class="col-md-4 text-right">
-        <button class="btn btn-success" type="button" onclick="users.add();"><i class="fa fa-plus"></i> Yeni Kullanıcı</button>
-    </div>
-    <div class="col-md-2">
+<div class="well">
+    <div class="row">
+        <div class="col-md-2">
+
+        </div>
+        <div class="col-md-4"> 
+            <label>Kullanıcı Seviyesi</label>
+            @Html.DropDownListFor(m => m.AuthorityLevel, ViewBag.Levels as SelectList, "Seçiniz", new { @class = "form-control", @id = "selectLevels" })
+            <button class="btn btn-info" type="button" id="btnListUsers"><i class="fa fa-list"></i>&nbsp;Listele</button>
+        </div>
+        <div class="col-md-4 text-right">
+            <button class="btn btn-success" type="button" onclick="users.add();"><i class="fa fa-plus"></i> Yeni Kullanıcı</button>
+        </div>
+        <div class="col-md-2">
+        </div>
     </div>
 </div>
 <br />

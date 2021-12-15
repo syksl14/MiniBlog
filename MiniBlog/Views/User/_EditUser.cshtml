@@ -32,6 +32,23 @@
         @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
         <span>Eğer şifreyi değiştirmek istiyorsanız bu alanı doldurun.</span>
     </div>
+    <div class="form-group" for="file">
+        <label for="ProfilePicture">Profil Fotoğrafı</label>
+        <div class="row">
+            <div class="col-md-4">
+                @if (Model.ProfilePicture == null)
+                {
+                    Model.ProfilePicture = "/Content/imgs/user-pic.png";
+                }
+                <img src="@Model.ProfilePicture?width=120&mode=contain" class="img-responsive well well-sm big-avatar" />
+                @Html.TextBoxFor(m => m.ProfilePicture, new { type = "hidden", value = Model.ProfilePicture })
+            </div>
+            <div class="col-md-6">
+                <input type="file" name="file" id="file" class="form-control" />
+                <p class="small">Mevcut fotoğrafı değiştirmek için seçiniz.</p>
+            </div>
+        </div>
+    </div>
 </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>

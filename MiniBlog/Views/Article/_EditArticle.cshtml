@@ -58,6 +58,10 @@
             <label for="CoverPhoto">Kapak Fotoğrafı</label>
             <div class="row">
                 <div class="col-md-4">
+                    @if (Model.CoverPhoto == null)
+                    {
+                        Model.CoverPhoto = "/Content/imgs/no-image.png";
+                    }
                     <img src="@Model.CoverPhoto?width=240" class="img-responsive well well-sm" />
                     @Html.TextBoxFor(m => m.CoverPhoto, new { type = "hidden", value = Model.CoverPhoto })
                 </div>

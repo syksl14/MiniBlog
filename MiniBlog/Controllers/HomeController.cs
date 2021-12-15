@@ -50,9 +50,9 @@ namespace MiniBlog.Controllers
                 {
                     var body = "<p>Gönderen: {0} ({1})</p><p>Mesaj:</p><p>{2}</p>";
                     var message = new MailMessage();
-                    message.From = new MailAddress("iletisim@selahattinyuksel.net");
-                    message.To.Add(new MailAddress("iletisim@selahattinyuksel.net"));
-                    message.Subject = "selahattinyuksel.NET İletişim Formu";
+                    message.From = new MailAddress(ConfigurationManager.AppSettings["Mail_From"].ToString());
+                    message.To.Add(new MailAddress(ConfigurationManager.AppSettings["Mail_From"].ToString()));
+                    message.Subject = ConfigurationManager.AppSettings["site_header_name"].ToString() + " İletişim Formu";
                     message.Body = string.Format(body, form.name, form.email, form.message);
                     message.IsBodyHtml = true;
 
@@ -60,13 +60,13 @@ namespace MiniBlog.Controllers
                     {
                         var credential = new NetworkCredential
                         {
-                            UserName = "demo@test.com",
-                            Password = "111"
+                            UserName = ConfigurationManager.AppSettings["Mail_UserName"].ToString(),
+                            Password = ConfigurationManager.AppSettings["Mail_Password"].ToString()
                         };
                         smtp.Credentials = credential;
-                        smtp.Host = "selahattinyuksel.net";
-                        smtp.Port = 25;
-                        smtp.EnableSsl = false;
+                        smtp.Host = ConfigurationManager.AppSettings["Mail_Host"].ToString();
+                        smtp.Port = Convert.ToInt32(ConfigurationManager.AppSettings["Mail_Port"]);
+                        smtp.EnableSsl = Convert.ToBoolean(ConfigurationManager.AppSettings["Mail_IsEnableSSL"]);
                         await smtp.SendMailAsync(message);
                         response.Result = "OK";
                     }

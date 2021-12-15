@@ -160,6 +160,7 @@
     <Content Include="Content\imgs\loading.gif" />
     <Content Include="Content\imgs\post-bg.jpg" />
     <Content Include="Content\imgs\no-image.png" />
+    <Content Include="Content\imgs\user-pic.png" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\vendor\font-awesome\css\font-awesome.css" />
@@ -904,6 +905,9 @@
       <DependentUpon>MyBlog.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\ResponseMessage.cs" />
+    <Compile Include="Models\Users_V.cs">
+      <DependentUpon>MyBlog.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="_SessionControlAttribute.cs" />

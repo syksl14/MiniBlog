@@ -14,5 +14,6 @@ namespace MiniBlog.Models
         }
         public DbSet<Author> User { get; set; }
         public DbSet<Level> Level { get; set; }
+        public DbSet<Users_V> Users { get; set; }
     }
 }
