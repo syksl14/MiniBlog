@@ -943,7 +943,7 @@
     <Content Include="Views\Admin\_NewCategory.cshtml" />
     <Content Include="Views\Category\_EditCategory.cshtml" />
     <Content Include="Views\Admin\Users.cshtml" />
-    <Content Include="Views\Admin\_NewUser.cshtml" />
+    <Content Include="Views\User\_NewUser.cshtml" />
     <Content Include="Views\User\_EditUser.cshtml" />
     <Content Include="Views\Article\Tag.cshtml" />
     <Content Include="Views\Home\_Categories.cshtml" />

@@ -42,31 +42,51 @@ namespace MiniBlog.Controllers
         {
             if (ModelState.IsValid)
             {
-                String PhotoPath = "";
-                if (Request.Files["file"].ContentLength > 0)
+                var usercheck = db.User.Where(a => a.Email == model.Email).SingleOrDefault();
+                if(usercheck == null)
                 {
-                    var file = Request.Files["file"];
-                    var fileName = Path.GetFileName(file.FileName);
-                    string guid = Guid.NewGuid().ToString();
-                    var path = Path.Combine(Server.MapPath("~/Content/uploads/"), guid + fileName);
-                    file.SaveAs(path);
-                    PhotoPath = "/Content/uploads/" + guid + fileName;
-                }
-                Author user = new Author();
-                user.Name = model.Name;
-                user.Surname = model.Surname;
-                user.Email = model.Email;
-                user.Password = model.Password;
-                user.AuthorityLevel = model.AuthorityLevel;
-                if (PhotoPath != "")
+                    String PhotoPath = "";
+                    if (Request.Files["file"].ContentLength > 0)
+                    {
+                        var file = Request.Files["file"];
+                        var fileName = Path.GetFileName(file.FileName);
+                        string guid = Guid.NewGuid().ToString();
+                        var path = Path.Combine(Server.MapPath("~/Content/uploads/"), guid + fileName);
+                        file.SaveAs(path);
+                        PhotoPath = "/Content/uploads/" + guid + fileName;
+                    }
+                    Author user = new Author();
+                    user.Name = model.Name;
+                    user.Surname = model.Surname;
+                    user.Email = model.Email;
+                    user.Password = model.Password;
+                    user.AuthorityLevel = model.AuthorityLevel;
+                    if (PhotoPath != "")
+                    {
+                        user.ProfilePicture = PhotoPath;
+                    }
+                    db.User.Add(user);
+                    db.SaveChanges();
+                    return Json(new { success = true, responseText = "OK" }, JsonRequestBehavior.AllowGet);
+                }else
                 {
-                    user.ProfilePicture = PhotoPath;
-                }
-                db.User.Add(user);
-                db.SaveChanges();
-                return Json(new { success = true, responseText = "OK" }, JsonRequestBehavior.AllowGet);
+                    ModelState.AddModelError("", "Böyle bir kullanıcı zaten mevcut lütfen başka bir e-posta adresi giriniz!");
+                    return Json(new { success = false, errors = ModelState.Values.SelectMany(x => x.Errors).Select(x => x.ErrorMessage).ToList() }, JsonRequestBehavior.AllowGet);
+                } 
             }
-            return PartialView("_EditUser", model);
+            else
+            {
+                //ajax taraflı hata döndürme yapılacak.
+                return Json(new { success = false, errors = ModelState.Values.SelectMany(x => x.Errors).Select(x => x.ErrorMessage).ToList() }, JsonRequestBehavior.AllowGet);
+            } 
+        }
+
+        [_SessionControl]
+        public ActionResult New()
+        {
+            var levels = from e in admin.Level orderby e.LevelID ascending select e;
+            ViewBag.Levels = new SelectList(levels, "LevelID", "Name");
+            return PartialView("_NewUser");
         }
 
         [_SessionControl]
@@ -94,7 +114,6 @@ namespace MiniBlog.Controllers
                 var current = db.User.Find(model.AuthorID);
                 current.Name = model.Name;
                 current.Surname = model.Surname;
-                current.Email = model.Email;
                 if (model.Password == null || model.Password == String.Empty)
                 {
                     var usr = db.User.Where(a => a.AuthorID == model.AuthorID).SingleOrDefault();
@@ -103,6 +122,18 @@ namespace MiniBlog.Controllers
                 else
                 { 
                     current.Password = model.Password;
+                }
+                if (model.Email != current.Email)
+                {
+                    var usercheck = db.User.Where(a => a.Email == model.Email).SingleOrDefault();
+                    if (usercheck == null)
+                    { 
+                        current.Email = model.Email;
+                    }else
+                    {
+                        ModelState.AddModelError("", "Böyle bir kullanıcı zaten mevcut lütfen başka bir e-posta adresi giriniz!");
+                        return Json(new { success = false, errors = ModelState.Values.SelectMany(x => x.Errors).Select(x => x.ErrorMessage).ToList() }, JsonRequestBehavior.AllowGet);
+                    }
                 }
                 if (Request.Files["file"].ContentLength > 0)
                 {
@@ -119,6 +150,7 @@ namespace MiniBlog.Controllers
                     current.ProfilePicture = CoverPhotoPath;
                 }
                 current.AuthorityLevel = model.AuthorityLevel;
+
                 db.SaveChanges();
                 return Json(new { success = true, responseText = "OK" }, JsonRequestBehavior.AllowGet);
             }else

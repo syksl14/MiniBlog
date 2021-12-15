@@ -14,28 +14,11 @@
 });
 var users = {
     add: function () {
-        var dialog = $("#modalAddUser");
-        $('#modalAddUser').modal('show');
-        $('form', dialog).submit(function () {
-            var formData = new FormData(this);
-            $.ajax({
-                url: this.action,
-                type: this.method,
-                data: formData,
-                contentType: false,
-                processData: false,
-                cache: false,
-                success: function (result) {
-                    if (result.success) {
-                        $('#modalAddUser').modal('hide');
-                        //Refresh
-                        location.reload();
-                    } else {
-                        $('#modalAddUser .modal-body').html(result);
-                    }
-                }
-            });
-            return false;
+        $('#modalAddUserContent').load("/User/New", function () {
+            $('#modalAddUser').modal({
+                keyboard: true
+            }, 'show');
+            users.bindForm(this);
         });
     },
     edit: function (AuthorID) {
@@ -47,27 +30,43 @@ var users = {
         });
     },
     bindForm: function (dialog) {
-        $('form', dialog).submit(function () {
-            var formData = new FormData(this);
-            $.ajax({
-                url: this.action,
-                type: this.method,
-                data: formData,
-                contentType: false,
-                processData: false,
-                cache: false,
-                success: function (result) {
-                    if (result.success) {
-                        $('#modalEditUser').modal('hide');
-                        //Refresh
-                        location.reload();
-                    } else {
-                        $('#modalEditUserContent').html(result);
-                        bindForm(dialog);
+        var action = $('form', dialog).attr("action"); 
+        $('form', dialog).attr("action", "javascript:");
+        $('form', dialog).submit(function () { 
+            if ($('form', dialog).valid()) {
+                var formData = new FormData(this);
+                $.ajax({
+                    url: action,
+                    type: this.method,
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    cache: false,
+                    success: function (result) {
+                        if (result.success) {
+                            $(dialog).modal('hide');
+                            //Refresh
+                            location.reload();
+                        } else {
+                            //server side error response 
+                            $('form', dialog).find("div.modal-body > div.server-side-errors").remove();
+                            $('form', dialog).find('div.modal-body').prepend('<div class="alert alert-danger server-side-errors"><button type="button" class="close" data-dismiss="alert">×</button> <ul style="padding-left: 15px;"></ul></div>');
+                            for (var i = 0; i < result.errors.length; i++) {
+                                $('form', dialog).find("div.modal-body > div.server-side-errors > ul").prepend('<li>' + result.errors[i] + '</li>');
+                            }
+                        }
                     }
-                }
-            });
-            return false;
+                });
+                return true;
+            } else {
+                return false;
+            }
         });
+        $('form', dialog).validate({
+            submitHandler: function (form) {
+                form.submit();
+            }
+        });
+
     }
 }
