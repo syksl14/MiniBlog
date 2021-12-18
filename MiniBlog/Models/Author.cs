@@ -18,6 +18,7 @@ namespace MiniBlog.Models
         public Author()
         {
             this.Articles = new HashSet<Article>();
+            this.Pages = new HashSet<Page>();
         }
     
         public int AuthorID { get; set; }
@@ -27,9 +28,12 @@ namespace MiniBlog.Models
         public string Password { get; set; }
         public string ProfilePicture { get; set; }
         public Nullable<int> AuthorityLevel { get; set; }
+        public string UserName { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Article> Articles { get; set; }
         public virtual Level Level { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Page> Pages { get; set; }
     }
 }

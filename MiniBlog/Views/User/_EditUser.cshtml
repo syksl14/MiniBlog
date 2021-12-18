@@ -1,49 +1,53 @@
 ﻿@model MiniBlog.Models.UserModel
 @using (Html.BeginForm("Save", "User"))
 {
-    <div class="modal-body">
+<div class="modal-body">
 
-        @Html.TextBoxFor(m => m.AuthorID, new { @class = "form-control", required = "required", type = "hidden", value = Model.AuthorID })
-        <div class="form-group">
-            @Html.LabelFor(m => m.AuthorityLevel)
-            @Html.DropDownListFor(m => m.AuthorityLevel, ViewBag.Levels as SelectList, "Seçiniz", new { @class = "form-control" })
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(m => m.Email)
-            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", required = "required", type = "email", value = Model.Email })
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(m => m.Name)
-            @Html.TextBoxFor(m => m.Name, new { @class = "form-control", required = "required", value = Model.Name })
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(m => m.Surname)
-            @Html.TextBoxFor(m => m.Surname, new { @class = "form-control", required = "required", value = Model.Surname })
-        </div>
-        <hr />
-        <div class="form-group">
-            @Html.LabelFor(m => m.Password)
-            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-            <span>Eğer şifreyi değiştirmek istiyorsanız bu alanı doldurun.</span>
-        </div>
-        <div class="form-group" for="file">
-            <label for="ProfilePicture">Profil Fotoğrafı</label>
-            <div class="row">
-                <div class="col-md-4">
-                    @if (Model.ProfilePicture == null)
-                    {
-                        Model.ProfilePicture = "/Content/imgs/user-pic.png";
-                    }
-                    <img src="@Model.ProfilePicture?width=120&mode=contain" class="img-responsive well well-sm big-avatar" />
-                    @Html.TextBoxFor(m => m.ProfilePicture, new { type = "hidden", value = Model.ProfilePicture })
-                </div>
-                <div class="col-md-6">
-                    <input type="file" name="file" id="file" class="form-control" />
-                    <p class="small">Mevcut fotoğrafı değiştirmek için seçiniz.</p>
-                </div>
+    @Html.TextBoxFor(m => m.AuthorID, new { @class = "form-control", required = "required", type = "hidden", value = Model.AuthorID })
+    <div class="form-group">
+        @Html.LabelFor(m => m.AuthorityLevel)
+        @Html.DropDownListFor(m => m.AuthorityLevel, ViewBag.Levels as SelectList, "Seçiniz", new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.UserName)
+        @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", required = "required", type = "text", value = Model.UserName })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Email)
+        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", required = "required", type = "email", value = Model.Email })
+    </div> 
+    <div class="form-group">
+        @Html.LabelFor(m => m.Name)
+        @Html.TextBoxFor(m => m.Name, new { @class = "form-control", required = "required", value = Model.Name })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Surname)
+        @Html.TextBoxFor(m => m.Surname, new { @class = "form-control", required = "required", value = Model.Surname })
+    </div>
+    <hr />
+    <div class="form-group">
+        @Html.LabelFor(m => m.Password)
+        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+        <span>Eğer şifreyi değiştirmek istiyorsanız bu alanı doldurun.</span>
+    </div>
+    <div class="form-group" for="file">
+        <label for="ProfilePicture">Profil Fotoğrafı</label>
+        <div class="row">
+            <div class="col-md-4">
+                @if (Model.ProfilePicture == null)
+                {
+                    Model.ProfilePicture = "/Content/imgs/user-pic.png";
+                }
+                <img src="@Model.ProfilePicture?width=120&mode=contain" class="img-responsive well well-sm big-avatar" />
+                @Html.TextBoxFor(m => m.ProfilePicture, new { type = "hidden", value = Model.ProfilePicture })
+            </div>
+            <div class="col-md-6">
+                <input type="file" name="file" id="file" class="form-control" />
+                <p class="small">Mevcut fotoğrafı değiştirmek için seçiniz.</p>
             </div>
         </div>
     </div>
+</div>
     <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>
         <button type="submit" class="btn btn-success">Kaydet</button>

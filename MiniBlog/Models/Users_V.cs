@@ -21,5 +21,6 @@ namespace MiniBlog.Models
         public Nullable<int> AuthorityLevel { get; set; }
         public int AuthorID { get; set; }
         public string LevelName { get; set; }
+        public string UserName { get; set; }
     }
 }

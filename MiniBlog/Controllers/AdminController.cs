@@ -46,6 +46,12 @@ namespace MiniBlog.Controllers
         }
 
         [_SessionControl]
+        public ActionResult Pages()
+        {
+            return View();
+        }
+
+        [_SessionControl]
         public ActionResult Home(int page = 1)
         {
             return View();
@@ -72,7 +78,8 @@ namespace MiniBlog.Controllers
         {
             if (ModelState.IsValid)
             {
-                List<Author> authors = admin.User.Where(a => a.Email == model.EMail && a.Password == model.Password).ToList();
+                String pwd = Helper.CreateMD5(model.Password);
+                List <Author> authors = admin.User.Where(a => a.Email == model.EMail && a.Password == pwd).ToList();
                 if (authors.Count > 0)
                 {
                     FormsAuthentication.SetAuthCookie(authors[0].AuthorID.ToString(), true);

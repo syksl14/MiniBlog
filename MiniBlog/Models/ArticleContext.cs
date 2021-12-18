@@ -13,6 +13,7 @@ namespace MiniBlog.Models
 
         }
         public DbSet<Models.Article> Article { get; set; } 
-        public DbSet<Models.Revision> Revision { get; set; }
+        public DbSet<Models.Revision> Revision { get; set; } 
+        public DbSet<Page> Page { get; set; }
     }
 }

@@ -1,0 +1,73 @@
+﻿@{
+    Page.Title = "Sayfalar";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="well">
+    <div class="row">
+        <div class="col-md-2">
+
+        </div>
+        <div class="col-md-4">
+            <label>Kullanıcı Seviyesi</label>
+            <select class="form-control" id="selectPageType">
+                <option selected="selected" value="T">Tümü</option>
+                <option value="P">Yayınlanmış</option>
+                <option value="D">Taslak</option>
+            </select>
+            <button class="btn btn-info" type="button" id="btnPageList"><i class="fa fa-list"></i>&nbsp;Listele</button>
+        </div>
+        <div class="col-md-4 text-right">
+            <button class="btn btn-success" type="button" onclick="pages.add();"><i class="fa fa-plus"></i> Yeni Sayfa</button>
+        </div>
+        <div class="col-md-2">
+        </div>
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8" id="divPages">
+
+    </div>
+    <div class="col-md-2"></div>
+</div>
+<div class="modal fade" tabindex="-1" role="dialog" id="modalAddPage">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Yeni Sayfa</h4>
+            </div>
+            <div id="modalAddPageContent"></div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" tabindex="-1" role="dialog" id="modalEditPage">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Sayfa Düzenle</h4>
+            </div>
+            <div id='modalEditPageContent'></div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalConfirmDelete" tabindex="-1" role="dialog" aria-labelledby="modalConfirmDelete" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                Sayfa Sil
+            </div>
+            <div class="modal-body">
+                Bu sayfa silinecektir devam edilsin mi?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">İptal</button>
+                <a class="btn btn-danger btn-ok">Sil</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/scripts/pages/admin/pages.js"></script>

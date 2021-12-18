@@ -18,7 +18,7 @@ var users = {
             $('#modalAddUser').modal({
                 keyboard: true
             }, 'show');
-            users.bindForm(this);
+            mbAjax.bindForm(this);
         });
     },
     edit: function (AuthorID) {
@@ -26,47 +26,7 @@ var users = {
             $('#modalEditUser').modal({
                 keyboard: true
             }, 'show');
-            users.bindForm(this);
+            mbAjax.bindForm(this);
         });
-    },
-    bindForm: function (dialog) {
-        var action = $('form', dialog).attr("action"); 
-        $('form', dialog).attr("action", "javascript:");
-        $('form', dialog).submit(function () { 
-            if ($('form', dialog).valid()) {
-                var formData = new FormData(this);
-                $.ajax({
-                    url: action,
-                    type: this.method,
-                    data: formData,
-                    contentType: false,
-                    processData: false,
-                    cache: false,
-                    success: function (result) {
-                        if (result.success) {
-                            $(dialog).modal('hide');
-                            //Refresh
-                            location.reload();
-                        } else {
-                            //server side error response 
-                            $('form', dialog).find("div.modal-body > div.server-side-errors").remove();
-                            $('form', dialog).find('div.modal-body').prepend('<div class="alert alert-danger server-side-errors"><button type="button" class="close" data-dismiss="alert">×</button> <ul style="padding-left: 15px;"></ul></div>');
-                            for (var i = 0; i < result.errors.length; i++) {
-                                $('form', dialog).find("div.modal-body > div.server-side-errors > ul").prepend('<li>' + result.errors[i] + '</li>');
-                            }
-                        }
-                    }
-                });
-                return true;
-            } else {
-                return false;
-            }
-        });
-        $('form', dialog).validate({
-            submitHandler: function (form) {
-                form.submit();
-            }
-        });
-
     }
 }

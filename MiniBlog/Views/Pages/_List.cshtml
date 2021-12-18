@@ -1,0 +1,53 @@
+﻿@model List<MiniBlog.Models.Pages_V>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Kapak Resmi</th>
+            <th>Sıralama</th>
+            <th>Başlık</th>
+            <th>Anahtar Kelimeler</th>
+            <th>Sayfa URL Adı</th>
+            <th>Durum</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var r in Model)
+        {
+            <tr>
+                <td>
+                    @if (r.CoverPhoto == null)
+                    {
+                        r.CoverPhoto = "/Content/imgs/no-image.png";
+                    }
+                    <img class="img-responsive" src="@r.CoverPhoto?width=100&height=80&format=jpg&mode=cover">
+                </td>
+                <td>@r.PageOrder</td>
+                <td>@r.Title</td>
+                <td>@r.Keywords</td>
+                <td>@r.FriendlyName</td>
+                <td>
+                    @if (r.ProfilePicture == null)
+                    {
+                        r.ProfilePicture = "/Content/imgs/user-pic.png";
+                    }
+                    @if (r.Crud == 1)
+                    {
+                        <span title="@r.Date.ToString("dd MMMM yyyy HH:mm")">@Helper.TimeAgo(r.Date)</span>
+                        <img class="img-responsive avatar img-thumbnail" src="@r.ProfilePicture?width=32&height=32&format=jpg&mode=crop"> @Html.Raw("<a href=\"#\" title=\"" + r.Name + " " + r.Surname + "\">" + r.UserName + "</a> tarafından oluşturuldu.")
+                    }
+                    else if (r.Crud == 2)
+                    {
+                        <span title="@r.Date.ToString("dd MMMM yyyy HH:mm")">@Helper.TimeAgo(r.Date)</span>
+                        <img class="img-responsive avatar img-thumbnail" src="@r.ProfilePicture?width=32&height=32&format=jpg&mode=crop"> @Html.Raw("<a href=\"#\" title=\""+ r.Name + " " + r.Surname + "\">" + r.UserName + "</a> tarafından değiştirildi.")
+                    }
+                </td>
+                <td>
+                    <button type="button" data-id="@r.PageID" data-href="/Pages/Delete/@r.PageID" data-toggle="modal" data-target="#modalConfirmDelete" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i> Sil</button>
+                    <button type="button" class="btn btn-xs btn-primary" onclick="pages.edit(@r.PageID);"><i class="fa fa-pencil"></i> Düzenle</button>
+                </td>
+            </tr>
+
+        }
+    </tbody>
+</table>

@@ -183,8 +183,10 @@
     <Content Include="scripts\jquery-3.3.1.min.js" />
     <Content Include="scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="scripts\jquery.unobtrusive-ajax.min.js" />
+    <Content Include="scripts\pages\admin\admin.js" />
     <Content Include="scripts\pages\admin\articles.js" />
     <Content Include="scripts\pages\admin\categories.js" />
+    <Content Include="scripts\pages\admin\pages.js" />
     <Content Include="scripts\pages\admin\users.js" />
     <Content Include="scripts\plugins\bootstrap-tags\bootstrap-tagsinput.css" />
     <Content Include="scripts\plugins\bootstrap-tags\bootstrap-tagsinput.min.js" />
@@ -848,6 +850,7 @@
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PagesController.cs" />
     <Compile Include="Controllers\RevisionController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Models\ArticleContext.cs" />
@@ -878,6 +881,10 @@
       <DependentUpon>MyBlog.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Page.cs">
+      <DependentUpon>MyBlog.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PageModel.cs" />
+    <Compile Include="Models\Pages_V.cs">
       <DependentUpon>MyBlog.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Revision.cs">
@@ -958,6 +965,10 @@
     <Content Include="scripts\plugins\DataTables\Buttons-2.1.1\css\mixins.scss" />
     <Content Include="scripts\plugins\DataTables\langs\Turkish.json" />
     <Content Include="Views\User\_List.cshtml" />
+    <Content Include="Views\Admin\Pages.cshtml" />
+    <Content Include="Views\Pages\_List.cshtml" />
+    <Content Include="Views\Pages\_EditPage.cshtml" />
+    <Content Include="Views\Pages\_NewPage.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

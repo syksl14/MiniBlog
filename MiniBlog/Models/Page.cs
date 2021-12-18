@@ -21,5 +21,11 @@ namespace MiniBlog.Models
         public string CoverPhoto { get; set; }
         public string Privacy { get; set; }
         public int PageOrder { get; set; }
+        public int PageID { get; set; }
+        public System.DateTime Date { get; set; }
+        public int CrudAuthorID { get; set; }
+        public int Crud { get; set; }
+    
+        public virtual Author Author { get; set; }
     }
 }

@@ -9,6 +9,9 @@ namespace MiniBlog.Models
     public class UserModel
     {
         public int AuthorID { get; set; }
+        [Required(ErrorMessage = "Lütfen benzersiz bir kullanıcı adı giriniz.")]
+        [Display(Name = "Kullanıcı Adı")]
+        public string UserName { get; set; }
         [Required(ErrorMessage = "Lütfen adınızı giriniz.")]
         [Display(Name = "Ad")]
         public string Name { get; set; }

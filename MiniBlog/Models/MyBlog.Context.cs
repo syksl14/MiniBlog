@@ -35,5 +35,6 @@ namespace MiniBlog.Models
         public virtual DbSet<Revision> Revisions { get; set; }
         public virtual DbSet<Revisions_V> Revisions_V { get; set; }
         public virtual DbSet<Users_V> Users_V { get; set; }
+        public virtual DbSet<Pages_V> Pages_V { get; set; }
     }
 }

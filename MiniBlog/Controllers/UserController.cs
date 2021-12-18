@@ -42,7 +42,7 @@ namespace MiniBlog.Controllers
         {
             if (ModelState.IsValid)
             {
-                var usercheck = db.User.Where(a => a.Email == model.Email).SingleOrDefault();
+                var usercheck = db.User.Where(a => a.Email == model.Email || a.UserName == model.UserName).SingleOrDefault();
                 if(usercheck == null)
                 {
                     String PhotoPath = "";
@@ -59,8 +59,9 @@ namespace MiniBlog.Controllers
                     user.Name = model.Name;
                     user.Surname = model.Surname;
                     user.Email = model.Email;
-                    user.Password = model.Password;
+                    user.Password = Helper.CreateMD5(model.Password);
                     user.AuthorityLevel = model.AuthorityLevel;
+                    user.UserName = model.UserName;
                     if (PhotoPath != "")
                     {
                         user.ProfilePicture = PhotoPath;
@@ -70,7 +71,7 @@ namespace MiniBlog.Controllers
                     return Json(new { success = true, responseText = "OK" }, JsonRequestBehavior.AllowGet);
                 }else
                 {
-                    ModelState.AddModelError("", "Böyle bir kullanıcı zaten mevcut lütfen başka bir e-posta adresi giriniz!");
+                    ModelState.AddModelError("", "Böyle bir kullanıcı zaten mevcut!");
                     return Json(new { success = false, errors = ModelState.Values.SelectMany(x => x.Errors).Select(x => x.ErrorMessage).ToList() }, JsonRequestBehavior.AllowGet);
                 } 
             }
@@ -102,6 +103,7 @@ namespace MiniBlog.Controllers
             model.AuthorID = c.AuthorID;
             model.AuthorityLevel = c.AuthorityLevel.Value;
             model.ProfilePicture = c.ProfilePicture;
+            model.UserName = c.UserName;
             return PartialView("_EditUser", model);
         }
 
@@ -117,21 +119,34 @@ namespace MiniBlog.Controllers
                 if (model.Password == null || model.Password == String.Empty)
                 {
                     var usr = db.User.Where(a => a.AuthorID == model.AuthorID).SingleOrDefault();
-                    current.Password = usr.Password;
+                    current.Password = Helper.CreateMD5(usr.Password);
                 }
                 else
                 { 
-                    current.Password = model.Password;
+                    current.Password = Helper.CreateMD5(model.Password);
+                }
+                if (model.UserName != current.UserName)
+                {
+                    var usercheck = db.User.Where(a => a.UserName == model.UserName).SingleOrDefault();
+                    if (usercheck == null)
+                    { 
+                        current.UserName = model.UserName;
+                    }else
+                    {
+                        ModelState.AddModelError("", "Böyle bir kullanıcı adı kullanılıyor. Lütfen başka bir kullanıcı adı giriniz!");
+                        return Json(new { success = false, errors = ModelState.Values.SelectMany(x => x.Errors).Select(x => x.ErrorMessage).ToList() }, JsonRequestBehavior.AllowGet);
+                    }
                 }
                 if (model.Email != current.Email)
                 {
                     var usercheck = db.User.Where(a => a.Email == model.Email).SingleOrDefault();
                     if (usercheck == null)
-                    { 
-                        current.Email = model.Email;
-                    }else
                     {
-                        ModelState.AddModelError("", "Böyle bir kullanıcı zaten mevcut lütfen başka bir e-posta adresi giriniz!");
+                        current.Email = model.Email;
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Böyle e-posta adresi kullanılıyor. Lütfen başka bir e-posta adresi giriniz!");
                         return Json(new { success = false, errors = ModelState.Values.SelectMany(x => x.Errors).Select(x => x.ErrorMessage).ToList() }, JsonRequestBehavior.AllowGet);
                     }
                 }

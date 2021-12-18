@@ -33,6 +33,7 @@
           <Property Name="Password" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="ProfilePicture" Type="nvarchar" MaxLength="255" />
           <Property Name="AuthorityLevel" Type="int" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="Categories">
           <Key>
@@ -51,15 +52,19 @@
         </EntityType>
         <EntityType Name="Pages">
           <Key>
-            <PropertyRef Name="FriendlyName" />
+            <PropertyRef Name="PageID" />
           </Key>
+          <Property Name="PageID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Title" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Keywords" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Keywords" Type="nvarchar" MaxLength="50" />
           <Property Name="Page" Type="nvarchar(max)" Nullable="false" />
           <Property Name="FriendlyName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="CoverPhoto" Type="nvarchar" MaxLength="500" />
           <Property Name="Privacy" Type="nvarchar" MaxLength="1" Nullable="false" />
           <Property Name="PageOrder" Type="int" Nullable="false" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="CrudAuthorID" Type="int" Nullable="false" />
+          <Property Name="Crud" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Revisions">
           <Key>
@@ -134,6 +139,39 @@ warning 6002: The table/view 'MyBlog.dbo.Articles_V' does not have a primary key
           <Property Name="AuthorityLevel" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6002: The table/view 'MyBlog.dbo.Pages_V' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Pages_V">
+          <Key>
+            <PropertyRef Name="PageID" />
+            <PropertyRef Name="Crud" />
+            <PropertyRef Name="Title" />
+            <PropertyRef Name="FriendlyName" />
+            <PropertyRef Name="Privacy" />
+            <PropertyRef Name="PageOrder" />
+            <PropertyRef Name="Date" />
+            <PropertyRef Name="CrudAuthorID" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="Surname" />
+            <PropertyRef Name="AuthorID" />
+            <PropertyRef Name="UserName" />
+          </Key>
+          <Property Name="PageID" Type="int" Nullable="false" />
+          <Property Name="Crud" Type="int" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Keywords" Type="nvarchar" MaxLength="50" />
+          <Property Name="FriendlyName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CoverPhoto" Type="nvarchar" MaxLength="500" />
+          <Property Name="Privacy" Type="nvarchar" MaxLength="1" Nullable="false" />
+          <Property Name="PageOrder" Type="int" Nullable="false" />
+          <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="CrudAuthorID" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Surname" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="AuthorID" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ProfilePicture" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <!--Errors Found During Generation:
 warning 6002: The table/view 'MyBlog.dbo.Revisions_V' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Revisions_V">
           <Key>
@@ -156,6 +194,7 @@ warning 6002: The table/view 'MyBlog.dbo.Users_V' does not have a primary key de
             <PropertyRef Name="Email" />
             <PropertyRef Name="AuthorID" />
             <PropertyRef Name="LevelName" />
+            <PropertyRef Name="UserName" />
           </Key>
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Surname" Type="nvarchar" MaxLength="50" Nullable="false" />
@@ -164,6 +203,7 @@ warning 6002: The table/view 'MyBlog.dbo.Users_V' does not have a primary key de
           <Property Name="AuthorityLevel" Type="int" />
           <Property Name="AuthorID" Type="int" Nullable="false" />
           <Property Name="LevelName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <Association Name="FK_Articles_Authors">
           <End Role="Authors" Type="Self.Authors" Multiplicity="1">
@@ -202,6 +242,18 @@ warning 6002: The table/view 'MyBlog.dbo.Users_V' does not have a primary key de
             </Principal>
             <Dependent Role="Authors">
               <PropertyRef Name="AuthorityLevel" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Pages_Authors">
+          <End Role="Authors" Type="Self.Authors" Multiplicity="1" />
+          <End Role="Pages" Type="Self.Pages" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Authors">
+              <PropertyRef Name="AuthorID" />
+            </Principal>
+            <Dependent Role="Pages">
+              <PropertyRef Name="CrudAuthorID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -264,6 +316,25 @@ warning 6002: The table/view 'MyBlog.dbo.Users_V' does not have a primary key de
     [Articles_V].[AuthorityLevel] AS [AuthorityLevel]
     FROM [dbo].[Articles_V] AS [Articles_V]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="Pages_V" EntityType="Self.Pages_V" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Pages_V].[PageID] AS [PageID], 
+    [Pages_V].[Crud] AS [Crud], 
+    [Pages_V].[Title] AS [Title], 
+    [Pages_V].[Keywords] AS [Keywords], 
+    [Pages_V].[FriendlyName] AS [FriendlyName], 
+    [Pages_V].[CoverPhoto] AS [CoverPhoto], 
+    [Pages_V].[Privacy] AS [Privacy], 
+    [Pages_V].[PageOrder] AS [PageOrder], 
+    [Pages_V].[Date] AS [Date], 
+    [Pages_V].[CrudAuthorID] AS [CrudAuthorID], 
+    [Pages_V].[Name] AS [Name], 
+    [Pages_V].[Surname] AS [Surname], 
+    [Pages_V].[AuthorID] AS [AuthorID], 
+    [Pages_V].[UserName] AS [UserName], 
+    [Pages_V].[ProfilePicture] AS [ProfilePicture]
+    FROM [dbo].[Pages_V] AS [Pages_V]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="Revisions_V" EntityType="Self.Revisions_V" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [Revisions_V].[RevisionID] AS [RevisionID], 
@@ -280,7 +351,8 @@ warning 6002: The table/view 'MyBlog.dbo.Users_V' does not have a primary key de
     [Users_V].[ProfilePicture] AS [ProfilePicture], 
     [Users_V].[AuthorityLevel] AS [AuthorityLevel], 
     [Users_V].[AuthorID] AS [AuthorID], 
-    [Users_V].[LevelName] AS [LevelName]
+    [Users_V].[LevelName] AS [LevelName], 
+    [Users_V].[UserName] AS [UserName]
     FROM [dbo].[Users_V] AS [Users_V]</DefiningQuery>
           </EntitySet>
           <AssociationSet Name="FK_Articles_Authors" Association="Self.FK_Articles_Authors">
@@ -294,6 +366,10 @@ warning 6002: The table/view 'MyBlog.dbo.Users_V' does not have a primary key de
           <AssociationSet Name="FK_Authors_Levels" Association="Self.FK_Authors_Levels">
             <End Role="Levels" EntitySet="Levels" />
             <End Role="Authors" EntitySet="Authors" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Pages_Authors" Association="Self.FK_Pages_Authors">
+            <End Role="Authors" EntitySet="Authors" />
+            <End Role="Pages" EntitySet="Pages" />
           </AssociationSet>
           <AssociationSet Name="FK_Revisions_Articles" Association="Self.FK_Revisions_Articles">
             <End Role="Articles" EntitySet="Articles" />
@@ -337,6 +413,8 @@ warning 6002: The table/view 'MyBlog.dbo.Users_V' does not have a primary key de
           <NavigationProperty Name="Articles" Relationship="Self.FK_Articles_Authors" FromRole="Authors" ToRole="Articles" />
           <Property Name="AuthorityLevel" Type="Int32" />
           <NavigationProperty Name="Level" Relationship="MyBlogModel.FK_Authors_Levels" FromRole="Author" ToRole="Level" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Pages" Relationship="MyBlogModel.FK_Pages_Authors" FromRole="Author" ToRole="Page" />
         </EntityType>
         <EntityType Name="Article_V">
           <Key>
@@ -438,6 +516,11 @@ warning 6002: The table/view 'MyBlog.dbo.Users_V' does not have a primary key de
             <End Role="Author" EntitySet="Authors" />
           </AssociationSet>
           <EntitySet Name="Users_V" EntityType="MyBlogModel.Users_V" />
+          <EntitySet Name="Pages_V" EntityType="MyBlogModel.Pages_V" />
+          <AssociationSet Name="FK_Pages_Authors" Association="MyBlogModel.FK_Pages_Authors">
+            <End Role="Author" EntitySet="Authors" />
+            <End Role="Page" EntitySet="Pages" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Category">
           <Key>
@@ -472,15 +555,20 @@ warning 6002: The table/view 'MyBlog.dbo.Users_V' does not have a primary key de
         </EntityType>
         <EntityType Name="Page">
           <Key>
-            <PropertyRef Name="FriendlyName" />
+            <PropertyRef Name="PageID" />
           </Key>
           <Property Name="Title" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Keywords" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Keywords" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Page1" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="FriendlyName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CoverPhoto" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="Privacy" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="true" />
           <Property Name="PageOrder" Type="Int32" Nullable="false" />
+          <Property Name="PageID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CrudAuthorID" Type="Int32" Nullable="false" />
+          <Property Name="Crud" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Author" Relationship="MyBlogModel.FK_Pages_Authors" FromRole="Page" ToRole="Author" />
         </EntityType>
         <EntityType Name="Revision">
           <Key>
@@ -537,6 +625,7 @@ warning 6002: The table/view 'MyBlog.dbo.Users_V' does not have a primary key de
             <PropertyRef Name="Email" />
             <PropertyRef Name="AuthorID" />
             <PropertyRef Name="LevelName" />
+            <PropertyRef Name="UserName" />
           </Key>
           <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Surname" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -545,7 +634,51 @@ warning 6002: The table/view 'MyBlog.dbo.Users_V' does not have a primary key de
           <Property Name="AuthorityLevel" Type="Int32" />
           <Property Name="AuthorID" Type="Int32" Nullable="false" />
           <Property Name="LevelName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="Pages_V">
+          <Key>
+            <PropertyRef Name="PageID" />
+            <PropertyRef Name="Crud" />
+            <PropertyRef Name="Title" />
+            <PropertyRef Name="FriendlyName" />
+            <PropertyRef Name="Privacy" />
+            <PropertyRef Name="PageOrder" />
+            <PropertyRef Name="Date" />
+            <PropertyRef Name="CrudAuthorID" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="Surname" />
+            <PropertyRef Name="AuthorID" />
+            <PropertyRef Name="UserName" />
+          </Key>
+          <Property Name="PageID" Type="Int32" Nullable="false" />
+          <Property Name="Crud" Type="Int32" Nullable="false" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Keywords" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FriendlyName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CoverPhoto" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Privacy" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="true" />
+          <Property Name="PageOrder" Type="Int32" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="CrudAuthorID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Surname" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AuthorID" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ProfilePicture" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_Pages_Authors">
+          <End Type="MyBlogModel.Author" Role="Author" Multiplicity="1" />
+          <End Type="MyBlogModel.Page" Role="Page" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Author">
+              <PropertyRef Name="AuthorID" />
+            </Principal>
+            <Dependent Role="Page">
+              <PropertyRef Name="CrudAuthorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -573,6 +706,7 @@ warning 6002: The table/view 'MyBlog.dbo.Users_V' does not have a primary key de
           <EntitySetMapping Name="Authors">
             <EntityTypeMapping TypeName="MyBlogModel.Author">
               <MappingFragment StoreEntitySet="Authors">
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="AuthorityLevel" ColumnName="AuthorityLevel" />
                 <ScalarProperty Name="AuthorID" ColumnName="AuthorID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -645,6 +779,10 @@ warning 6002: The table/view 'MyBlog.dbo.Users_V' does not have a primary key de
           <EntitySetMapping Name="Pages">
             <EntityTypeMapping TypeName="MyBlogModel.Page">
               <MappingFragment StoreEntitySet="Pages">
+                <ScalarProperty Name="Crud" ColumnName="Crud" />
+                <ScalarProperty Name="CrudAuthorID" ColumnName="CrudAuthorID" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="PageID" ColumnName="PageID" />
                 <ScalarProperty Name="PageOrder" ColumnName="PageOrder" />
                 <ScalarProperty Name="Privacy" ColumnName="Privacy" />
                 <ScalarProperty Name="CoverPhoto" ColumnName="CoverPhoto" />
@@ -678,6 +816,7 @@ warning 6002: The table/view 'MyBlog.dbo.Users_V' does not have a primary key de
           <EntitySetMapping Name="Users_V">
             <EntityTypeMapping TypeName="MyBlogModel.Users_V">
               <MappingFragment StoreEntitySet="Users_V">
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="LevelName" ColumnName="LevelName" />
                 <ScalarProperty Name="AuthorID" ColumnName="AuthorID" />
                 <ScalarProperty Name="AuthorityLevel" ColumnName="AuthorityLevel" />
@@ -685,6 +824,27 @@ warning 6002: The table/view 'MyBlog.dbo.Users_V' does not have a primary key de
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Surname" ColumnName="Surname" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Pages_V">
+            <EntityTypeMapping TypeName="MyBlogModel.Pages_V">
+              <MappingFragment StoreEntitySet="Pages_V">
+                <ScalarProperty Name="ProfilePicture" ColumnName="ProfilePicture" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="AuthorID" ColumnName="AuthorID" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CrudAuthorID" ColumnName="CrudAuthorID" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="PageOrder" ColumnName="PageOrder" />
+                <ScalarProperty Name="Privacy" ColumnName="Privacy" />
+                <ScalarProperty Name="CoverPhoto" ColumnName="CoverPhoto" />
+                <ScalarProperty Name="FriendlyName" ColumnName="FriendlyName" />
+                <ScalarProperty Name="Keywords" ColumnName="Keywords" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Crud" ColumnName="Crud" />
+                <ScalarProperty Name="PageID" ColumnName="PageID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
