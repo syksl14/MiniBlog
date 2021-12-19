@@ -267,3 +267,8 @@ input.error, input.error:focus {
 label.error {
     color: #de0000;
 }
+.seperator-menu {
+    height: 30px;
+    border-left: 2px solid #fff;
+    top: 13px;
+}

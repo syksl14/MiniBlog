@@ -19,13 +19,12 @@ namespace MiniBlog.Controllers
 {
     public class HomeController : Controller
     {
-        private ArticlesVContext db = new ArticlesVContext();
-
+        private ArticlesVContext db = new ArticlesVContext(); 
         // GET: Home 
         public ActionResult Index(int page = 1)
         {
             var articles = from e in db.Articles_V where e.Privacy == "P" orderby e.ArticleID descending select e; //Public Articles
-            return View(articles.ToList().ToPagedList(page, 5)); 
+            return View(articles.ToList().ToPagedList(page, 5));
         }
         // GET: Home/About
         [OutputCache(Duration = 86000)] //yaklaşık 24 saat önbellekte tutulur
@@ -38,6 +37,30 @@ namespace MiniBlog.Controllers
         public ActionResult Contact()
         {
             return View();
+        }
+
+        [ChildActionOnly]
+        public ActionResult Pages()
+        {
+            var pages = from e in db.Pages_V where e.Privacy == "P" && e.Crud < 3 orderby e.PageOrder ascending select e;
+            return PartialView("_Pages", pages.ToList());
+        }
+
+        [Route("Home/{friendurl}-{id:int}")]
+        public ActionResult Page(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Page p = db.Pages
+                      .Where(a => a.PageID == id && a.Privacy == "P")
+                      .SingleOrDefault();
+            if (p == null)
+            {
+                return HttpNotFound();
+            }
+            return View(p);
         }
 
         [HttpPost]
@@ -116,7 +139,7 @@ namespace MiniBlog.Controllers
             foreach (var a in articles.ToList())
             {
                 xr.WriteStartElement("url");
-                xr.WriteElementString("loc", ConfigurationManager.AppSettings["site_url"].ToString()  + "/blog/" + Helper.FriendlyURLTitle(a.CategoryName) + "/" + Helper.FriendlyURLTitle(a.Title) + "-" + a.ArticleID);
+                xr.WriteElementString("loc", ConfigurationManager.AppSettings["site_url"].ToString() + "/blog/" + Helper.FriendlyURLTitle(a.CategoryName) + "/" + Helper.FriendlyURLTitle(a.Title) + "-" + a.ArticleID);
                 xr.WriteElementString("lastmod", DateTime.Now.ToString("yyyy-MM-dd"));
                 xr.WriteElementString("priority", "0.5");
                 xr.WriteElementString("changefreq", "monthly");
@@ -137,6 +160,6 @@ namespace MiniBlog.Controllers
             }
             base.Dispose(disposing);
         }
-       
+
     }
 }

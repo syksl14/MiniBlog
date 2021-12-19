@@ -969,6 +969,8 @@
     <Content Include="Views\Pages\_List.cshtml" />
     <Content Include="Views\Pages\_EditPage.cshtml" />
     <Content Include="Views\Pages\_NewPage.cshtml" />
+    <Content Include="Views\Home\_Pages.cshtml" />
+    <Content Include="Views\Home\Page.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

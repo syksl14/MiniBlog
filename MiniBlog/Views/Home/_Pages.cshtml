@@ -1,0 +1,7 @@
+﻿@model List<MiniBlog.Models.Pages_V>
+@foreach (var item in Model)
+{
+    <li>
+        <a href="@Url.Action("Page", "Home", new { friendurl = @Url.FriendlyURL(item.FriendlyName), id = @item.PageID })">@item.Title</a>
+    </li>
+}

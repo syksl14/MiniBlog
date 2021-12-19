@@ -12,7 +12,13 @@
             });
         });
     });
-    $("button#btnPageList").click(); 
+    $("button#btnPageList").click();
+    if (localStorage.getItem("PageID") !== null) {
+        setTimeout(function () {
+            pages.edit(localStorage.getItem("PageID"));
+            localStorage.removeItem("PageID");
+        }, 500);
+    }
 });
 var pages = {
     add: function () {

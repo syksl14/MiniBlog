@@ -48,12 +48,22 @@
                     <li>
                         <a href="/">Ana Sayfa</a>
                     </li>
+                    @{ Html.RenderAction("Pages", "Home"); }
                     <li>
                         <a href="@Url.Content("~/Home/About")">Hakkımda</a>
                     </li>
                     <li>
                         <a href="@Url.Content("~/Home/Contact")">İletişim</a>
-                    </li>
+                    </li> 
+                    @if (@HttpContext.Current.User.Identity.Name != "")
+                    {
+                        <li class="seperator-menu"></li>
+                        <!-- Admin access area -->
+                        <li>
+                            <a href="@Url.Content("~/Admin")"><i class="fa fa-user"></i>&nbsp;Yönetim Paneli</a>
+                        </li>
+                        <!-- Admin access area -->
+                    }
                 </ul>
             </div>
             <!-- /.navbar-collapse -->

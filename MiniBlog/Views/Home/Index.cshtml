@@ -5,7 +5,22 @@
     ViewBag.Title = "Yazılar";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+@if (@HttpContext.Current.User.Identity.Name != "")
+{
+    <!-- Admin access area -->
+    <div class="text-right">
+        <button type="button" class="btn btn-success" onclick="articles.new();"><i class="fa fa-plus"></i>&nbsp;Yeni Yazı</button>
+    </div>
+    <script>
+        var articles = {
+            new: function () {
+                localStorage.setItem("Action", "New_Article");
+                location.href = "/Admin/Articles";
+            }
+        }
+    </script>
+    <!-- Admin access area -->
+}
 <h4 class="index-title">Yazılar <a href="~/Article/Rss" target="_blank" title="RSS"><i class="fa fa-rss  rss-logo"></i></a></h4>
 <ul class="timeline">
     @foreach (var item in Model)
@@ -14,9 +29,9 @@
             <div class="media">
                 <a class="pull-left" href="@Url.Action("Details", "Article", new { category = @Url.FriendlyURLTitle(item.CategoryName), title = @Url.FriendlyURLTitle(@item.Title), id = @item.ArticleID })" title="@item.Title">
                     @if (item.CoverPhoto == null)
-                {
-                    item.CoverPhoto = "Content/imgs/no-image.png";
-                }
+                    {
+                        item.CoverPhoto = "Content/imgs/no-image.png";
+                    }
                     <img class="img-responsive well-sm well" src="@item.CoverPhoto?width=262&height=147&format=jpg&mode=crop">
                 </a>
                 <div class="media-body">

@@ -117,19 +117,55 @@ namespace MiniBlog
                 return "";
             }
         }
+
+        public static string FriendlyURL(this UrlHelper urlHelper, string incomingText)
+        {
+
+            if (incomingText != null)
+            { 
+                incomingText = incomingText.Replace(" ", "-");
+                incomingText = incomingText.Replace("---", "-");
+                incomingText = incomingText.Replace("?", "");
+                incomingText = incomingText.Replace("/", "");
+                incomingText = incomingText.Replace(".", "");
+                incomingText = incomingText.Replace("'", "");
+                incomingText = incomingText.Replace("#", "");
+                incomingText = incomingText.Replace("%", "");
+                incomingText = incomingText.Replace("&", "");
+                incomingText = incomingText.Replace("*", "");
+                incomingText = incomingText.Replace("!", "");
+                incomingText = incomingText.Replace("@", "");
+                incomingText = incomingText.Replace("+", "");
+                incomingText = incomingText.Trim(); 
+                // & ile " " yer değiştirme
+                incomingText = Regex.Replace(incomingText, @"\&+", "and");
+                // " " karakterlerini silme
+                incomingText = incomingText.Replace("'", ""); 
+                // tekrar edenleri sil
+                incomingText = Regex.Replace(incomingText, @"-+", "-");
+                // karakterlerin arasına tire koy
+                incomingText = incomingText.Trim('-');
+                return incomingText;
+            }
+            else
+            {
+                return "";
+            }
+        }
+
         public static void GenerateRSS()
         {
             HttpContext.Current.Response.Clear();
             HttpContext.Current.Response.ContentType = "text/xml";
             XmlTextWriter rssWriter = new XmlTextWriter(HttpContext.Current.Response.OutputStream, Encoding.UTF8);
-            rssWriter.WriteStartDocument(); 
+            rssWriter.WriteStartDocument();
             rssWriter.WriteStartElement("rss");
             rssWriter.WriteAttributeString("version", "1.0");
             rssWriter.WriteStartElement("channel");
             rssWriter.WriteElementString("title", "selahattinyuksel.net RSS");
             rssWriter.WriteElementString("link", "selahattinyuksel.net/Article/Rss");
             rssWriter.WriteElementString("description", ConfigurationManager.AppSettings["site_name"].ToString() + " -- " + ConfigurationManager.AppSettings["slogan"].ToString());
-            rssWriter.WriteElementString("copyright", "(c) "+ DateTime.Now.Year + ", SelahattinYuksel.NET");
+            rssWriter.WriteElementString("copyright", "(c) " + DateTime.Now.Year + ", SelahattinYuksel.NET");
             rssWriter.WriteElementString("pubDate", DateTime.Now.ToString("dd.MM.yyyy"));
             rssWriter.WriteElementString("language", "tr-TR");
             rssWriter.WriteElementString("webMaster", "iletisim@selahattinyuksel.net");
@@ -140,11 +176,11 @@ namespace MiniBlog
                 rssWriter.WriteStartElement("item");
                 rssWriter.WriteElementString("title", rss.Title);
                 rssWriter.WriteElementString("description", rss.Summary);
-                rssWriter.WriteElementString("link", ConfigurationManager.AppSettings["site_url"].ToString() +"/blog/" + FriendlyURLTitle(rss.CategoryName) + "/" +  FriendlyURLTitle(rss.Title) + "-" + rss.ArticleID);
+                rssWriter.WriteElementString("link", ConfigurationManager.AppSettings["site_url"].ToString() + "/blog/" + FriendlyURLTitle(rss.CategoryName) + "/" + FriendlyURLTitle(rss.Title) + "-" + rss.ArticleID);
                 rssWriter.WriteElementString("pubDate", rss.Date.ToString("dd.MM.yyyy"));
                 rssWriter.WriteEndElement();
             }
-            rssWriter.WriteEndDocument(); 
+            rssWriter.WriteEndDocument();
             rssWriter.Flush();
             rssWriter.Close();
             HttpContext.Current.Response.End();
@@ -210,4 +246,3 @@ namespace MiniBlog
         }
     }
 }
- 

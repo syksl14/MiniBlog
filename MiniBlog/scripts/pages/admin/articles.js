@@ -23,6 +23,14 @@
             localStorage.removeItem("ArticleID");
         }, 500);
     }
+    if (localStorage.getItem("Action") !== null) {
+        setTimeout(function () {
+            if (localStorage.getItem("Action") === "New_Article") {
+                localStorage.removeItem("Action");
+                articles.add();
+            }
+        }, 500);
+    }
 });
 var articles = {
     add: function () {
