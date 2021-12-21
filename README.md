@@ -4,7 +4,7 @@ A small and lightweight blogging system in ASP.NET MVC is still under developmen
 
 - It is developed with using Entity Framework.
 
-- It is built on MVC 4.
+- It is built on MVC 5.
 
 - Bootstrap 3 and jQuery are used as interfaces.
 
@@ -35,7 +35,7 @@ ASP.NET MVC'de küçük ve hafif bir bloglama sistemi halen geliştirilme aşama
 
 - Entity Framework kullanarak ile geliştirilmiştir.
 
-- MVC 4 üzerine inşa edilmiştir.
+- MVC 5 üzerine inşa edilmiştir.
 
 - Arayüz olarak Bootstrap 3 ve jQuery kullanılmıştır.
 
