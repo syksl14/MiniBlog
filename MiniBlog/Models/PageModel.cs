@@ -13,6 +13,8 @@ namespace MiniBlog.Models
         [Required(ErrorMessage = "Lütfen bir başlık giriniz.")]
         [Display(Name = "Sayfa Başlığı")]
         public string Title { get; set; } 
+        [Display(Name = "Sayfa Alt Başlığı")]
+        public string HeaderText { get; set; }
         [Required(ErrorMessage = "Lütfen sayfa içeriğini giriniz.")]
         [Display(Name = "Sayfa")]
         [AllowHtml]

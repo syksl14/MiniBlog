@@ -25,6 +25,7 @@ namespace MiniBlog.Models
         public System.DateTime Date { get; set; }
         public int CrudAuthorID { get; set; }
         public int Crud { get; set; }
+        public string HeaderText { get; set; }
     
         public virtual Author Author { get; set; }
     }

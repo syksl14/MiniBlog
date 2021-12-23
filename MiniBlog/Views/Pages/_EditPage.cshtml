@@ -8,6 +8,10 @@
         @Html.TextBoxFor(m => m.Title, new { @class = "form-control", required = "required", value = Model.Title })
     </div>
     <div class="form-group">
+        @Html.LabelFor(m => m.HeaderText)
+        @Html.TextBoxFor(m => m.HeaderText, new { @class = "form-control", value = Model.HeaderText })
+    </div>
+    <div class="form-group">
         @Html.LabelFor(m => m.FriendlyName)
         @Html.TextBoxFor(m => m.FriendlyName, new { @class = "form-control", required = "required", value = Model.FriendlyName })
     </div>

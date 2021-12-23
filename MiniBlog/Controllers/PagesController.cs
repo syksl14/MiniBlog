@@ -36,6 +36,7 @@ namespace MiniBlog.Controllers
             PageModel model = new PageModel();
             model.PageID = p.PageID;
             model.Title = p.Title;
+            model.HeaderText = p.HeaderText;
             model.Page = p.Page1;
             model.FriendlyName = p.FriendlyName;
             model.Keywords = p.Keywords;
@@ -64,6 +65,7 @@ namespace MiniBlog.Controllers
             {
                 Page page = new Page();
                 page.Title = model.Title;
+                page.HeaderText = model.HeaderText;
                 page.FriendlyName = model.FriendlyName;
                 page.Keywords = model.Keywords;
                 page.CrudAuthorID = Convert.ToInt32(User.Identity.Name);
@@ -105,6 +107,7 @@ namespace MiniBlog.Controllers
             {
                 var current = db.Page.Find(model.PageID);
                 current.Title = model.Title;
+                current.HeaderText = model.HeaderText;
                 current.FriendlyName = model.FriendlyName;
                 current.Keywords = model.Keywords;
                 current.CrudAuthorID = Convert.ToInt32(User.Identity.Name);

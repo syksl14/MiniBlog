@@ -29,5 +29,6 @@ namespace MiniBlog.Models
         public int AuthorID { get; set; }
         public string UserName { get; set; }
         public string ProfilePicture { get; set; }
+        public string HeaderText { get; set; }
     }
 }
