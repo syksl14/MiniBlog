@@ -14,12 +14,15 @@ using System.Xml;
 using System.Text;
 using System.Web.Routing;
 using System.Configuration;
+using System.Web.Configuration;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace MiniBlog.Controllers
 {
     public class HomeController : Controller
     {
-        private ArticlesVContext db = new ArticlesVContext(); 
+        private ArticlesVContext db = new ArticlesVContext();
         // GET: Home 
         public ActionResult Index(int page = 1)
         {
@@ -69,36 +72,37 @@ namespace MiniBlog.Controllers
             ResponseMessage response = new ResponseMessage();
             if (ModelState.IsValid)
             {
-                try
+                bool reCapthca_pass = false;
+                Configuration config = WebConfigurationManager.OpenWebConfiguration("/");
+                if (config.AppSettings.Settings["reCaptcha_isEnable"].Value.ToString() == "True")
                 {
-                    var body = "<p>Gönderen: {0} ({1})</p><p>Mesaj:</p><p>{2}</p>";
-                    var message = new MailMessage();
-                    message.From = new MailAddress(ConfigurationManager.AppSettings["Mail_From"].ToString());
-                    message.To.Add(new MailAddress(ConfigurationManager.AppSettings["Mail_From"].ToString()));
-                    message.Subject = ConfigurationManager.AppSettings["site_header_name"].ToString() + " İletişim Formu";
-                    message.Body = string.Format(body, form.name, form.email, form.message);
-                    message.IsBodyHtml = true;
-
-                    using (var smtp = new SmtpClient())
+                    string url = "https://www.google.com/recaptcha/api/siteverify?secret=" + config.AppSettings.Settings["reCaptcha_hiddenKey"].Value + "&response=" + form.key;
+                    String data = (new WebClient()).DownloadString(url);
+                    JToken objJson = JObject.Parse(data);
+                    if((bool)objJson["success"])
                     {
-                        var credential = new NetworkCredential
-                        {
-                            UserName = ConfigurationManager.AppSettings["Mail_UserName"].ToString(),
-                            Password = ConfigurationManager.AppSettings["Mail_Password"].ToString()
-                        };
-                        smtp.Credentials = credential;
-                        smtp.Host = ConfigurationManager.AppSettings["Mail_Host"].ToString();
-                        smtp.Port = Convert.ToInt32(ConfigurationManager.AppSettings["Mail_Port"]);
-                        smtp.EnableSsl = Convert.ToBoolean(ConfigurationManager.AppSettings["Mail_IsEnableSSL"]);
-                        await smtp.SendMailAsync(message);
-                        response.Result = "OK";
+                        reCapthca_pass = true;
                     }
-                }
-                catch (Exception err)
+                    else
+                    {
+                        response.Error = "Doğrulama başarısız lütfen robot olmadığınızı doğrulayınız.";
+                        response.Result = "reCaptcha_VerifyError";
+                    }
+                } else
                 {
-                    response.Result = "Error";
-                    response.Error = err.Message;
+                    reCapthca_pass = true;
                 }
+                if (reCapthca_pass)
+                {
+                    String body = "<p><strong>Gönderen:</strong></p>";
+                    body += "<p>{0} ({1})</p>";
+                    body += "<p><strong>Mesaj:</strong></p>";
+                    body += "<p>{2}</p>";
+                    String title = "İletişim Formu";
+                    body = string.Format(body, form.name, form.email, Helper.StripHTML(form.message));
+                    response = await Helper.MailSend(title, body, null);
+                }
+
             }
             return Json(response, JsonRequestBehavior.DenyGet);
         }
@@ -118,7 +122,7 @@ namespace MiniBlog.Controllers
         [Route("SiteMap")]
         public ActionResult SiteMap()
         {
-            var articles = from e in db.Articles_V orderby e.ArticleID descending select e;
+            var articles = from e in db.Articles_V where e.Privacy == "P" orderby e.ArticleID descending select e;
 
             Response.Clear();
             Response.ContentType = "text/xml";

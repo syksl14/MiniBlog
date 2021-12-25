@@ -89,6 +89,7 @@ warning 6002: The table/view 'MyBlog.dbo.Article_V' does not have a primary key 
             <PropertyRef Name="Title" />
             <PropertyRef Name="CategoryID" />
             <PropertyRef Name="CategoryName" />
+            <PropertyRef Name="Summary" />
             <PropertyRef Name="Privacy" />
           </Key>
           <Property Name="ArticleID" Type="int" Nullable="false" />
@@ -106,6 +107,7 @@ warning 6002: The table/view 'MyBlog.dbo.Article_V' does not have a primary key 
           <Property Name="UpdateDate" Type="datetime" />
           <Property Name="Privacy" Type="nvarchar" MaxLength="1" Nullable="false" />
           <Property Name="AuthorityLevel" Type="int" />
+          <Property Name="Summary" Type="nvarchar" MaxLength="500" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'MyBlog.dbo.Articles_V' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -296,7 +298,8 @@ warning 6002: The table/view 'MyBlog.dbo.Users_V' does not have a primary key de
     [Article_V].[CategoryName] AS [CategoryName], 
     [Article_V].[UpdateDate] AS [UpdateDate], 
     [Article_V].[Privacy] AS [Privacy], 
-    [Article_V].[AuthorityLevel] AS [AuthorityLevel]
+    [Article_V].[AuthorityLevel] AS [AuthorityLevel], 
+    [Article_V].[Summary] AS [Summary]
     FROM [dbo].[Article_V] AS [Article_V]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="Articles_V" EntityType="Self.Articles_V" store:Type="Views" store:Schema="dbo">
@@ -431,6 +434,7 @@ warning 6002: The table/view 'MyBlog.dbo.Users_V' does not have a primary key de
             <PropertyRef Name="CategoryID" />
             <PropertyRef Name="CategoryName" />
             <PropertyRef Name="Privacy" />
+            <PropertyRef Name="Summary" />
           </Key>
           <Property Name="ArticleID" Type="Int32" Nullable="false" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
@@ -447,6 +451,7 @@ warning 6002: The table/view 'MyBlog.dbo.Users_V' does not have a primary key de
           <Property Name="UpdateDate" Type="DateTime" Precision="3" />
           <Property Name="Privacy" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="true" />
           <Property Name="AuthorityLevel" Type="Int32" />
+          <Property Name="Summary" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Articles_V">
           <Key>
@@ -725,6 +730,7 @@ warning 6002: The table/view 'MyBlog.dbo.Users_V' does not have a primary key de
           <EntitySetMapping Name="Article_V">
             <EntityTypeMapping TypeName="MyBlogModel.Article_V">
               <MappingFragment StoreEntitySet="Article_V">
+                <ScalarProperty Name="Summary" ColumnName="Summary" />
                 <ScalarProperty Name="AuthorityLevel" ColumnName="AuthorityLevel" />
                 <ScalarProperty Name="Privacy" ColumnName="Privacy" />
                 <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />

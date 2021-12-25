@@ -1,0 +1,38 @@
+﻿@model MiniBlog.Models.EmailModel
+@using (Html.BeginForm("EmailServer/Save", "SiteSettings", FormMethod.Post, new { id = "formEmailSettings" }))
+{
+    <p>Size uyarılar, bilgilendirmeler ve İletişim sayfası için e-postalar göndermek için bilgileri doldurmanız gerekmektedir.</p>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Mail_From)
+        @Html.TextBoxFor(m => m.Mail_From, new { @class = "form-control", required = "required", type = "text", value = Model.Mail_From })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Mail_Host)
+        @Html.TextBoxFor(m => m.Mail_Host, new { @class = "form-control", required = "required", type = "text", value = Model.Mail_Host })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Mail_Port)
+        @Html.TextBoxFor(m => m.Mail_Port, new { @class = "form-control", required = "required", type = "number", value = Model.Mail_Port })
+    </div>
+    <div class="form-group">
+        @Html.CheckBoxFor(m => m.Mail_IsEnableSSL, new { @class = "form-check-input" })
+        <label class="form-check-label" for="Mail_IsEnableSSL">E-Posta Sunucusu SSL Aktif</label>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Mail_UserName)
+        @Html.TextBoxFor(m => m.Mail_UserName, new { @class = "form-control", type = "text", value = Model.Mail_UserName })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Mail_Password)
+        @Html.TextBoxFor(m => m.Mail_Password, new { @class = "form-control", required = "required", type = "password", value = Model.Mail_Password })
+    </div>
+    <div class="form-group text-right">
+        <button class="btn btn-danger" type="reset">Temizle</button>
+        <button class="btn btn-outline-success" type="submit">Değişiklikleri Kaydet</button>
+    </div>
+}
+<script>
+    $(function () {
+        mbAjax.bindFormNonDialog($("#formEmailSettings"));
+    });
+</script>

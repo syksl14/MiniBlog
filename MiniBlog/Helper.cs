@@ -1,11 +1,16 @@
 ﻿using MiniBlog.Controllers;
+using MiniBlog.Models;
 using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Xml;
@@ -14,6 +19,11 @@ namespace MiniBlog
 {
     public static class Helper
     {
+
+        public static string StripHTML(string input)
+        {
+            return Regex.Replace(input, "<.*?>", String.Empty);
+        }
         public static string FriendlyURLTitle(string incomingText)
         {
             if (incomingText != null)
@@ -46,17 +56,11 @@ namespace MiniBlog
                 incomingText = incomingText.Replace("+", "");
                 incomingText = incomingText.ToLower();
                 incomingText = incomingText.Trim();
-                // tüm harfleri küçült
                 string encodedUrl = (incomingText ?? "").ToLower();
-                // & ile " " yer değiştirme
                 encodedUrl = Regex.Replace(encodedUrl, @"\&+", "and");
-                // " " karakterlerini silme
                 encodedUrl = encodedUrl.Replace("'", "");
-                // geçersiz karakterleri sil
                 encodedUrl = Regex.Replace(encodedUrl, @"[^a-z0-9]", "-");
-                // tekrar edenleri sil
                 encodedUrl = Regex.Replace(encodedUrl, @"-+", "-");
-                // karakterlerin arasına tire koy
                 encodedUrl = encodedUrl.Trim('-');
                 return encodedUrl;
             }
@@ -98,17 +102,11 @@ namespace MiniBlog
                 incomingText = incomingText.Replace("+", "");
                 incomingText = incomingText.ToLower();
                 incomingText = incomingText.Trim();
-                // tüm harfleri küçült
                 string encodedUrl = (incomingText ?? "").ToLower();
-                // & ile " " yer değiştirme
                 encodedUrl = Regex.Replace(encodedUrl, @"\&+", "and");
-                // " " karakterlerini silme
                 encodedUrl = encodedUrl.Replace("'", "");
-                // geçersiz karakterleri sil
                 encodedUrl = Regex.Replace(encodedUrl, @"[^a-z0-9]", "-");
-                // tekrar edenleri sil
                 encodedUrl = Regex.Replace(encodedUrl, @"-+", "-");
-                // karakterlerin arasına tire koy
                 encodedUrl = encodedUrl.Trim('-');
                 return encodedUrl;
             }
@@ -122,7 +120,7 @@ namespace MiniBlog
         {
 
             if (incomingText != null)
-            { 
+            {
                 incomingText = incomingText.Replace(" ", "-");
                 incomingText = incomingText.Replace("---", "-");
                 incomingText = incomingText.Replace("?", "");
@@ -136,14 +134,10 @@ namespace MiniBlog
                 incomingText = incomingText.Replace("!", "");
                 incomingText = incomingText.Replace("@", "");
                 incomingText = incomingText.Replace("+", "");
-                incomingText = incomingText.Trim(); 
-                // & ile " " yer değiştirme
+                incomingText = incomingText.Trim();
                 incomingText = Regex.Replace(incomingText, @"\&+", "and");
-                // " " karakterlerini silme
-                incomingText = incomingText.Replace("'", ""); 
-                // tekrar edenleri sil
+                incomingText = incomingText.Replace("'", "");
                 incomingText = Regex.Replace(incomingText, @"-+", "-");
-                // karakterlerin arasına tire koy
                 incomingText = incomingText.Trim('-');
                 return incomingText;
             }
@@ -170,7 +164,7 @@ namespace MiniBlog
             rssWriter.WriteElementString("language", "tr-TR");
             rssWriter.WriteElementString("webMaster", "iletisim@selahattinyuksel.net");
             ArticlesVContext db = new ArticlesVContext();
-            var articles = from e in db.Articles_V orderby e.ArticleID descending select e;
+            var articles = from e in db.Articles_V where e.Privacy == "P" orderby e.ArticleID descending select e;
             foreach (var rss in articles.ToList().ToPagedList(1, 10))
             {
                 rssWriter.WriteStartElement("item");
@@ -244,5 +238,60 @@ namespace MiniBlog
                 return sb.ToString();
             }
         }
+
+        public async static Task<ResponseMessage> MailSend(String title, String body, EmailModel model)
+        {
+            ResponseMessage response = new ResponseMessage();
+            try
+            {
+                if (model == null)
+                {
+                    model = new EmailModel();
+                    model.Mail_Host = ConfigurationManager.AppSettings["Mail_Host"].ToString();
+                    model.Mail_Port = Convert.ToInt32(ConfigurationManager.AppSettings["Mail_Port"]);
+                    model.Mail_IsEnableSSL = Convert.ToBoolean(ConfigurationManager.AppSettings["Mail_IsEnableSSL"]);
+                    model.Mail_From = ConfigurationManager.AppSettings["Mail_From"].ToString();
+                    model.Mail_UserName = ConfigurationManager.AppSettings["Mail_UserName"].ToString();
+                    model.Mail_Password = ConfigurationManager.AppSettings["Mail_Password"].ToString();
+                }
+                var message = new MailMessage();
+                message.From = new MailAddress(model.Mail_UserName);
+                message.To.Add(new MailAddress(model.Mail_From));
+                message.Subject = title + " - " + ConfigurationManager.AppSettings["site_header_name"].ToString();
+                message.Body = body;
+                message.IsBodyHtml = true;
+
+                using (var smtp = new SmtpClient())
+                {
+                    var credential = new NetworkCredential
+                    {
+                        UserName = model.Mail_UserName,
+                        Password = model.Mail_Password
+                    };
+                    smtp.UseDefaultCredentials = false;
+                    smtp.Credentials = credential;
+                    smtp.Host = model.Mail_Host;
+                    smtp.Port = model.Mail_Port;
+                    smtp.EnableSsl = model.Mail_IsEnableSSL;
+                    smtp.Timeout = 5000;
+                    await smtp.SendMailAsync(message);
+                    response.Result = "OK";
+                }
+            }
+            catch (Exception err)
+            {
+                response.Result = "Error";
+                if(err.InnerException != null)
+                {
+                    response.Error = err.InnerException.Message + " " + err.InnerException.InnerException.Message;
+                }
+                else
+                {
+                    response.Error = err.Message;
+                }
+            }
+            return response;
+        }
+
     }
 }

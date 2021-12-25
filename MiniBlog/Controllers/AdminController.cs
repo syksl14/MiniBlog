@@ -1,8 +1,12 @@
 ﻿using MiniBlog.Models;
+using Newtonsoft.Json.Linq;
 using PagedList;
 using System;
 using System.Collections.Generic;
-using System.Linq; 
+using System.Configuration;
+using System.Linq;
+using System.Net;
+using System.Web.Configuration;
 using System.Web.Mvc;
 using System.Web.Security;
 
@@ -32,10 +36,10 @@ namespace MiniBlog.Controllers
         }
 
         [_SessionControl]
-        public ActionResult Drafts(int page= 1)
+        public ActionResult Drafts(int page = 1)
         {
             var articles = from e in db.Articles_V where e.Privacy == "D" orderby e.ArticleID descending select e; //Draft articles...
-            return PartialView("_Drafts", articles.ToList()); 
+            return PartialView("_Drafts", articles.ToList());
         }
 
         [_SessionControl]
@@ -47,6 +51,18 @@ namespace MiniBlog.Controllers
 
         [_SessionControl]
         public ActionResult Pages()
+        {
+            return View();
+        }
+
+        [_SessionControl]
+        public ActionResult SiteSettings()
+        {
+            return View();
+        }
+
+        [_SessionControl]
+        public ActionResult Media()
         {
             return View();
         }
@@ -71,23 +87,46 @@ namespace MiniBlog.Controllers
             var categories = from e in db.Category orderby e.CategoryName ascending select e;
             return View(categories.ToList().ToPagedList(page, 10));
         }
-     
+
         [AllowAnonymous]
         [HttpPost]
         public ActionResult Index(LoginModel model, string returnurl)
         {
             if (ModelState.IsValid)
             {
-                String pwd = Helper.CreateMD5(model.Password);
-                List <Author> authors = admin.User.Where(a => a.Email == model.EMail && a.Password == pwd).ToList();
-                if (authors.Count > 0)
+                bool reCapthca_pass = false;
+                Configuration config = WebConfigurationManager.OpenWebConfiguration("/");
+                if (config.AppSettings.Settings["reCaptcha_isEnable"].Value.ToString() == "True")
                 {
-                    FormsAuthentication.SetAuthCookie(authors[0].AuthorID.ToString(), true);
-                    return RedirectToAction("Home", "Admin");
+                    string url = "https://www.google.com/recaptcha/api/siteverify?secret=" + config.AppSettings.Settings["reCaptcha_hiddenKey"].Value + "&response=" + model.response_key;
+                    String data = (new WebClient()).DownloadString(url);
+                    JToken objJson = JObject.Parse(data);
+                    if ((bool)objJson["success"])
+                    {
+                        reCapthca_pass = true;
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Doğrulama başarısız lütfen robot olmadığınızı doğrulayınız.");
+                    }
                 }
                 else
                 {
-                    ModelState.AddModelError("", "E-Posta veya şifre hatalı!");
+                    reCapthca_pass = true;
+                }
+                if (reCapthca_pass)
+                {
+                    String pwd = Helper.CreateMD5(model.Password);
+                    List<Author> authors = admin.User.Where(a => a.Email == model.EMail && a.Password == pwd).ToList();
+                    if (authors.Count > 0)
+                    {
+                        FormsAuthentication.SetAuthCookie(authors[0].AuthorID.ToString(), true);
+                        return RedirectToAction("Home", "Admin");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "E-Posta veya şifre hatalı!");
+                    }
                 }
             }
             return View(model);

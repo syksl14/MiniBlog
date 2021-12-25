@@ -29,5 +29,6 @@ namespace MiniBlog.Models
         public Nullable<System.DateTime> UpdateDate { get; set; }
         public string Privacy { get; set; }
         public Nullable<int> AuthorityLevel { get; set; }
+        public string Summary { get; set; }
     }
 }

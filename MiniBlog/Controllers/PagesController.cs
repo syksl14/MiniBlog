@@ -14,6 +14,7 @@ namespace MiniBlog.Controllers
         private AuthorsContext admin = new AuthorsContext();
         private ArticleContext db = new ArticleContext();
         // GET: Pages
+        [_SessionControl]
         public ActionResult Index(String privacy = "T")
         {
             ViewBag.Privacy = privacy;

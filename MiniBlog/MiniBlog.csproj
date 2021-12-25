@@ -94,6 +94,9 @@
       <HintPath>..\packages\Microsoft.IO.RecyclableMemoryStream.1.2.2\lib\net45\Microsoft.IO.RecyclableMemoryStream.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
       <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
       <Private>True</Private>
@@ -148,6 +151,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app_offline" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-reboot.css" />
@@ -187,6 +191,7 @@
     <Content Include="scripts\pages\admin\articles.js" />
     <Content Include="scripts\pages\admin\categories.js" />
     <Content Include="scripts\pages\admin\pages.js" />
+    <Content Include="scripts\pages\admin\sitesettings.js" />
     <Content Include="scripts\pages\admin\users.js" />
     <Content Include="scripts\plugins\bootstrap-tags\bootstrap-tagsinput.css" />
     <Content Include="scripts\plugins\bootstrap-tags\bootstrap-tagsinput.min.js" />
@@ -853,6 +858,7 @@
     <Compile Include="Controllers\PagesController.cs" />
     <Compile Include="Controllers\RevisionController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Models\AdvancedModel.cs" />
     <Compile Include="Models\ArticleContext.cs" />
     <Compile Include="Models\ArticleModel.cs" />
     <Compile Include="Models\ArticlesVContext.cs" />
@@ -893,6 +899,8 @@
     <Compile Include="Models\Revisions_V.cs">
       <DependentUpon>MyBlog.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\EmailModel.cs" />
+    <Compile Include="Models\SiteModel.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Models\ContactForm.cs" />
     <Compile Include="Models\LoginModel.cs" />
@@ -917,6 +925,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Helper.cs" />
+    <Compile Include="Controllers\SiteSettingsController.cs" />
     <Compile Include="_SessionControlAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -971,6 +980,11 @@
     <Content Include="Views\Pages\_NewPage.cshtml" />
     <Content Include="Views\Home\_Pages.cshtml" />
     <Content Include="Views\Home\Page.cshtml" />
+    <Content Include="Views\Admin\SiteSettings.cshtml" />
+    <Content Include="Views\Admin\Media.cshtml" />
+    <Content Include="Views\SiteSettings\_General.cshtml" />
+    <Content Include="Views\SiteSettings\_Email.cshtml" />
+    <Content Include="Views\SiteSettings\_Advanced.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

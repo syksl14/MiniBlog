@@ -14,5 +14,6 @@ namespace MiniBlog.Models
         public string email { get; set; }
         [Required, Display(Name = "Mesajınız")]
         public string message { get; set; }
+        public string key { get; set; } //g-recaptcha response key
     }
 }

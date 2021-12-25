@@ -1,0 +1,34 @@
+﻿@model MiniBlog.Models.AdvancedModel
+@using (Html.BeginForm("Advanced/Save", "SiteSettings", FormMethod.Post, new { id = "formAdvancedSettings" }))
+{
+    <p>Sitenin robotlara karşı formlarda spam engelleme için bu seçeneği etkinleştirebilirsiniz.</p>
+    <div class="form-group">
+        @Html.CheckBoxFor(m => m.reCaptcha_isEnable, new { @class = "form-check-input" })
+        <label class="form-check-label" for="reCaptcha_isEnable">Google Re-Captcha Etkinleştir</label>
+    </div>
+    <div class="form-group div-reCaptcha-input">
+        @Html.LabelFor(m => m.reCaptcha_siteKey)
+        @Html.TextBoxFor(m => m.reCaptcha_siteKey, new { @class = "form-control", type = "text", value = Model.reCaptcha_siteKey })
+    </div>
+    <div class="form-group div-reCaptcha-input">
+        @Html.LabelFor(m => m.reCaptcha_hiddenKey)
+        @Html.TextBoxFor(m => m.reCaptcha_hiddenKey, new { @class = "form-control", type = "text", value = Model.reCaptcha_hiddenKey })
+    </div>
+
+    <div class="form-group text-right">
+        <button class="btn btn-outline-success" type="submit">Değişiklikleri Kaydet</button>
+    </div>
+}
+<script>
+    $(function () {
+        $("input#reCaptcha_isEnable").change(function () {
+            if (this.checked) {
+                $(".div-reCaptcha-input").show(); 
+            } else {
+                $(".div-reCaptcha-input").hide();
+            }
+        });
+        $("input#reCaptcha_isEnable").change();
+        mbAjax.bindFormNonDialog($("#formAdvancedSettings"));
+    });
+</script>

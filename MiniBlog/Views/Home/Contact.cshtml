@@ -2,6 +2,12 @@
     ViewBag.Title = "İletişim";
     Layout = "~/Views/Shared/_LayoutDetail.cshtml";
 }
+@if (System.Configuration.ConfigurationManager.AppSettings["reCaptcha_isEnable"].ToString() == "True")
+{
+    <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit"
+            async defer>
+    </script>
+}
 
 <header class="intro-header" style="background-image: url(@Url.Content("~/Content/imgs/post-bg.jpg"))">
     <div class="container">
@@ -40,6 +46,15 @@
                         <p class="help-block text-danger"></p>
                     </div>
                 </div>
+                @if (System.Configuration.ConfigurationManager.AppSettings["reCaptcha_isEnable"].ToString() == "True")
+                {
+                    <div class="row control-group">
+                        <div class="form-group col-xs-12 floating-label-form-group controls">
+                            <input type="hidden" id="response_key" name="response_key" value="" />
+                            <div id="g-recaptcha" data-sitekey="@System.Configuration.ConfigurationManager.AppSettings["reCaptcha_siteKey"].ToString()"></div>
+                        </div>
+                    </div>
+                }
                 <br>
                 <div id="success"></div>
                 <div class="row">
@@ -51,3 +66,16 @@
         </div>
     </div>
 </div>
+@if (System.Configuration.ConfigurationManager.AppSettings["reCaptcha_isEnable"].ToString() == "True")
+{
+<script type="text/javascript">
+        var onloadCallback = function () {
+            grecaptcha.render('g-recaptcha', {
+                'callback': function (response) {
+                    $("input#response_key").val(response);
+                }
+            });
+             
+        };
+</script>
+}

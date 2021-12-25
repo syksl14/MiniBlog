@@ -16,5 +16,6 @@ namespace MiniBlog.Models
         [DataType(DataType.Password)]
         [Display(Name = "Şifre")]
         public string Password { get; set; }
+        public string response_key { get; set; } //google-recaptcha
     }
 }

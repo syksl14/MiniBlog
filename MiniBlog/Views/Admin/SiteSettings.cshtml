@@ -1,0 +1,34 @@
+﻿
+@{
+    Page.Title = "Site Ayarları";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div class="panel with-nav-tabs panel-primary">
+            <div class="panel-heading">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#tabGeneralSettings" data-toggle="tab"><i class="fa fa-gears"></i>&nbsp;Genel Ayarlar</a></li>
+                    <li><a href="#tabMailSettings" data-toggle="tab"><i class="fa fa-envelope"></i>&nbsp;E-Posta Ayarları</a></li>
+                    <li><a href="#tabAdvancedSettings" data-toggle="tab"><i class="fa fa-gavel"></i>&nbsp;Gelişmiş Ayalar</a></li>
+                </ul>
+            </div>
+            <div class="panel-body">
+                <div class="tab-content">
+                    <div class="tab-pane fade in active" id="tabGeneralSettings">
+
+                    </div>
+                    <div class="tab-pane fade" id="tabMailSettings">
+
+                    </div>
+                    <div class="tab-pane fade" id="tabAdvancedSettings">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2"></div>
+</div>
+<script src="~/scripts/pages/admin/sitesettings.js"></script>

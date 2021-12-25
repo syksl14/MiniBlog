@@ -66,6 +66,9 @@ namespace MiniBlog.Controllers
             Article_V article = db.Article_V
                       .Where(a => a.ArticleID == id && a.Privacy == "P")
                       .SingleOrDefault();
+            ViewBag.Description = article.Summary;
+            ViewBag.Keywords = article.Keywords;
+            ViewBag.Author = article.Name + " " + article.Surname;
             if (article == null)
             {
                 return HttpNotFound();

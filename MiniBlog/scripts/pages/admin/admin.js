@@ -72,5 +72,43 @@ var mbAjax = {
             }
         });
 
+    },
+    bindFormNonDialog: function (form) {
+        var action = form.attr("action");
+        form.attr("action", "javascript:");
+        form.submit(function () {
+            if (form.valid()) {
+                var formData = new FormData(this);
+                $.ajax({
+                    url: action,
+                    type: this.method,
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    cache: false,
+                    success: function (result) {
+                        if (result.success) { 
+                            //Refresh
+                            location.reload();
+                        } else {
+                            //server side error response 
+                            form.find("div.server-side-errors").remove();
+                            form.prepend('<div class="alert alert-danger server-side-errors"><button type="button" class="close" data-dismiss="alert">×</button> <ul style="padding-left: 15px;"></ul></div>');
+                            for (var i = 0; i < result.errors.length; i++) {
+                                form.find("div.server-side-errors > ul").prepend('<li>' + result.errors[i] + '</li>');
+                            }
+                        }
+                    }
+                });
+                return true;
+            } else {
+                return false;
+            }
+        });
+        form.validate({
+            submitHandler: function (f) {
+                f.submit();
+            }
+        });
     }
 }
