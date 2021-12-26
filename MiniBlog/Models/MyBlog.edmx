@@ -42,6 +42,21 @@
           <Property Name="CategoryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="CategoryName" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
+        <EntityType Name="Files">
+          <Key>
+            <PropertyRef Name="FileID" />
+          </Key>
+          <Property Name="FileID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FileName" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="FileSize" Type="int" Nullable="false" />
+          <Property Name="FilePath" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="FileDescription" Type="nvarchar" MaxLength="1000" Nullable="false" />
+          <Property Name="FileHash" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="MediaID" Type="int" Nullable="false" />
+          <Property Name="CrudAuthorID" Type="int" Nullable="false" />
+          <Property Name="Crud" Type="int" Nullable="false" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+        </EntityType>
         <EntityType Name="Levels">
           <Key>
             <PropertyRef Name="LevelID" />
@@ -49,6 +64,18 @@
           <Property Name="LevelID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Media">
+          <Key>
+            <PropertyRef Name="MediaID" />
+          </Key>
+          <Property Name="MediaID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FolderName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="FolderDescription" Type="nvarchar" MaxLength="50" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
+          <Property Name="FolderFileTypes" Type="nvarchar" MaxLength="1000" />
+          <Property Name="AuthorID" Type="int" Nullable="false" />
+          <Property Name="ParentMediaID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Pages">
           <Key>
@@ -140,6 +167,68 @@ warning 6002: The table/view 'MyBlog.dbo.Articles_V' does not have a primary key
           <Property Name="UpdateDate" Type="datetime" />
           <Property Name="Privacy" Type="nvarchar" MaxLength="1" Nullable="false" />
           <Property Name="AuthorityLevel" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'MyBlog.dbo.Files_V' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Files_V">
+          <Key>
+            <PropertyRef Name="FileID" />
+            <PropertyRef Name="FileName" />
+            <PropertyRef Name="FileSize" />
+            <PropertyRef Name="FilePath" />
+            <PropertyRef Name="FileDescription" />
+            <PropertyRef Name="FileHash" />
+            <PropertyRef Name="FolderName" />
+            <PropertyRef Name="MediaID" />
+            <PropertyRef Name="UserName" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="Surname" />
+            <PropertyRef Name="CrudAuthorID" />
+            <PropertyRef Name="ParentMediaID" />
+            <PropertyRef Name="Crud" />
+            <PropertyRef Name="Date" />
+          </Key>
+          <Property Name="FileID" Type="int" Nullable="false" />
+          <Property Name="FileName" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="FileSize" Type="int" Nullable="false" />
+          <Property Name="FilePath" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="FileDescription" Type="nvarchar" MaxLength="1000" Nullable="false" />
+          <Property Name="FileHash" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="FolderName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="MediaID" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Surname" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ProfilePicture" Type="nvarchar" MaxLength="255" />
+          <Property Name="CrudAuthorID" Type="int" Nullable="false" />
+          <Property Name="ParentMediaID" Type="int" Nullable="false" />
+          <Property Name="Crud" Type="int" Nullable="false" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'MyBlog.dbo.Media_V' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Media_V">
+          <Key>
+            <PropertyRef Name="MediaID" />
+            <PropertyRef Name="ParentMediaID" />
+            <PropertyRef Name="FolderName" />
+            <PropertyRef Name="CreateDate" />
+            <PropertyRef Name="AuthorID" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="Surname" />
+            <PropertyRef Name="UserName" />
+          </Key>
+          <Property Name="MediaID" Type="int" Nullable="false" />
+          <Property Name="ParentMediaID" Type="int" Nullable="false" />
+          <Property Name="FolderName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="FolderDescription" Type="nvarchar" MaxLength="50" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
+          <Property Name="FolderFileTypes" Type="nvarchar" MaxLength="1000" />
+          <Property Name="AuthorID" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Surname" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ProfilePicture" Type="nvarchar" MaxLength="255" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'MyBlog.dbo.Pages_V' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -249,6 +338,34 @@ warning 6002: The table/view 'MyBlog.dbo.Users_V' does not have a primary key de
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Files_Media">
+          <End Role="Media" Type="Self.Media" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Files" Type="Self.Files" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Media">
+              <PropertyRef Name="MediaID" />
+            </Principal>
+            <Dependent Role="Files">
+              <PropertyRef Name="MediaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Media_Authors">
+          <End Role="Authors" Type="Self.Authors" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Media" Type="Self.Media" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Authors">
+              <PropertyRef Name="AuthorID" />
+            </Principal>
+            <Dependent Role="Media">
+              <PropertyRef Name="AuthorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Pages_Authors">
           <End Role="Authors" Type="Self.Authors" Multiplicity="1" />
           <End Role="Pages" Type="Self.Pages" Multiplicity="*" />
@@ -279,7 +396,9 @@ warning 6002: The table/view 'MyBlog.dbo.Users_V' does not have a primary key de
           <EntitySet Name="Articles" EntityType="Self.Articles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Authors" EntityType="Self.Authors" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Categories" EntityType="Self.Categories" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Files" EntityType="Self.Files" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Levels" EntityType="Self.Levels" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Media" EntityType="Self.Media" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Pages" EntityType="Self.Pages" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Revisions" EntityType="Self.Revisions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Article_V" EntityType="Self.Article_V" store:Type="Views" store:Schema="dbo">
@@ -320,6 +439,41 @@ warning 6002: The table/view 'MyBlog.dbo.Users_V' does not have a primary key de
     [Articles_V].[Privacy] AS [Privacy], 
     [Articles_V].[AuthorityLevel] AS [AuthorityLevel]
     FROM [dbo].[Articles_V] AS [Articles_V]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Files_V" EntityType="Self.Files_V" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Files_V].[FileID] AS [FileID], 
+    [Files_V].[FileName] AS [FileName], 
+    [Files_V].[FileSize] AS [FileSize], 
+    [Files_V].[FilePath] AS [FilePath], 
+    [Files_V].[FileDescription] AS [FileDescription], 
+    [Files_V].[FileHash] AS [FileHash], 
+    [Files_V].[FolderName] AS [FolderName], 
+    [Files_V].[MediaID] AS [MediaID], 
+    [Files_V].[UserName] AS [UserName], 
+    [Files_V].[Name] AS [Name], 
+    [Files_V].[Surname] AS [Surname], 
+    [Files_V].[ProfilePicture] AS [ProfilePicture], 
+    [Files_V].[CrudAuthorID] AS [CrudAuthorID], 
+    [Files_V].[ParentMediaID] AS [ParentMediaID], 
+    [Files_V].[Crud] AS [Crud], 
+    [Files_V].[Date] AS [Date]
+    FROM [dbo].[Files_V] AS [Files_V]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Media_V" EntityType="Self.Media_V" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Media_V].[MediaID] AS [MediaID], 
+    [Media_V].[ParentMediaID] AS [ParentMediaID], 
+    [Media_V].[FolderName] AS [FolderName], 
+    [Media_V].[FolderDescription] AS [FolderDescription], 
+    [Media_V].[CreateDate] AS [CreateDate], 
+    [Media_V].[FolderFileTypes] AS [FolderFileTypes], 
+    [Media_V].[AuthorID] AS [AuthorID], 
+    [Media_V].[Name] AS [Name], 
+    [Media_V].[Surname] AS [Surname], 
+    [Media_V].[UserName] AS [UserName], 
+    [Media_V].[ProfilePicture] AS [ProfilePicture]
+    FROM [dbo].[Media_V] AS [Media_V]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="Pages_V" EntityType="Self.Pages_V" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -373,6 +527,14 @@ warning 6002: The table/view 'MyBlog.dbo.Users_V' does not have a primary key de
             <End Role="Levels" EntitySet="Levels" />
             <End Role="Authors" EntitySet="Authors" />
           </AssociationSet>
+          <AssociationSet Name="FK_Files_Media" Association="Self.FK_Files_Media">
+            <End Role="Media" EntitySet="Media" />
+            <End Role="Files" EntitySet="Files" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Media_Authors" Association="Self.FK_Media_Authors">
+            <End Role="Authors" EntitySet="Authors" />
+            <End Role="Media" EntitySet="Media" />
+          </AssociationSet>
           <AssociationSet Name="FK_Pages_Authors" Association="Self.FK_Pages_Authors">
             <End Role="Authors" EntitySet="Authors" />
             <End Role="Pages" EntitySet="Pages" />
@@ -421,6 +583,7 @@ warning 6002: The table/view 'MyBlog.dbo.Users_V' does not have a primary key de
           <NavigationProperty Name="Level" Relationship="MyBlogModel.FK_Authors_Levels" FromRole="Author" ToRole="Level" />
           <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Pages" Relationship="MyBlogModel.FK_Pages_Authors" FromRole="Author" ToRole="Page" />
+          <NavigationProperty Name="Media" Relationship="MyBlogModel.FK_Media_Authors" FromRole="Author" ToRole="Medium" />
         </EntityType>
         <EntityType Name="Article_V">
           <Key>
@@ -528,6 +691,18 @@ warning 6002: The table/view 'MyBlog.dbo.Users_V' does not have a primary key de
           <AssociationSet Name="FK_Pages_Authors" Association="MyBlogModel.FK_Pages_Authors">
             <End Role="Author" EntitySet="Authors" />
             <End Role="Page" EntitySet="Pages" />
+          </AssociationSet>
+          <EntitySet Name="Files" EntityType="MyBlogModel.File" />
+          <EntitySet Name="Media" EntityType="MyBlogModel.Medium" />
+          <EntitySet Name="Files_V" EntityType="MyBlogModel.Files_V" />
+          <EntitySet Name="Media_V" EntityType="MyBlogModel.Media_V" />
+          <AssociationSet Name="FK_Media_Authors" Association="MyBlogModel.FK_Media_Authors">
+            <End Role="Author" EntitySet="Authors" />
+            <End Role="Medium" EntitySet="Media" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Files_Media" Association="MyBlogModel.FK_Files_Media">
+            <End Role="Medium" EntitySet="Media" />
+            <End Role="File" EntitySet="Files" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Category">
@@ -686,6 +861,122 @@ warning 6002: The table/view 'MyBlog.dbo.Users_V' does not have a primary key de
             </Principal>
             <Dependent Role="Page">
               <PropertyRef Name="CrudAuthorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="File">
+          <Key>
+            <PropertyRef Name="FileID" />
+          </Key>
+          <Property Name="FileID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FileName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="FileSize" Type="Int32" Nullable="false" />
+          <Property Name="FilePath" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="FileDescription" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="FileHash" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="MediaID" Type="Int32" Nullable="false" />
+          <Property Name="CrudAuthorID" Type="Int32" Nullable="false" />
+          <Property Name="Crud" Type="Int32" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Medium" Relationship="MyBlogModel.FK_Files_Media" FromRole="File" ToRole="Medium" />
+        </EntityType>
+        <EntityType Name="Medium">
+          <Key>
+            <PropertyRef Name="MediaID" />
+          </Key>
+          <Property Name="MediaID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FolderName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FolderDescription" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="FolderFileTypes" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="AuthorID" Type="Int32" Nullable="false" />
+          <Property Name="ParentMediaID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Author" Relationship="MyBlogModel.FK_Media_Authors" FromRole="Medium" ToRole="Author" />
+          <NavigationProperty Name="Files" Relationship="MyBlogModel.FK_Files_Media" FromRole="Medium" ToRole="File" />
+        </EntityType>
+        <EntityType Name="Files_V">
+          <Key>
+            <PropertyRef Name="FileID" />
+            <PropertyRef Name="FileName" />
+            <PropertyRef Name="FileSize" />
+            <PropertyRef Name="FilePath" />
+            <PropertyRef Name="FileDescription" />
+            <PropertyRef Name="FileHash" />
+            <PropertyRef Name="FolderName" />
+            <PropertyRef Name="MediaID" />
+            <PropertyRef Name="UserName" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="Surname" />
+            <PropertyRef Name="CrudAuthorID" />
+            <PropertyRef Name="ParentMediaID" />
+            <PropertyRef Name="Crud" />
+            <PropertyRef Name="Date" />
+          </Key>
+          <Property Name="FileID" Type="Int32" Nullable="false" />
+          <Property Name="FileName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="FileSize" Type="Int32" Nullable="false" />
+          <Property Name="FilePath" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="FileDescription" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="FileHash" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="FolderName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MediaID" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Surname" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ProfilePicture" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="CrudAuthorID" Type="Int32" Nullable="false" />
+          <Property Name="ParentMediaID" Type="Int32" Nullable="false" />
+          <Property Name="Crud" Type="Int32" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="Media_V">
+          <Key>
+            <PropertyRef Name="MediaID" />
+            <PropertyRef Name="ParentMediaID" />
+            <PropertyRef Name="FolderName" />
+            <PropertyRef Name="CreateDate" />
+            <PropertyRef Name="AuthorID" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="Surname" />
+            <PropertyRef Name="UserName" />
+          </Key>
+          <Property Name="MediaID" Type="Int32" Nullable="false" />
+          <Property Name="ParentMediaID" Type="Int32" Nullable="false" />
+          <Property Name="FolderName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FolderDescription" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="FolderFileTypes" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="AuthorID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Surname" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ProfilePicture" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_Media_Authors">
+          <End Type="MyBlogModel.Author" Role="Author" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="MyBlogModel.Medium" Role="Medium" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Author">
+              <PropertyRef Name="AuthorID" />
+            </Principal>
+            <Dependent Role="Medium">
+              <PropertyRef Name="AuthorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Files_Media">
+          <End Type="MyBlogModel.Medium" Role="Medium" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="MyBlogModel.File" Role="File" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Medium">
+              <PropertyRef Name="MediaID" />
+            </Principal>
+            <Dependent Role="File">
+              <PropertyRef Name="MediaID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -858,6 +1149,74 @@ warning 6002: The table/view 'MyBlog.dbo.Users_V' does not have a primary key de
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="Crud" ColumnName="Crud" />
                 <ScalarProperty Name="PageID" ColumnName="PageID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Files">
+            <EntityTypeMapping TypeName="MyBlogModel.File">
+              <MappingFragment StoreEntitySet="Files">
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Crud" ColumnName="Crud" />
+                <ScalarProperty Name="CrudAuthorID" ColumnName="CrudAuthorID" />
+                <ScalarProperty Name="MediaID" ColumnName="MediaID" />
+                <ScalarProperty Name="FileHash" ColumnName="FileHash" />
+                <ScalarProperty Name="FileDescription" ColumnName="FileDescription" />
+                <ScalarProperty Name="FilePath" ColumnName="FilePath" />
+                <ScalarProperty Name="FileSize" ColumnName="FileSize" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="FileID" ColumnName="FileID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Media">
+            <EntityTypeMapping TypeName="MyBlogModel.Medium">
+              <MappingFragment StoreEntitySet="Media">
+                <ScalarProperty Name="ParentMediaID" ColumnName="ParentMediaID" />
+                <ScalarProperty Name="AuthorID" ColumnName="AuthorID" />
+                <ScalarProperty Name="FolderFileTypes" ColumnName="FolderFileTypes" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="FolderDescription" ColumnName="FolderDescription" />
+                <ScalarProperty Name="FolderName" ColumnName="FolderName" />
+                <ScalarProperty Name="MediaID" ColumnName="MediaID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Files_V">
+            <EntityTypeMapping TypeName="MyBlogModel.Files_V">
+              <MappingFragment StoreEntitySet="Files_V">
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Crud" ColumnName="Crud" />
+                <ScalarProperty Name="ParentMediaID" ColumnName="ParentMediaID" />
+                <ScalarProperty Name="CrudAuthorID" ColumnName="CrudAuthorID" />
+                <ScalarProperty Name="ProfilePicture" ColumnName="ProfilePicture" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="MediaID" ColumnName="MediaID" />
+                <ScalarProperty Name="FolderName" ColumnName="FolderName" />
+                <ScalarProperty Name="FileHash" ColumnName="FileHash" />
+                <ScalarProperty Name="FileDescription" ColumnName="FileDescription" />
+                <ScalarProperty Name="FilePath" ColumnName="FilePath" />
+                <ScalarProperty Name="FileSize" ColumnName="FileSize" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="FileID" ColumnName="FileID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Media_V">
+            <EntityTypeMapping TypeName="MyBlogModel.Media_V">
+              <MappingFragment StoreEntitySet="Media_V">
+                <ScalarProperty Name="ProfilePicture" ColumnName="ProfilePicture" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="AuthorID" ColumnName="AuthorID" />
+                <ScalarProperty Name="FolderFileTypes" ColumnName="FolderFileTypes" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="FolderDescription" ColumnName="FolderDescription" />
+                <ScalarProperty Name="FolderName" ColumnName="FolderName" />
+                <ScalarProperty Name="ParentMediaID" ColumnName="ParentMediaID" />
+                <ScalarProperty Name="MediaID" ColumnName="MediaID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

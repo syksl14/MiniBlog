@@ -2,7 +2,7 @@
 @{
     ViewBag.Keywords = Model.Keywords;
     ViewBag.Title = Model.Title;
-    Layout = "~/Views/Shared/_LayoutDetail.cshtml";
+    Layout = @System.Configuration.ConfigurationManager.AppSettings["site_theme_page"].ToString();
 }
 @if (Model.CoverPhoto == null)
 {

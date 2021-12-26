@@ -1,6 +1,6 @@
 ﻿@{
     ViewBag.Title = "Hakkımda";
-    Layout = "~/Views/Shared/_LayoutDetail.cshtml";
+    Layout = @System.Configuration.ConfigurationManager.AppSettings["site_theme_page"].ToString();
 }
 <header class="intro-header" style="background-image: url(@Url.Content("~/Content/imgs/about-bg.jpg"))">
     <div class="container">

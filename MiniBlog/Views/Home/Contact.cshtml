@@ -1,6 +1,6 @@
 ﻿@{
     ViewBag.Title = "İletişim";
-    Layout = "~/Views/Shared/_LayoutDetail.cshtml";
+    Layout = @System.Configuration.ConfigurationManager.AppSettings["site_theme_page"].ToString();
 }
 @if (System.Configuration.ConfigurationManager.AppSettings["reCaptcha_isEnable"].ToString() == "True")
 {

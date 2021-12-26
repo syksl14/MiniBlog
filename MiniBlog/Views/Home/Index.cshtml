@@ -3,7 +3,7 @@
 @model IPagedList<MiniBlog.Models.Articles_V>
 @{
     ViewBag.Title = "Yazılar";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = @System.Configuration.ConfigurationManager.AppSettings["site_theme_main"].ToString();
 }
 @if (@HttpContext.Current.User.Identity.Name != "")
 {
