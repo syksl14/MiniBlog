@@ -29,6 +29,8 @@
             }
         });
         $("input#reCaptcha_isEnable").change();
-        mbAjax.bindFormNonDialog($("#formAdvancedSettings"));
+        mbAjax.bindFormNonDialog($("#formAdvancedSettings"), function () {
+            helper.successForm($("#formAdvancedSettings"));
+        });
     });
 </script>

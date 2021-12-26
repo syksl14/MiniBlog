@@ -33,6 +33,8 @@
 }
 <script>
     $(function () {
-        mbAjax.bindFormNonDialog($("#formEmailSettings"));
+        mbAjax.bindFormNonDialog($("#formEmailSettings"), function () {
+            helper.successForm($("#formEmailSettings"));
+        });
     });
 </script>

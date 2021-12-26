@@ -31,7 +31,21 @@
         }
     })
 });
-
+var helper = {
+    successForm: function (form) {
+        form.find("div.server-side-errors").remove();
+        form.prepend('<div class="alert alert-success server-side-errors"><button type="button" class="close" data-dismiss="alert">×</button><i class="fa fa-check-circle"></i> Değişiklikler başarıyla kaydedildi.</div>');
+        helper.setSuccessButton(form.find('button[type="submit"]'));
+    },
+    setSuccessButton: function (button) {
+        var text = button.text();
+        button.attr("disabled", "disabled").addClass("disabled");
+        button.html('<i class="fa fa-check"></i> ' + text);
+        setTimeout(function () {
+            button.html(text).removeAttr("disabled").removeClass("disabled");
+        }, 500);
+    }
+}
 var mbAjax = {
     bindForm: function (dialog) {
         var action = $('form', dialog).attr("action");
@@ -73,7 +87,7 @@ var mbAjax = {
         });
 
     },
-    bindFormNonDialog: function (form) {
+    bindFormNonDialog: function (form, success) {
         var action = form.attr("action");
         form.attr("action", "javascript:");
         form.submit(function () {
@@ -89,7 +103,7 @@ var mbAjax = {
                     success: function (result) {
                         if (result.success) { 
                             //Refresh
-                            location.reload();
+                            success();
                         } else {
                             //server side error response 
                             form.find("div.server-side-errors").remove();
