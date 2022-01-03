@@ -20,15 +20,18 @@ namespace MiniBlog.Models
         public string FilePath { get; set; }
         public string FileDescription { get; set; }
         public string FileHash { get; set; }
-        public string FolderName { get; set; }
-        public int MediaID { get; set; }
         public string UserName { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
         public string ProfilePicture { get; set; }
         public int CrudAuthorID { get; set; }
-        public int ParentMediaID { get; set; }
         public int Crud { get; set; }
         public System.DateTime Date { get; set; }
+        public int FolderID { get; set; }
+        public int ParentFolderID { get; set; }
+        public string FolderName { get; set; }
+        public System.DateTime CreateDate { get; set; }
+        public string FolderFileTypes { get; set; }
+        public int AuthorID { get; set; }
     }
 }

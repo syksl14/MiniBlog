@@ -23,6 +23,7 @@ namespace MiniBlog.Controllers
     public class HomeController : Controller
     {
         private ArticlesVContext db = new ArticlesVContext();
+        private AdminContext db2 = new AdminContext();
         // GET: Home 
         public ActionResult Index(int page = 1)
         {
@@ -45,7 +46,7 @@ namespace MiniBlog.Controllers
         [ChildActionOnly]
         public ActionResult Pages()
         {
-            var pages = from e in db.Pages_V where e.Privacy == "P" && e.Crud < 3 orderby e.PageOrder ascending select e;
+            var pages = from e in db2.Pages_V where e.Privacy == "P" && e.Crud < 3 orderby e.PageOrder ascending select e;
             return PartialView("_Pages", pages.ToList());
         }
 
@@ -56,7 +57,7 @@ namespace MiniBlog.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Page p = db.Pages
+            Page p = db2.Pages
                       .Where(a => a.PageID == id && a.Privacy == "P")
                       .SingleOrDefault();
             if (p == null)

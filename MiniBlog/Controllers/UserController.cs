@@ -153,7 +153,7 @@ namespace MiniBlog.Controllers
                 if (Request.Files["file"].ContentLength > 0)
                 {
                     var file = Request.Files["file"];
-                    var fileExtension = "." + Path.GetExtension(file.FileName);
+                    var fileExtension = Path.GetExtension(file.FileName);
                     string guid = Guid.NewGuid().ToString();
                     var path = Path.Combine(Server.MapPath("~/Content/uploads/"), guid + fileExtension);
                     file.SaveAs(path);

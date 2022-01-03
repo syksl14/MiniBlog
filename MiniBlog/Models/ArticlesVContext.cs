@@ -15,8 +15,6 @@ namespace MiniBlog.Controllers
         public DbSet<Models.Articles_V> Articles_V { get; set; }
         public DbSet<Models.Article_V> Article_V { get; set; }
         public DbSet<Models.Category> Categories { get; set; }
-        public DbSet<Models.Revisions_V> Revisions_V { get; set; }
-        public DbSet<Models.Pages_V> Pages_V { get; set; }
-        public DbSet<Models.Page> Pages { get; set; }
+        public DbSet<Models.Revisions_V> Revisions_V { get; set; } 
     }
-}
+} 

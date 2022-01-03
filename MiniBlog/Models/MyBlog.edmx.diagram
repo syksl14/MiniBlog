@@ -21,13 +21,13 @@
         <EntityTypeShape EntityType="MyBlogModel.Users_V" Width="1.5" PointX="9.5" PointY="2.125" />
         <EntityTypeShape EntityType="MyBlogModel.Pages_V" Width="1.5" PointX="7.375" PointY="7.125" />
         <AssociationConnector Association="MyBlogModel.FK_Pages_Authors" />
-        <EntityTypeShape EntityType="MyBlogModel.File" Width="1.5" PointX="5.5" PointY="11.875" />
-        <EntityTypeShape EntityType="MyBlogModel.Medium" Width="1.5" PointX="3.25" PointY="12" />
-        <EntityTypeShape EntityType="MyBlogModel.Files_V" Width="1.5" PointX="9.625" PointY="9.25" />
-        <EntityTypeShape EntityType="MyBlogModel.Media_V" Width="1.5" PointX="11.625" PointY="5.25" />
+        <EntityTypeShape EntityType="MyBlogModel.File" Width="1.5" PointX="5.25" PointY="12.375" />
+        <EntityTypeShape EntityType="MyBlogModel.Folder" Width="1.5" PointX="3" PointY="12.5" />
+        <EntityTypeShape EntityType="MyBlogModel.Files_V" Width="1.5" PointX="9.375" PointY="9.75" />
+        <EntityTypeShape EntityType="MyBlogModel.Folders_V" Width="1.5" PointX="11.375" PointY="5.75" />
         <AssociationConnector Association="MyBlogModel.FK_Media_Authors" />
         <AssociationConnector Association="MyBlogModel.FK_Files_Media" />
-      </Diagram>
+        </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>

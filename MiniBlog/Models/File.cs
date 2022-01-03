@@ -20,11 +20,12 @@ namespace MiniBlog.Models
         public string FilePath { get; set; }
         public string FileDescription { get; set; }
         public string FileHash { get; set; }
-        public int MediaID { get; set; }
+        public int FolderID { get; set; }
         public int CrudAuthorID { get; set; }
         public int Crud { get; set; }
         public System.DateTime Date { get; set; }
+        public int AuthorID { get; set; }
     
-        public virtual Medium Medium { get; set; }
+        public virtual Folder Folder { get; set; }
     }
 }

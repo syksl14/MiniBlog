@@ -18,7 +18,10 @@ var users = {
             $('#modalAddUser').modal({
                 keyboard: true
             }, 'show');
-            mbAjax.bindForm(this);
+            mbAjax.bindForm(this, function () {
+                helper.successForm($("#modalAddUser form"));
+                location.reload();
+            });
         });
     },
     edit: function (AuthorID) {
@@ -26,7 +29,10 @@ var users = {
             $('#modalEditUser').modal({
                 keyboard: true
             }, 'show');
-            mbAjax.bindForm(this);
+            mbAjax.bindForm(this, function () {
+                helper.successForm($("#modalEditUser form"));
+                location.reload();
+            });
         });
     }
 }

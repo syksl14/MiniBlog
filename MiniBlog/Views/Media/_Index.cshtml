@@ -1,0 +1,74 @@
+﻿@model MiniBlog.Models.MediaModel
+@{int i = 0; }
+@foreach (var f in Model.Folders)
+{
+    if (@i == 0)
+    {
+        <div class="file-item up-folder" style="display: none;" data-id="@f.ParentFolderID" data-parent-id="@f.FolderID">
+            <div class="file-item-icon file-item-level-up fa fa-level-up fa-2x text-secondary"></div>
+            <a href="javascript:" class="file-item-name">
+                ..
+            </a>
+        </div>
+    }
+    <div class="file-item folder-item" data-id="@f.FolderID" data-parent-id="@f.ParentFolderID" style="display: none;">
+        <div class="file-item-select-bg bg-primary"></div>
+        <label class="file-item-checkbox custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input" />
+            <span class="custom-control-label"></span>
+        </label>
+        <div class="far text-secondary file-item-icon icon-folder"></div>
+        <a href="javascript:" onclick="media.open(this);" class="file-item-name">
+            @f.FolderName
+        </a>
+        <div class="file-item-changed">@f.CreateDate.ToString("dd MMMM yyyy HH:mm")</div>
+        <div class="file-item-actions btn-group">
+            <button type="button" class="btn btn-default btn-sm rounded-pill icon-btn borderless md-btn-flat hide-arrow dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fa fa-ellipsis-h"></i>
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-right">
+                <li onclick="media.editFolder(@f.FolderID);"><a href="javascript:void(0)">Düzenle</a></li>
+                <li data-href="/Media/Folder/Delete/@f.FolderID" data-toggle="modal" data-target="#modalConfirmDelete"><a href="javascript:void(0)">Sil</a></li>
+            </ul>
+        </div>
+    </div>
+    i++;
+}
+@foreach (var f in Model.Files)
+{
+    <div class="file-item" data-id="@f.FileID" data-parent-id="@f.FolderID" style="display: none;">
+        <div class="file-item-select-bg bg-primary"></div>
+        <label class="file-item-checkbox custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input" />
+            <span class="custom-control-label"></span>
+        </label>
+        <div class="far text-secondary file-item-icon @Helper.getIconFileType(f.FileName)"></div>
+        <a href="javascript:void(0)" class="file-item-name">
+            @f.FileName
+        </a>
+        <div class="file-item-changed">@f.Date.ToString("dd MMMM yyyy HH:mm")</div>
+        <div class="file-item-actions btn-group">
+            <button type="button" class="btn btn-default btn-sm rounded-pill icon-btn borderless md-btn-flat hide-arrow dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fa fa-ellipsis-h"></i>
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-right">
+                <li><a href="javascript:void(0)">Yeniden Adlandır</a></li>
+                <li><a href="javascript:void(0)">Taşı</a></li>
+                <li><a href="javascript:void(0)">Kopyala</a></li>
+                <li><a href="javascript:void(0)">Sil</a></li>
+            </ul>
+        </div>
+    </div>
+}
+<script>
+    $(function () {
+        $("div.file-item").each(function (index) {
+            if ($(this).attr("data-parent-id") === "0") {
+                $(this).show();
+            }
+        });
+        media.addEvent('up_folder');
+    });
+</script>

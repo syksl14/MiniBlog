@@ -159,11 +159,25 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\clean-blog.css" />
     <Content Include="Content\imgs\about-bg.jpg" />
+    <Content Include="Content\imgs\audio-icon.png" />
+    <Content Include="Content\imgs\file-icon.png" />
+    <Content Include="Content\imgs\folder-icon.png" />
     <Content Include="Content\imgs\home-bg.jpg" />
+    <Content Include="Content\imgs\icon-tif.png" />
+    <Content Include="Content\imgs\icon-txt.png" />
+    <Content Include="Content\imgs\image-icon.png" />
     <Content Include="Content\imgs\loading.gif" />
+    <Content Include="Content\imgs\pdf-icon.png" />
     <Content Include="Content\imgs\post-bg.jpg" />
     <Content Include="Content\imgs\no-image.png" />
+    <Content Include="Content\imgs\pp-icon.png" />
+    <Content Include="Content\imgs\rar-icon.png" />
     <Content Include="Content\imgs\user-pic.png" />
+    <Content Include="Content\imgs\video-icon.png" />
+    <Content Include="Content\imgs\excel-icon.png" />
+    <Content Include="Content\imgs\word-icon.png" />
+    <Content Include="Content\imgs\xml-icon.png" />
+    <Content Include="Content\imgs\zip-icon.png" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\vendor\font-awesome\css\font-awesome.css" />
@@ -183,15 +197,30 @@
     </Content>
     <Content Include="scripts\ai.0.22.9-build00167.js" />
     <Content Include="scripts\ai.0.22.9-build00167.min.js" />
+    <Content Include="scripts\dropzone\basic.css" />
+    <Content Include="scripts\dropzone\basic.min.css" />
+    <Content Include="scripts\dropzone\dropzone-amd-module.js" />
+    <Content Include="scripts\dropzone\dropzone-amd-module.min.js" />
+    <Content Include="scripts\dropzone\dropzone.css" />
+    <Content Include="scripts\dropzone\dropzone.js" />
+    <Content Include="scripts\dropzone\dropzone.min.css" />
+    <Content Include="scripts\dropzone\dropzone.min.js" />
     <Content Include="scripts\jquery-3.3.1.min.js" />
     <Content Include="scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="scripts\pages\admin\admin.js" />
     <Content Include="scripts\pages\admin\articles.js" />
     <Content Include="scripts\pages\admin\categories.js" />
+    <Content Include="scripts\pages\admin\media.js" />
     <Content Include="scripts\pages\admin\pages.js" />
     <Content Include="scripts\pages\admin\sitesettings.js" />
     <Content Include="scripts\pages\admin\users.js" />
+    <Content Include="scripts\plugins\bootbox\bootbox.all.js" />
+    <Content Include="scripts\plugins\bootbox\bootbox.all.min.js" />
+    <Content Include="scripts\plugins\bootbox\bootbox.js" />
+    <Content Include="scripts\plugins\bootbox\bootbox.locales.js" />
+    <Content Include="scripts\plugins\bootbox\bootbox.locales.min.js" />
+    <Content Include="scripts\plugins\bootbox\bootbox.min.js" />
     <Content Include="scripts\plugins\bootstrap-tags\bootstrap-tagsinput.css" />
     <Content Include="scripts\plugins\bootstrap-tags\bootstrap-tagsinput.min.js" />
     <Content Include="scripts\bootstrap.bundle.js" />
@@ -854,18 +883,20 @@
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MediaController.cs" />
     <Compile Include="Controllers\PagesController.cs" />
     <Compile Include="Controllers\RevisionController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Models\AdminContext.cs" />
     <Compile Include="Models\AdvancedModel.cs" />
+    <Compile Include="Models\Article.cs">
+      <DependentUpon>MyBlog.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ArticleContext.cs" />
     <Compile Include="Models\ArticleModel.cs" />
     <Compile Include="Models\ArticlesVContext.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Article.cs">
-      <DependentUpon>MyBlog.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Articles_V.cs">
       <DependentUpon>MyBlog.tt</DependentUpon>
@@ -888,19 +919,22 @@
     <Compile Include="Models\Files_V.cs">
       <DependentUpon>MyBlog.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Folder.cs">
+      <DependentUpon>MyBlog.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\FolderModel.cs" />
+    <Compile Include="Models\Folders_V.cs">
+      <DependentUpon>MyBlog.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Level.cs">
       <DependentUpon>MyBlog.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Media_V.cs">
-      <DependentUpon>MyBlog.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Medium.cs">
-      <DependentUpon>MyBlog.tt</DependentUpon>
-    </Compile>
+    <Compile Include="Models\MediaModel.cs" />
     <Compile Include="Models\Page.cs">
       <DependentUpon>MyBlog.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PageModel.cs" />
+    <Compile Include="Models\EmailModel.cs" />
     <Compile Include="Models\Pages_V.cs">
       <DependentUpon>MyBlog.tt</DependentUpon>
     </Compile>
@@ -910,7 +944,6 @@
     <Compile Include="Models\Revisions_V.cs">
       <DependentUpon>MyBlog.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\EmailModel.cs" />
     <Compile Include="Models\SiteModel.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Models\ContactForm.cs" />
@@ -996,6 +1029,9 @@
     <Content Include="Views\SiteSettings\_General.cshtml" />
     <Content Include="Views\SiteSettings\_Email.cshtml" />
     <Content Include="Views\SiteSettings\_Advanced.cshtml" />
+    <Content Include="Views\Media\_Index.cshtml" />
+    <Content Include="Views\Media\_NewFolder.cshtml" />
+    <Content Include="Views\Media\_EditFolder.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

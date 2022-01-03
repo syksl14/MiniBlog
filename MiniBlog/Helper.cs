@@ -1,5 +1,4 @@
 ﻿using MiniBlog.Controllers;
-using MiniBlog.Models;
 using PagedList;
 using System;
 using System.Collections.Generic;
@@ -7,6 +6,7 @@ using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -239,14 +239,14 @@ namespace MiniBlog
             }
         }
 
-        public async static Task<ResponseMessage> MailSend(String title, String body, EmailModel model)
+        public async static Task<Models.ResponseMessage> MailSend(String title, String body, Models.EmailModel model)
         {
-            ResponseMessage response = new ResponseMessage();
+            Models.ResponseMessage response = new Models.ResponseMessage();
             try
             {
                 if (model == null)
                 {
-                    model = new EmailModel();
+                    model = new Models.EmailModel();
                     model.Mail_Host = ConfigurationManager.AppSettings["Mail_Host"].ToString();
                     model.Mail_Port = Convert.ToInt32(ConfigurationManager.AppSettings["Mail_Port"]);
                     model.Mail_IsEnableSSL = Convert.ToBoolean(ConfigurationManager.AppSettings["Mail_IsEnableSSL"]);
@@ -281,7 +281,7 @@ namespace MiniBlog
             catch (Exception err)
             {
                 response.Result = "Error";
-                if(err.InnerException != null)
+                if (err.InnerException != null)
                 {
                     response.Error = err.InnerException.Message + " " + err.InnerException.InnerException.Message;
                 }
@@ -293,5 +293,91 @@ namespace MiniBlog
             return response;
         }
 
+        public static string CalculateMD5(string filename)
+        {
+            using (var md5 = MD5.Create())
+            {
+                using (var stream = System.IO.File.OpenRead(filename))
+                {
+                    var hash = md5.ComputeHash(stream);
+                    return BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
+                }
+            }
+        }
+
+        public static string getIconFileType(String fileName)
+        {
+            string className = "";
+            fileName = fileName.ToLower();
+            if (fileName.Contains(".jpg")
+                || fileName.Contains(".jpeg")
+                || fileName.Contains(".png")
+                || fileName.Contains(".gif")
+                || fileName.Contains(".jpeg"))
+            {
+                className = "icon-image";
+            }
+            else if (fileName.Contains(".mov")
+                  || fileName.Contains(".mp4")
+                  || fileName.Contains(".mkv")
+                  || fileName.Contains(".wmv")
+                  || fileName.Contains(".flv")
+                  || fileName.Contains(".avi")
+                  || fileName.Contains(".webm"))
+            {
+                className = "icon-video";
+            }
+            else if (fileName.Contains(".mp3")
+                || fileName.Contains(".wav")
+                || fileName.Contains(".m4a")
+                || fileName.Contains(".flac")
+                || fileName.Contains(".wma")
+                || fileName.Contains(".aac")
+                || fileName.Contains(".ogg"))
+            {
+                className = "icon-audio";
+            }
+            else if (fileName.Contains(".rar"))
+            {
+                className = "icon-rar";
+            }
+            else if (fileName.Contains(".zip"))
+            {
+                className = "icon-zip";
+            }
+            else if (fileName.Contains(".txt"))
+            {
+                className = "icon-text";
+            }
+            else if (fileName.Contains(".tif") || fileName.Contains(".tiff"))
+            {
+                className = "icon-tif";
+            }
+            else if (fileName.Contains(".xml"))
+            {
+                className = "icon-xml";
+            }
+            else if (fileName.Contains(".pdf"))
+            {
+                className = "icon-pdf";
+            }
+            else if (fileName.Contains(".pptx") || fileName.Contains(".ppt") || fileName.Contains(".pptm"))
+            {
+                className = "icon-pp";
+            }
+            else if (fileName.Contains(".doc") || fileName.Contains(".docx"))
+            {
+                className = "icon-word";
+            }
+            else if (fileName.Contains(".xls") || fileName.Contains(".xlsx"))
+            {
+                className = "icon-excel";
+            }
+            else
+            {
+                className = "icon-file";
+            }
+            return className;
+        }
     }
 }

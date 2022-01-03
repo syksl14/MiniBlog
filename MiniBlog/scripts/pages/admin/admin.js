@@ -29,7 +29,8 @@
         if ($(".modal").hasClass('in')) {
             $('body').addClass('modal-open');
         }
-    })
+    });
+    bootbox.setLocale('tr');
 });
 var helper = {
     successForm: function (form) {
@@ -47,7 +48,31 @@ var helper = {
     }
 }
 var mbAjax = {
-    bindForm: function (dialog) {
+    callAjax: function (method, options, success) {
+        $.ajax({
+            url: options.action,
+            type: method,
+            data: options.data,
+            contentType: false,
+            processData: false,
+            cache: false,
+            success: function (result) {
+                if (result.success) {
+                    $(".modal").modal('hide');
+                    success();
+                } else {
+                    //server side error response 
+                    var html = '<ul>'
+                    for (var i = 0; i < result.errors.length; i++) {
+                        html += '<li>' + result.errors[i] + '</li>';
+                    }
+                    html += '</ul>';
+                    bootbox.alert(html);
+                }
+            }
+        });
+    }, 
+    bindForm: function (dialog, success) {
         var action = $('form', dialog).attr("action");
         $('form', dialog).attr("action", "javascript:");
         $('form', dialog).submit(function () {
@@ -62,9 +87,9 @@ var mbAjax = {
                     cache: false,
                     success: function (result) {
                         if (result.success) {
-                            $(dialog).modal('hide');
+                            $(".modal").modal('hide');
                             //Refresh
-                            location.reload();
+                            success();
                         } else {
                             //server side error response 
                             $('form', dialog).find("div.modal-body > div.server-side-errors").remove();
@@ -85,7 +110,6 @@ var mbAjax = {
                 form.submit();
             }
         });
-
     },
     bindFormNonDialog: function (form, success) {
         var action = form.attr("action");

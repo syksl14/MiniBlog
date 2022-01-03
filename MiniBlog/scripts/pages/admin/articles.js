@@ -48,23 +48,7 @@ var articles = {
         $('form', dialog).submit(function () {
             var data = null;
             data.append($(this).serialize());
-            data.append($(this)[0].files);
-            /* $.ajax({
-                 url: this.action,
-                 type: this.method, 
-                 data: $(this).serialize(),
-                 success: function (result) {
-                     if (result.success) {
-                         $('#modalEditArticle').modal('hide');
-                         //Refresh
-                         location.reload();
-                     } else {
-                         $('#modalEditArticleContent').html(result);
-                         bindForm(dialog);
-                     }
-                 }
-             }); */
-            console.log(data);
+            data.append($(this)[0].files);  
             return false;
         });
     }

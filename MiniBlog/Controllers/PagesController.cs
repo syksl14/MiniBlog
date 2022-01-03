@@ -77,7 +77,7 @@ namespace MiniBlog.Controllers
                 if (Request.Files["file"].ContentLength > 0)
                 {
                     var file = Request.Files["file"];
-                    var fileExtension = "." + Path.GetExtension(file.FileName);
+                    var fileExtension = Path.GetExtension(file.FileName);
                     string guid = Guid.NewGuid().ToString();
                     var path = Path.Combine(Server.MapPath("~/Content/uploads/"), guid + fileExtension);
                     file.SaveAs(path);
@@ -115,10 +115,11 @@ namespace MiniBlog.Controllers
                 current.Crud = 2; //1: new | 2: update | 3: deleted
                 current.Page1 = model.Page;
                 current.Privacy = model.Privacy == "true" ? "D" : "P";
+                current.PageOrder = model.PageOrder;
                 if (Request.Files["file"].ContentLength > 0)
                 {
                     var file = Request.Files["file"];
-                    var fileExtension = "." + Path.GetExtension(file.FileName);
+                    var fileExtension = Path.GetExtension(file.FileName);
                     string guid = Guid.NewGuid().ToString();
                     var path = Path.Combine(Server.MapPath("~/Content/uploads/"), guid + fileExtension);
                     file.SaveAs(path);

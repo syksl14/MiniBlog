@@ -26,7 +26,10 @@ var pages = {
             $('#modalAddPage').modal({
                 keyboard: true
             }, 'show');
-            mbAjax.bindForm(this);
+            mbAjax.bindForm(this, function () {
+                helper.successForm($("#modalAddPageContent form"));
+                locaton.reload();
+            });
         });
     },
     edit: function (AuthorID) {
@@ -34,7 +37,10 @@ var pages = {
             $('#modalEditPage').modal({
                 keyboard: true
             }, 'show');
-            mbAjax.bindForm(this);
+            mbAjax.bindForm(this, function () {
+                helper.successForm($("#modalEditPageContent form"));
+                locaton.reload();
+            });
         });
     },
 }

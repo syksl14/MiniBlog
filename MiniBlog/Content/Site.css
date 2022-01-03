@@ -671,13 +671,14 @@ div#g-recaptcha {
 .file-item-name {
     display: block;
     overflow: hidden;
+    cursor: pointer!important;
 }
 
 .file-manager-col-view .file-item {
-    margin: 0 0.25rem 0.25rem 0;
-    padding: 1.25rem 0 1rem 0;
-    width: 9rem;
+    padding: 25px;
+    width: 13rem;
     text-align: center;
+    margin: 2px;
 }
 
 [dir="rtl"] .file-manager-col-view .file-item {
@@ -685,19 +686,15 @@ div#g-recaptcha {
     margin-left: 0.25rem;
 }
 
-.file-manager-col-view .file-item-img,
-.file-manager-col-view .file-item-icon {
+.file-item-icon {
     display: block;
     margin: 0 auto 0.75rem auto;
-    width: 4rem;
-    height: 4rem;
+    width: 5rem;
+    height: 5rem;
     font-size: 2.5rem;
     line-height: 4rem;
 }
 
-.file-manager-col-view .file-item-level-up {
-    font-size: 1.5rem;
-}
 
 .file-manager-col-view .file-item-checkbox,
 .file-manager-col-view .file-item-actions {
@@ -725,6 +722,9 @@ div#g-recaptcha {
 
 .file-manager-col-view .file-item-name {
     width: 100%;
+    top: 10px;
+    position: relative;
+    font-size: 9pt;
 }
 
 .file-manager-col-view .file-manager-row-header,
@@ -853,73 +853,6 @@ div#g-recaptcha {
     }
 }
 
-.material-style .file-item-name {
-    color: #4e5155 !important;
-}
-
-.material-style .file-item.selected .file-item-select-bg {
-    opacity: 0.15;
-}
-
-@media (min-width: 768px) {
-    .material-style .file-manager-row-view .file-item-changed {
-        display: block;
-    }
-
-    .material-style .file-manager-row-view .file-item-name {
-        width: calc(100% - 15rem);
-    }
-}
-
-@media (min-width: 992px) {
-    .material-style .file-manager-col-view .file-item-checkbox,
-    .material-style .file-manager-col-view .file-item-actions {
-        opacity: 0;
-    }
-
-    .material-style .file-manager-col-view .file-item:hover .file-item-checkbox,
-    .material-style .file-manager-col-view .file-item.focused .file-item-checkbox,
-    .material-style .file-manager-col-view .file-item.selected .file-item-checkbox,
-    .material-style .file-manager-col-view .file-item:hover .file-item-actions,
-    .material-style .file-manager-col-view .file-item.focused .file-item-actions,
-    .material-style .file-manager-col-view .file-item.selected .file-item-actions {
-        opacity: 1;
-    }
-}
-
-.dark-style .file-item-name {
-    color: #fff !important;
-}
-
-.dark-style .file-item.selected .file-item-select-bg {
-    opacity: 0.15;
-}
-
-@media (min-width: 768px) {
-    .dark-style .file-manager-row-view .file-item-changed {
-        display: block;
-    }
-
-    .dark-style .file-manager-row-view .file-item-name {
-        width: calc(100% - 15rem);
-    }
-}
-
-@media (min-width: 992px) {
-    .dark-style .file-manager-col-view .file-item-checkbox,
-    .dark-style .file-manager-col-view .file-item-actions {
-        opacity: 0;
-    }
-
-    .dark-style .file-manager-col-view .file-item:hover .file-item-checkbox,
-    .dark-style .file-manager-col-view .file-item.focused .file-item-checkbox,
-    .dark-style .file-manager-col-view .file-item.selected .file-item-checkbox,
-    .dark-style .file-manager-col-view .file-item:hover .file-item-actions,
-    .dark-style .file-manager-col-view .file-item.focused .file-item-actions,
-    .dark-style .file-manager-col-view .file-item.selected .file-item-actions {
-        opacity: 1;
-    }
-}
 
 .btn-secondary.disabled, .btn-secondary:disabled {
     color: #fff;
@@ -937,3 +870,73 @@ div#g-recaptcha {
         background-color: #5a6268;
         border-color: #545b62;
     }
+
+form.dropzone {
+    width: 100%;
+}
+
+.file-item-icon {
+    background-position: center center !important;
+    background-repeat: no-repeat !important;
+}
+
+    .file-item-icon.icon-file {
+        background: url('imgs/file-icon.png');
+    }
+
+    .file-item-icon.icon-folder {
+        background: url('imgs/folder-icon.png');
+    }
+
+    .file-item-icon.icon-image {
+        background: url('imgs/image-icon.png');
+    }
+
+    .file-item-icon.icon-text {
+        background: url('imgs/icon-txt.png');
+    }
+
+    .file-item-icon.icon-tif {
+        background: url('imgs/icon-tif.png');
+    }
+
+    .file-item-icon.icon-audio {
+        background: url('imgs/audio-icon.png');
+    }
+
+    .file-item-icon.icon-video {
+        background: url('imgs/video-icon.png');
+    }
+
+    .file-item-icon.icon-xml {
+        background: url('imgs/xml-icon.png');
+    }
+
+    .file-item-icon.icon-rar {
+        background: url('imgs/rar-icon.png');
+    }
+
+    .file-item-icon.icon-excel {
+        background: url('imgs/excel-icon.png');
+    }
+
+    .file-item-icon.icon-word {
+        background: url('imgs/word-icon.png');
+    }
+
+    .file-item-icon.icon-powerpoint {
+        background: url('imgs/pp-icon.png');
+    }
+
+    .file-item-icon.icon-zip {
+        background: url('imgs/zip-icon.png');
+    }
+    .file-item-icon.icon-pdf {
+        background: url('imgs/pdf-icon.png');
+    }
+.dropzone {
+    border: 2px dashed #2c75ff !important;
+}
+li > hr.separator{
+ margin: 5px!important;
+}

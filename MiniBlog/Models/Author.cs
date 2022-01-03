@@ -19,7 +19,7 @@ namespace MiniBlog.Models
         {
             this.Articles = new HashSet<Article>();
             this.Pages = new HashSet<Page>();
-            this.Media = new HashSet<Medium>();
+            this.Folders = new HashSet<Folder>();
         }
     
         public int AuthorID { get; set; }
@@ -37,6 +37,6 @@ namespace MiniBlog.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Page> Pages { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Medium> Media { get; set; }
+        public virtual ICollection<Folder> Folders { get; set; }
     }
 }
