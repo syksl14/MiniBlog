@@ -34,14 +34,19 @@ var media = {
             }
         });
         media.dropZone.on("addedfile", file => {
-            var removeButton = Dropzone.createElement("<button class='btn btn-xs btn-danger'>Sil</button>");
-            var _this = this;
-            removeButton.addEventListener("click", function (e) {
-                e.preventDefault();
-                e.stopPropagation();
-                _this.removeFile(file);
-            });
-            file.previewElement.appendChild(removeButton);
+            if (media.folderId > 0) {
+                var removeButton = Dropzone.createElement("<button class='btn btn-xs btn-danger'><i class='fa fa-cross'></i> Sil</button>");
+                var _this = this;
+                removeButton.addEventListener("click", function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    _this.removeFile(file);
+                });
+                file.previewElement.appendChild(removeButton);
+            } else {
+                bootbox.alert("Lütfen dosya yüklemek için bir klasör seçiniz!");
+                media.dropZone.removeFile(file);
+            }
 
         });
         media.dropZone.on('sending', function (data, xhr, formData) {
@@ -68,7 +73,7 @@ var media = {
                             var id = $(item).attr("data-id");
                             mbAjax.callAjax('GET', { action: '/Media/' + itemType + '/Delete/' + id, data: null }, function () {
                                 $(item).remove();
-                            }); 
+                            });
                         }
                     });
                 }
@@ -136,6 +141,8 @@ var media = {
                         $(this).show();
                     }
                 });
+                media.folderId = folderId;
+                media.folderParentId = parentId;
             });
         }
     },

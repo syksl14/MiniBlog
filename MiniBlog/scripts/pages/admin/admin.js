@@ -50,6 +50,7 @@ var helper = {
 var mbAjax = {
     callAjax: function (method, options, success) {
         $.ajax({
+            async: false,
             url: options.action,
             type: method,
             data: options.data,
