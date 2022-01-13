@@ -5,64 +5,70 @@
     ViewBag.Title = "Yazılar";
     Layout = @System.Configuration.ConfigurationManager.AppSettings["site_theme_main"].ToString();
 }
-@if (@HttpContext.Current.User.Identity.Name != "")
+@if (!System.Configuration.ConfigurationManager.AppSettings["site_theme_page"].ToString().Contains("/Default"))
 {
-    <!-- Admin access area -->
-    <div class="text-right">
-        <button type="button" class="btn btn-success" onclick="articles.new();"><i class="fa fa-plus"></i>&nbsp;Yeni Yazı</button>
-    </div>
-    <script>
-        var articles = {
-            new: function () {
-                localStorage.setItem("Action", "New_Article");
-                location.href = "/Admin/Articles";
-            }
-        }
-    </script>
-    <!-- Admin access area -->
+    @Html.Partial(System.Configuration.ConfigurationManager.AppSettings["site_theme"].ToString() + "/Pages/Articles.cshtml", Model)
 }
-<h4 class="index-title">Yazılar <a href="~/Article/Rss" target="_blank" title="RSS"><i class="fa fa-rss  rss-logo"></i></a></h4>
-<ul class="timeline">
-    @foreach (var item in Model)
+else
+{
+    if (@HttpContext.Current.User.Identity.Name != "")
     {
-        <li>
-            <div class="media">
-                <a class="pull-left" href="@Url.Action("Details", "Article", new { category = @Url.FriendlyURLTitle(item.CategoryName), title = @Url.FriendlyURLTitle(@item.Title), id = @item.ArticleID })" title="@item.Title">
-                    @if (item.CoverPhoto == null)
-                    {
-                        item.CoverPhoto = "Content/imgs/no-image.png";
-                    }
-                    <img class="img-responsive well-sm well" src="@item.CoverPhoto?width=262&height=147&format=jpg&mode=crop">
-                </a>
-                <div class="media-body">
-                    <div class="post-preview">
-                        <p class="post-info"><a href="@Url.Action("Category", "Article", new { category = @Url.FriendlyURLTitle(item.CategoryName), CategoryID = @item.CategoryID})" class="category-name">@item.CategoryName</a> - <i class="fa fa-eye"></i> @item.ReadNumber kez okundu.</p>
-                        <h3 class="post-title">
-                            <a href="@Url.Action("Details", "Article", new { category = @Url.FriendlyURLTitle(item.CategoryName), title = @Url.FriendlyURLTitle(@item.Title), id = @item.ArticleID })">@item.Title</a>
-                        </h3>
-                        <h4 class="post-subtitle">
-                            @(item.Summary)
-                        </h4>
-                        <p class="post-meta">
-                            <a href="#">@(item.Name + " " + item.Surname)</a> | @(Helper.TimeAgo(item.Date)) eklendi.
-                            @if (item.UpdateDate != null)
-                            {
-                                @Html.Raw("| <i class='fa fa-pencil'></i>&nbsp;" + Helper.TimeAgo(item.UpdateDate.Value) + " güncellendi.");
-                            }
-                        </p>
+        <!-- Admin access area -->
+        <div class="text-right">
+            <button type="button" class="btn btn-success" onclick="articles.new();"><i class="fa fa-plus"></i>&nbsp;Yeni Yazı</button>
+        </div>
+        <script>
+            var articles = {
+                new: function () {
+                    localStorage.setItem("Action", "New_Article");
+                    location.href = "/Admin/Articles";
+                }
+            }
+        </script>
+        <!-- Admin access area -->
+    }
+    <h4 class="index-title">Yazılar <a href="~/Article/Rss" target="_blank" title="RSS"><i class="fa fa-rss  rss-logo"></i></a></h4>
+    <ul class="timeline">
+        @foreach (var item in Model)
+        {
+            <li>
+                <div class="media">
+                    <a class="pull-left" href="@Url.Action("Details", "Article", new { category = @Url.FriendlyURLTitle(item.CategoryName), title = @Url.FriendlyURLTitle(@item.Title), id = @item.ArticleID })" title="@item.Title">
+                        @if (item.CoverPhoto == null)
+                        {
+                            item.CoverPhoto = "Content/imgs/no-image.png";
+                        }
+                        <img class="img-responsive well-sm well" src="@item.CoverPhoto?width=262&height=147&format=jpg&mode=crop">
+                    </a>
+                    <div class="media-body">
+                        <div class="post-preview">
+                            <p class="post-info"><a href="@Url.Action("Category", "Article", new { category = @Url.FriendlyURLTitle(item.CategoryName), CategoryID = @item.CategoryID })" class="category-name">@item.CategoryName</a> - <i class="fa fa-eye"></i> @item.ReadNumber kez okundu.</p>
+                            <h3 class="post-title">
+                                <a href="@Url.Action("Details", "Article", new { category = @Url.FriendlyURLTitle(item.CategoryName), title = @Url.FriendlyURLTitle(@item.Title), id = @item.ArticleID })">@item.Title</a>
+                            </h3>
+                            <h4 class="post-subtitle">
+                                @(item.Summary)
+                            </h4>
+                            <p class="post-meta">
+                                <a href="#">@(item.Name + " " + item.Surname)</a> | @(Helper.TimeAgo(item.Date)) eklendi.
+                                @if (item.UpdateDate != null)
+                                {
+                                    @Html.Raw("| <i class='fa fa-pencil'></i>&nbsp;" + Helper.TimeAgo(item.UpdateDate.Value) + " güncellendi.");
+                                }
+                            </p>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </li>
-    }
-</ul>
+            </li>
+        }
+    </ul>
 
-<div class="row">
-    <div class="col-md-6"></div>
-    <div class="col-md-6">
-        <div class="pagedList">
-            @Html.PagedListPager(Model, page => Url.Action("", new { page }), PagedListRenderOptions.PageNumbersOnly)
+    <div class="row">
+        <div class="col-md-6"></div>
+        <div class="col-md-6">
+            <div class="pagedList">
+                @Html.PagedListPager(Model, page => Url.Action("", new { page }), PagedListRenderOptions.PageNumbersOnly)
+            </div>
         </div>
     </div>
-</div>
-
+}

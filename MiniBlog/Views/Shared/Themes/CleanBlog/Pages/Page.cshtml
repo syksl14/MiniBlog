@@ -1,0 +1,26 @@
+﻿@model MiniBlog.Models.Page
+@if (Model.CoverPhoto == null)
+{
+    Model.CoverPhoto = "~/Content/imgs/no-image.png";
+}
+<header class="masthead" style="background-image: url(@Model.CoverPhoto); height: 800px;">
+    <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="post-heading">
+                    <h1>@Model.Title</h1>
+                    <h2 class="subheading">@Model.HeaderText</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<article class="mb-4">
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                @Html.Raw(Model.Page1)
+            </div>
+        </div>
+    </div>
+</article>

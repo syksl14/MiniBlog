@@ -869,6 +869,16 @@
     <Content Include="scripts\plugins\summernote\summernote.css" />
     <Content Include="scripts\plugins\summernote\summernote.js" />
     <Content Include="scripts\plugins\summernote\summernote.min.js" />
+    <Content Include="Views\Shared\Themes\CleanBlog\assets\favicon.ico" />
+    <Content Include="Views\Shared\Themes\CleanBlog\assets\img\about-bg.jpg" />
+    <Content Include="Views\Shared\Themes\CleanBlog\assets\img\contact-bg.jpg" />
+    <Content Include="Views\Shared\Themes\CleanBlog\assets\img\home-bg.jpg" />
+    <Content Include="Views\Shared\Themes\CleanBlog\assets\img\post-bg.jpg" />
+    <Content Include="Views\Shared\Themes\CleanBlog\assets\img\post-sample-image.jpg" />
+    <Content Include="Views\Shared\Themes\CleanBlog\css\styles.css" />
+    <Content Include="Views\Shared\Themes\CleanBlog\js\scripts.js" />
+    <Content Include="Views\Shared\Themes\CleanBlog\preview.jpg" />
+    <Content Include="Views\Shared\Themes\Default\preview.jpg" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -930,6 +940,7 @@
       <DependentUpon>MyBlog.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\MediaModel.cs" />
+    <Compile Include="Models\MenuModel.cs" />
     <Compile Include="Models\Page.cs">
       <DependentUpon>MyBlog.tt</DependentUpon>
     </Compile>
@@ -945,6 +956,7 @@
       <DependentUpon>MyBlog.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SiteModel.cs" />
+    <Compile Include="Models\ThemeModel.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Models\ContactForm.cs" />
     <Compile Include="Models\LoginModel.cs" />
@@ -970,6 +982,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="Controllers\SiteSettingsController.cs" />
+    <Compile Include="SystemBase.cs" />
     <Compile Include="_SessionControlAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -1032,6 +1045,13 @@
     <Content Include="Views\Media\_Index.cshtml" />
     <Content Include="Views\Media\_NewFolder.cshtml" />
     <Content Include="Views\Media\_EditFolder.cshtml" />
+    <Content Include="Views\Shared\Themes\Default\theme.json" />
+    <Content Include="Views\Shared\Themes\CleanBlog\_Layout.cshtml" />
+    <Content Include="Views\Shared\Themes\CleanBlog\_LayoutDetail.cshtml" />
+    <Content Include="Views\Shared\Themes\CleanBlog\theme.json" />
+    <Content Include="Views\Shared\Themes\CleanBlog\Pages\Details.cshtml" />
+    <Content Include="Views\Shared\Themes\CleanBlog\Pages\Articles.cshtml" />
+    <Content Include="Views\Shared\Themes\CleanBlog\Pages\Page.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

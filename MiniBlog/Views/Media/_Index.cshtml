@@ -29,7 +29,7 @@
             </button>
             <ul class="dropdown-menu dropdown-menu-right">
                 <li onclick="media.editFolder(@f.FolderID);"><a href="javascript:void(0)">Düzenle</a></li>
-                <li data-href="/Media/Folder/Delete/@f.FolderID" data-toggle="modal" data-target="#modalConfirmDelete"><a href="javascript:void(0)">Sil</a></li>
+                <li onclick="media.deleteFolder(@f.FolderID);"><a href="javascript:void(0)">Sil</a></li>
             </ul>
         </div>
     </div>
@@ -54,10 +54,9 @@
                 <span class="caret"></span>
             </button>
             <ul class="dropdown-menu dropdown-menu-right">
-                <li><a href="javascript:void(0)">Yeniden Adlandır</a></li>
-                <li><a href="javascript:void(0)">Taşı</a></li>
-                <li><a href="javascript:void(0)">Kopyala</a></li>
-                <li><a href="javascript:void(0)">Sil</a></li>
+                <li onclick="media.downloadFile(@f.FolderID, @f.FileID, '@f.FileHash');"><a href="javascript:void(0)"><i class="fa fa-download"></i>&nbsp;İndir</a></li>
+                <li onclick="media.renameFile('@f.FileID');"><a href="javascript:void(0)">Yeniden Adlandır</a></li>
+                <li onclick="media.deleteFile('@f.FileID');"><a href="javascript:void(0)">Sil</a></li>
             </ul>
         </div>
     </div>

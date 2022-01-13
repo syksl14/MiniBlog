@@ -43,7 +43,7 @@
                     <li>
                         <a href="/">Ana Sayfa</a>
                     </li>
-                    @{ Html.RenderAction("Pages", "Home"); }
+                    @{ Html.RenderAction("Pages", "Home", new { listItemClass = "", textItemClass = "" }); }
                     <li>
                         <a href="@Url.Content("~/Home/About")">Hakkımda</a>
                     </li>
@@ -73,9 +73,9 @@
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                     <div class="site-heading">
-                        <h1>selahattinyuksel.NET</h1>
+                        <h1>@System.Configuration.ConfigurationManager.AppSettings["site_header_name"].ToString()</h1>
                         <hr class="small">
-                        <span class="subheading">Java, ASP.NET, C#.NET, VB.NET, jQuery, AngularJS hakkında bir kaç şey...</span>
+                        <span class="subheading">@System.Configuration.ConfigurationManager.AppSettings["site_desc"].ToString()</span>
                     </div>
                 </div>
             </div>
@@ -141,7 +141,7 @@
                             </a>
                         </li>
                     </ul>
-                    <p class="copyright text-muted">Blog &copy; SelahattinYuksel @DateTime.Now.Year</p>
+                    <p class="copyright text-muted">Blog &copy; @System.Configuration.ConfigurationManager.AppSettings["site_name"].ToString() @DateTime.Now.Year</p>
                 </div>
             </div>
         </div>

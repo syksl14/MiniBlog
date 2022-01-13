@@ -671,7 +671,7 @@ div#g-recaptcha {
 .file-item-name {
     display: block;
     overflow: hidden;
-    cursor: pointer!important;
+    cursor: pointer !important;
 }
 
 .file-manager-col-view .file-item {
@@ -931,12 +931,24 @@ form.dropzone {
     .file-item-icon.icon-zip {
         background: url('imgs/zip-icon.png');
     }
+
     .file-item-icon.icon-pdf {
         background: url('imgs/pdf-icon.png');
     }
+
 .dropzone {
     border: 2px dashed #2c75ff !important;
 }
-li > hr.separator{
- margin: 5px!important;
+
+li > hr.separator {
+    margin: 5px !important;
 }
+
+form.dropzone-none-area {
+    border: none !important;
+    cursor: default !important;
+}
+
+    form.dropzone-none-area div.dz-default.dz-message {
+        display: none !important;
+    }

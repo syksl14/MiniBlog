@@ -192,7 +192,7 @@ namespace MiniBlog.Controllers
             var current = db.Folder.Find(id);
             current.CrudAuthorID = Convert.ToInt32(User.Identity.Name);
             current.Crud = 3; //1: new | 2: update | 3: deleted
-            current.Date = DateTime.Now; 
+            current.Date = DateTime.Now;
             db.SaveChanges();
             var files = from e in db.Files_V where e.Crud < 3 && e.FolderID == id orderby e.FileName descending select e;
             foreach (var file in files.ToList())
@@ -204,6 +204,15 @@ namespace MiniBlog.Controllers
                 db.SaveChanges();
             }
             return Json(new { success = true, responseText = "OK" }, JsonRequestBehavior.AllowGet);
+        }
+
+        [_SessionControl]
+        [Route("Media/File/Download/{FolderID:int}/{FileID:int}/{hash}")]
+        public FileResult FileDownload(int FolderID, int FileID, string hash)
+        {  
+            var result = db.Files_V.Where(f => f.FileHash == hash && f.FolderID == FolderID && f.FileID == FileID).SingleOrDefault();
+            byte[] file = System.IO.File.ReadAllBytes(Server.MapPath("~/" + result.FilePath));
+            return File(file, System.Net.Mime.MediaTypeNames.Application.Octet, result.FileName);
         }
     }
 }

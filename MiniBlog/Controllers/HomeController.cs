@@ -44,10 +44,14 @@ namespace MiniBlog.Controllers
         }
 
         [ChildActionOnly]
-        public ActionResult Pages()
+        public ActionResult Pages(string listItemClass, string textItemClass)
         {
-            var pages = from e in db2.Pages_V where e.Privacy == "P" && e.Crud < 3 orderby e.PageOrder ascending select e;
-            return PartialView("_Pages", pages.ToList());
+            var pages = from e in db2.Pages_V where e.Privacy == "P" && e.Crud < 3 orderby e.PageOrder ascending select e; 
+            MenuModel menu = new MenuModel();
+            menu.Pages = pages.ToList();
+            menu.TextItemClass = textItemClass;
+            menu.ListItemClass = listItemClass;
+            return PartialView("_Pages", menu);
         }
 
         [Route("Home/{friendurl}-{id:int}")]
@@ -80,7 +84,7 @@ namespace MiniBlog.Controllers
                     string url = "https://www.google.com/recaptcha/api/siteverify?secret=" + config.AppSettings.Settings["reCaptcha_hiddenKey"].Value + "&response=" + form.key;
                     String data = (new WebClient()).DownloadString(url);
                     JToken objJson = JObject.Parse(data);
-                    if((bool)objJson["success"])
+                    if ((bool)objJson["success"])
                     {
                         reCapthca_pass = true;
                     }
@@ -89,7 +93,8 @@ namespace MiniBlog.Controllers
                         response.Error = "Doğrulama başarısız lütfen robot olmadığınızı doğrulayınız.";
                         response.Result = "reCaptcha_VerifyError";
                     }
-                } else
+                }
+                else
                 {
                     reCapthca_pass = true;
                 }
@@ -166,5 +171,44 @@ namespace MiniBlog.Controllers
             base.Dispose(disposing);
         }
 
+        SystemBase sysBase = new SystemBase();
+        //base64 path require
+        //access system themes files
+        [Route("Site/ThemeEngine/File/{path}")]
+        public ActionResult StyleFile(String path)
+        {
+            path = Helper.Base64Decode(path);
+            String mimeType = "";
+            if (path.Contains(".css"))
+            {
+                mimeType = "text/css";
+            }
+            else if (path.Contains(".js"))
+            {
+                mimeType = "text/javascript";
+            }
+            else if (path.Contains(".json"))
+            {
+                mimeType = "application/json";
+            }
+            else if (path.Contains(".jpg") || path.Contains(".jpeg"))
+            {
+                mimeType = "image/jpeg";
+            }
+            else if (path.Contains(".png"))
+            {
+                mimeType = "image/png";
+            }
+            else if (path.Contains(".gif"))
+            {
+                mimeType = "image/gif";
+            }
+            else if (path.Contains(".svg"))
+            {
+                mimeType = "image/svg+xml";
+            }
+            byte[] file = System.IO.File.ReadAllBytes(Server.MapPath(sysBase.getCurrentThemeContext() + "/" + path));
+            return base.File(file, mimeType);
+        }
     }
 }

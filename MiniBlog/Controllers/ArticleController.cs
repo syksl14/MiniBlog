@@ -13,6 +13,7 @@ namespace MiniBlog.Controllers
 {
     public class ArticleController : Controller
     {
+        SystemBase sysBase = new SystemBase();
         private ArticlesVContext db = new ArticlesVContext();
         private ArticleContext articleDb = new ArticleContext();
         // GET: Article
@@ -69,6 +70,7 @@ namespace MiniBlog.Controllers
             ViewBag.Description = article.Summary;
             ViewBag.Keywords = article.Keywords;
             ViewBag.Author = article.Name + " " + article.Surname;
+            ViewBag.Action = "ArticlePage";
             if (article == null)
             {
                 return HttpNotFound();

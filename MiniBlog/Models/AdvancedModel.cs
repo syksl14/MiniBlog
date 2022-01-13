@@ -15,5 +15,7 @@ namespace MiniBlog.Models
         [Required(ErrorMessage = "Lütfen gizli anahtarı giriniz.")]
         [Display(Name = "Gizli Anahtarı")]
         public String reCaptcha_hiddenKey { get; set; }
+        public List<ThemeModel> Themes { get; set; }
+        public String Theme { get; set; }
     }
 }

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,6 +14,7 @@ namespace MiniBlog.Views
 {
     public class SiteSettingsController : Controller
     {
+        SystemBase sysBase = new SystemBase();
         // GET: SiteSettings
         [_SessionControl]
         public ActionResult Index()
@@ -109,7 +111,16 @@ namespace MiniBlog.Views
             model.reCaptcha_isEnable = Convert.ToBoolean(ConfigurationManager.AppSettings["reCaptcha_isEnable"]);
             model.reCaptcha_siteKey = ConfigurationManager.AppSettings["reCaptcha_siteKey"].ToString();
             model.reCaptcha_hiddenKey = ConfigurationManager.AppSettings["reCaptcha_hiddenKey"].ToString();
+            model.Themes = sysBase.Themes();
             return PartialView("_Advanced", model);
+        }
+
+        [_SessionControl]
+        [Route("SiteSettings/Advanced/Theme/PreviewImage/{path}")]
+        public ActionResult PreviewThemeImage(String path)
+        {
+            byte[] image = System.IO.File.ReadAllBytes(Server.MapPath(Helper.Base64Decode(path) + "/preview.jpg"));
+            return base.File(image, "image/jpeg");
         }
 
         [_SessionControl]
@@ -117,27 +128,30 @@ namespace MiniBlog.Views
         [HttpPost]
         public ActionResult AdvancedSave(AdvancedModel model)
         {
-            if (ModelState.IsValid)
+            Configuration config = WebConfigurationManager.OpenWebConfiguration("/");
+            if (model.reCaptcha_isEnable)
             {
-                Configuration config = WebConfigurationManager.OpenWebConfiguration("/");
-                if (model.reCaptcha_isEnable)
+                if (ModelState.IsValid)
                 {
                     config.AppSettings.Settings["reCaptcha_siteKey"].Value = model.reCaptcha_siteKey;
                     config.AppSettings.Settings["reCaptcha_hiddenKey"].Value = model.reCaptcha_hiddenKey;
                 }
                 else
                 {
-                    config.AppSettings.Settings["reCaptcha_siteKey"].Value = "";
-                    config.AppSettings.Settings["reCaptcha_hiddenKey"].Value = "";
+                    return Json(new { success = false, errors = ModelState.Values.SelectMany(x => x.Errors).Select(x => x.ErrorMessage).ToList() }, JsonRequestBehavior.AllowGet);
                 }
-                config.AppSettings.Settings["reCaptcha_isEnable"].Value = model.reCaptcha_isEnable.ToString();
-                config.Save(ConfigurationSaveMode.Modified);
-                return Json(new { success = true, responseText = "OK" }, JsonRequestBehavior.AllowGet);
             }
             else
             {
-                return Json(new { success = false, errors = ModelState.Values.SelectMany(x => x.Errors).Select(x => x.ErrorMessage).ToList() }, JsonRequestBehavior.AllowGet);
+                config.AppSettings.Settings["reCaptcha_siteKey"].Value = "";
+                config.AppSettings.Settings["reCaptcha_hiddenKey"].Value = "";
             }
+            config.AppSettings.Settings["reCaptcha_isEnable"].Value = model.reCaptcha_isEnable.ToString();
+            config.AppSettings.Settings["site_theme_main"].Value = Helper.Base64Decode(model.Theme) + "/_Layout.cshtml";
+            config.AppSettings.Settings["site_theme_page"].Value = Helper.Base64Decode(model.Theme) + "/_LayoutDetail.cshtml";
+            config.AppSettings.Settings["site_theme"].Value = Helper.Base64Decode(model.Theme);
+            config.Save(ConfigurationSaveMode.Modified);
+            return Json(new { success = true, responseText = "OK" }, JsonRequestBehavior.AllowGet);
         }
     }
 }

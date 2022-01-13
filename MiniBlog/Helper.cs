@@ -1,8 +1,10 @@
 ﻿using MiniBlog.Controllers;
+using MiniBlog.Models;
 using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
@@ -305,6 +307,18 @@ namespace MiniBlog
             }
         }
 
+        public static string FileRead(String path)
+        {
+            string text;
+            var fileStream = new FileStream(path, FileMode.Open, FileAccess.Read);
+            using (var streamReader = new StreamReader(fileStream, Encoding.UTF8))
+            {
+                text = streamReader.ReadToEnd();
+            }
+            return text;
+        }
+
+       
         public static string getIconFileType(String fileName)
         {
             string className = "";
@@ -378,6 +392,18 @@ namespace MiniBlog
                 className = "icon-file";
             }
             return className;
+        }
+
+        public static string Base64Encode(string plainText)
+        {
+            var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(plainText);
+            return System.Convert.ToBase64String(plainTextBytes);
+        }
+
+        public static string Base64Decode(string base64EncodedData)
+        {
+            var base64EncodedBytes = System.Convert.FromBase64String(base64EncodedData);
+            return System.Text.Encoding.UTF8.GetString(base64EncodedBytes);
         }
     }
 }

@@ -1,7 +1,7 @@
-﻿@model List<MiniBlog.Models.Pages_V>
-@foreach (var item in Model)
+﻿@model MiniBlog.Models.MenuModel
+@foreach (var item in Model.Pages)
 {
-    <li>
-        <a href="@Url.Action("Page", "Home", new { friendurl = @Url.FriendlyURL(item.FriendlyName), id = @item.PageID })">@item.Title</a>
+    <li class="@Model.ListItemClass">
+        <a class="@Model.TextItemClass" href="@Url.Action("Page", "Home", new { friendurl = @Url.FriendlyURL(item.FriendlyName), id = @item.PageID })">@item.Title</a>
     </li>
 }

@@ -53,27 +53,37 @@ var media = {
             formData.append('FolderID', media.folderId);
             formData.append('ParentFolderID', media.folderParentId);
         });
-        $('#modalConfirmDelete').on('show.bs.modal', function (e) {
-            $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
-        });
+        /* $('#modalConfirmDelete').on('show.bs.modal', function (e) {
+             $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
+         });*/
         $(".dropdown-preferences-menu li").click(function () {
             var _element = $(this);
             if (_element.attr("data-item") === "items-delete") {
                 var _selectedItem = $(".file-item.bg-info");
                 if (_selectedItem.length > 0) {
                     bootbox.confirm("Seçili olan öğeler silinecektir devam edilsin mi?", function (result) {
-                        for (var i = 0; i < _selectedItem.length; i++) {
-                            var item = _selectedItem[i];
-                            var itemType = $(item).attr("class")
-                            if (itemType.indexOf("folder-item") !== -1) {
-                                itemType = "Folder";
-                            } else {
-                                itemType = "File";
+                        if (result) {
+                            for (var i = 0; i < _selectedItem.length; i++) {
+                                (function (index) {
+                                    setTimeout(function () {
+                                        var item = _selectedItem[index];
+                                        var itemType = $(item).attr("class")
+                                        if (itemType.indexOf("folder-item") !== -1) {
+                                            itemType = "Folder";
+                                        } else {
+                                            itemType = "File";
+                                        }
+                                        var id = $(item).attr("data-id");
+                                        mbAjax.callAjax('GET', { action: '/Media/' + itemType + '/Delete/' + id, data: null }, function () {
+                                            $(item).fadeOut(500, function () {
+                                                $(item).remove();
+                                            });
+                                        });
+                                    }, i * 1000);
+                                })(i);
                             }
-                            var id = $(item).attr("data-id");
-                            mbAjax.callAjax('GET', { action: '/Media/' + itemType + '/Delete/' + id, data: null }, function () {
-                                $(item).remove();
-                            });
+                            $("ul.dropdown-preferences-menu > li.non-disabled").addClass("disabled");
+                            $("button.dropdown-preferences").html("<i class='fa fa-gear'></i>");
                         }
                     });
                 }
@@ -87,7 +97,7 @@ var media = {
             if (media.folderParentId > 0 || media.folderId > 0) {
                 setTimeout(function () {
                     $("div.file-item[data-id='" + media.folderId + "']").find("a.file-item-name").trigger('click');
-                }, 300);
+                }, 100);
             }
             $("div.file-item label.file-item-checkbox input").unbind("change").change(function () {
                 var _element = $(this);
@@ -129,6 +139,14 @@ var media = {
         $("#divMedia > .panel-heading").html("<span><i class='fa fa-folder'></i> " + $(item).text() + "</span>");
         media.folderId = folderId;
         media.folderParentId = parentId;
+        if (media.folderId > 0) {
+            $("form#fileupload").removeClass("dropzone-none-area");
+            $("button#btnFileUpload").removeAttr("disabled").removeClass("disabled");
+        }
+        else {
+            $("form#fileupload").addClass("dropzone-none-area");
+            $("button#btnFileUpload").attr("disabled", "disabled").addClass("disabled");
+        }
     },
     addEvent: function (event_type) {
         if (event_type === "up_folder") {
@@ -143,6 +161,14 @@ var media = {
                 });
                 media.folderId = folderId;
                 media.folderParentId = parentId;
+                if (media.folderId > 0) {
+                    $("form#fileupload").removeClass("dropzone-none-area");
+                    $("button#btnFileUpload").removeAttr("disabled").removeClass("disabled");
+                }
+                else {
+                    $("form#fileupload").addClass("dropzone-none-area");
+                    $("button#btnFileUpload").attr("disabled", "disabled").addClass("disabled");
+                }
             });
         }
     },
@@ -168,4 +194,34 @@ var media = {
             });
         });
     },
+    deleteFolder: function (FolderID) {
+        bootbox.confirm("Bu klasör silinecektir devam edilsin mi?", function (result) {
+            var item = $(".file-item[data-id='" + FolderID + "']");
+            if (result) {
+                mbAjax.callAjax('GET', { action: '/Media/Folder/Delete/' + FolderID, data: null }, function () {
+                    item.fadeOut(500, function () {
+                        item.remove();
+                    });
+                });
+            }
+        });
+    },
+    deleteFile: function (FileID) {
+        bootbox.confirm("Bu dosya silinecektir devam edilsin mi?", function (result) {
+            var item = $(".file-item[data-id='" + FileID + "']");
+            if (result) {
+                mbAjax.callAjax('GET', { action: '/Media/File/Delete/' + FileID, data: null }, function () {
+                    item.fadeOut(500, function () {
+                        item.remove();
+                    });
+                });
+            }
+        });
+    },
+    renameFile: function (FileID) {
+
+    },
+    downloadFile: function (FolderID, FileID, hash) {
+        window.open("/Media/File/Download/" + FolderID + "/" + FileID + "/" + hash);
+    }
 }
