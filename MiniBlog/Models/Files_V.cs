@@ -33,5 +33,6 @@ namespace MiniBlog.Models
         public System.DateTime CreateDate { get; set; }
         public string FolderFileTypes { get; set; }
         public int AuthorID { get; set; }
+        public string Privacy { get; set; }
     }
 }

@@ -861,6 +861,7 @@
     <Content Include="scripts\plugins\summernote\lang\summernote-zh-CN.min.js" />
     <Content Include="scripts\plugins\summernote\lang\summernote-zh-TW.js" />
     <Content Include="scripts\plugins\summernote\lang\summernote-zh-TW.min.js" />
+    <Content Include="scripts\plugins\summernote\plugins\miniblog\media.js" />
     <Content Include="scripts\plugins\summernote\summernote-bs4.css" />
     <Content Include="scripts\plugins\summernote\summernote-bs4.js" />
     <Content Include="scripts\plugins\summernote\summernote-bs4.min.js" />
@@ -1062,6 +1063,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\uploads\" />
+    <Folder Include="Views\Shared\Themes\BootstrapBlog\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

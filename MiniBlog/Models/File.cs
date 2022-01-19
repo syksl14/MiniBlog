@@ -25,6 +25,7 @@ namespace MiniBlog.Models
         public int Crud { get; set; }
         public System.DateTime Date { get; set; }
         public int AuthorID { get; set; }
+        public string Privacy { get; set; }
     
         public virtual Folder Folder { get; set; }
     }

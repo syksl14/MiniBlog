@@ -1,10 +1,5 @@
-﻿$(function () {
-    Dropzone.autoDiscover = false;
-    media.fileUploadCreate();
-    media.load();
-});
-
-var media = {
+﻿var media = {
+    isBrowser: "false",
     dropZone: null,
     folderParentId: 0,
     folderId: 0,
@@ -93,7 +88,7 @@ var media = {
         });
     },
     load: function () {
-        $("#divMedia > .panel-body > form > .file-manager-container").load("/Media/Index", function () {
+        $("#divMedia > .panel-body > form > .file-manager-container").load("/Media/Index?Browser=" + media.isBrowser, function () {
             if (media.folderParentId > 0 || media.folderId > 0) {
                 setTimeout(function () {
                     $("div.file-item[data-id='" + media.folderId + "']").find("a.file-item-name").trigger('click');
@@ -114,6 +109,9 @@ var media = {
                     $("button.dropdown-preferences").html("<i class='fa fa-gear'></i>");
                 }
             });
+            if (media.isBrowser == "true") {
+                $("div.file-item label.file-item-checkbox input, div.file-item .file-item-actions.btn-group").remove();
+            }
         });
     },
     open: function (item) {
@@ -123,6 +121,14 @@ var media = {
         $("div.file-item").each(function (index) { //filter file-item
             if ($(this).attr("data-parent-id") === folderId) {
                 $(this).show();
+                if (media.isBrowser === "true") {
+                    $(this).click(function () {
+                        $("div.file-item").removeClass("bg-info");
+                        $(this).addClass("bg-info");
+                        var url = location.protocol + "//" + location.host + "/Media/File/Preview/" + $(this).attr("data-parent-id") + "/" + $(this).attr("data-id") + "/" + $(this).attr("data-hash");
+                        localStorage.setItem("file-path", url);
+                    });
+                }
             }
         });
         $("div.up-folder").hide();
@@ -223,5 +229,13 @@ var media = {
     },
     downloadFile: function (FolderID, FileID, hash) {
         window.open("/Media/File/Download/" + FolderID + "/" + FileID + "/" + hash);
+    },
+    shareFile: function (FileID) {
+        mbAjax.callAjax('GET', { action: '/Media/File/Share/' + FileID, data: null }, function () {
+            media.load(0, 0);
+            setTimeout(function () {
+                $("div.file-item[data-id='" + media.folderId + "']").find("a.file-item-name").trigger('click');
+            }, 100);
+        });
     }
 }

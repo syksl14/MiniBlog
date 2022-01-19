@@ -57,6 +57,7 @@
           <Property Name="Crud" Type="int" Nullable="false" />
           <Property Name="Date" Type="datetime" Nullable="false" />
           <Property Name="AuthorID" Type="int" Nullable="false" />
+          <Property Name="Privacy" Type="nvarchar" MaxLength="1" />
         </EntityType>
         <EntityType Name="Folders">
           <Key>
@@ -64,7 +65,7 @@
           </Key>
           <Property Name="FolderID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="FolderName" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="FolderDescription" Type="nvarchar" MaxLength="50" />
+          <Property Name="FolderDescription" Type="nvarchar" MaxLength="255" />
           <Property Name="CreateDate" Type="datetime" Nullable="false" />
           <Property Name="FolderFileTypes" Type="nvarchar" MaxLength="1000" />
           <Property Name="AuthorID" Type="int" Nullable="false" />
@@ -213,6 +214,7 @@ warning 6002: The table/view 'MyBlog.dbo.Files_V' does not have a primary key de
           <Property Name="CreateDate" Type="datetime" Nullable="false" />
           <Property Name="FolderFileTypes" Type="nvarchar" MaxLength="1000" />
           <Property Name="AuthorID" Type="int" Nullable="false" />
+          <Property Name="Privacy" Type="nvarchar" MaxLength="1" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'MyBlog.dbo.Folders_V' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -475,7 +477,8 @@ warning 6002: The table/view 'MyBlog.dbo.Users_V' does not have a primary key de
     [Files_V].[FolderName] AS [FolderName], 
     [Files_V].[CreateDate] AS [CreateDate], 
     [Files_V].[FolderFileTypes] AS [FolderFileTypes], 
-    [Files_V].[AuthorID] AS [AuthorID]
+    [Files_V].[AuthorID] AS [AuthorID], 
+    [Files_V].[Privacy] AS [Privacy]
     FROM [dbo].[Files_V] AS [Files_V]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="Folders_V" EntityType="Self.Folders_V" store:Type="Views" store:Schema="dbo">
@@ -901,6 +904,7 @@ warning 6002: The table/view 'MyBlog.dbo.Users_V' does not have a primary key de
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Folder" Relationship="MyBlogModel.FK_Files_Media" FromRole="File" ToRole="Folder" />
           <Property Name="AuthorID" Type="Int32" Nullable="false" />
+          <Property Name="Privacy" Type="String" MaxLength="1" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Folder">
           <Key>
@@ -908,7 +912,7 @@ warning 6002: The table/view 'MyBlog.dbo.Users_V' does not have a primary key de
           </Key>
           <Property Name="FolderID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="FolderName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="FolderDescription" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FolderDescription" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="FolderFileTypes" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="AuthorID" Type="Int32" Nullable="false" />
@@ -958,6 +962,7 @@ warning 6002: The table/view 'MyBlog.dbo.Users_V' does not have a primary key de
           <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="FolderFileTypes" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="AuthorID" Type="Int32" Nullable="false" />
+          <Property Name="Privacy" Type="String" MaxLength="1" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Folders_V">
           <Key>
@@ -1191,6 +1196,7 @@ warning 6002: The table/view 'MyBlog.dbo.Users_V' does not have a primary key de
           <EntitySetMapping Name="Files">
             <EntityTypeMapping TypeName="MyBlogModel.File">
               <MappingFragment StoreEntitySet="Files">
+                <ScalarProperty Name="Privacy" ColumnName="Privacy" />
                 <ScalarProperty Name="AuthorID" ColumnName="AuthorID" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="Crud" ColumnName="Crud" />
@@ -1224,6 +1230,7 @@ warning 6002: The table/view 'MyBlog.dbo.Users_V' does not have a primary key de
           <EntitySetMapping Name="Files_V">
             <EntityTypeMapping TypeName="MyBlogModel.Files_V">
               <MappingFragment StoreEntitySet="Files_V">
+                <ScalarProperty Name="Privacy" ColumnName="Privacy" />
                 <ScalarProperty Name="AuthorID" ColumnName="AuthorID" />
                 <ScalarProperty Name="FolderFileTypes" ColumnName="FolderFileTypes" />
                 <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />

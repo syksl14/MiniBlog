@@ -6,7 +6,7 @@
         <li class="@(ViewContext.ParentActionViewContext.RouteData.Values["Action"].ToString() == "Categories" ? "active" : "")"><a href="~/Admin/Categories">Kategoriler</a></li>
         <li class="@(ViewContext.ParentActionViewContext.RouteData.Values["Action"].ToString() == "Users" ? "active" : "")"><a href="~/Admin/Users">Kullanıcılar</a></li>
         <li class="@(ViewContext.ParentActionViewContext.RouteData.Values["Action"].ToString() == "Pages" ? "active" : "")"><a href="~/Admin/Pages">Sayfalar</a></li>
-        <li class="@(ViewContext.ParentActionViewContext.RouteData.Values["Action"].ToString() == "Media" ? "active" : "")"><a href="~/Admin/Media">Medya</a></li>
+        <li class="@(ViewContext.ParentActionViewContext.RouteData.Values["Action"].ToString() == "Media" ? "active" : "")"><a href="~/Admin/Media?browser=false">Medya</a></li>
         <li class="@(ViewContext.ParentActionViewContext.RouteData.Values["Action"].ToString() == "SiteSettings" ? "active" : "")"><a href="~/Admin/SiteSettings">Site Ayarları</a></li>
         <li class="nav-item">
             <span class="navbar-text">

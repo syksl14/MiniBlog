@@ -37,7 +37,7 @@
 }
 @foreach (var f in Model.Files)
 {
-    <div class="file-item" data-id="@f.FileID" data-parent-id="@f.FolderID" style="display: none;">
+    <div class="file-item" data-id="@f.FileID" data-hash="@f.FileHash" data-parent-id="@f.FolderID" style="display: none;">
         <div class="file-item-select-bg bg-primary"></div>
         <label class="file-item-checkbox custom-control custom-checkbox">
             <input type="checkbox" class="custom-control-input" />
@@ -54,7 +54,17 @@
                 <span class="caret"></span>
             </button>
             <ul class="dropdown-menu dropdown-menu-right">
+                @if (f.Privacy == "H")
+                {
+                    <li onclick="media.shareFile(@f.FileID);"><a href="javascript:void(0)"><i class="fa fa-share-alt"></i>&nbsp;Dosyayı Paylaşılabilir Yap</a></li>
+                }
+                else
+                {
+                    <li onclick="media.shareFile(@f.FileID);"><a href="javascript:void(0)"><i class="fa fa-eye-slash"></i>&nbsp;Dosyayı Paylaşımdan Kaldır</a></li>
+                    <li><input type="text" class="form-control input-sm" style="width: 85%; margin: auto;" readonly onclick="$(this).select();" value="@System.Configuration.ConfigurationManager.AppSettings["site_url"].ToString()/Media/File/Preview/@f.FolderID/@f.FileID/@f.FileHash" /></li>
+                }
                 <li onclick="media.downloadFile(@f.FolderID, @f.FileID, '@f.FileHash');"><a href="javascript:void(0)"><i class="fa fa-download"></i>&nbsp;İndir</a></li>
+                <li><hr class="separator" /></li>
                 <li onclick="media.renameFile('@f.FileID');"><a href="javascript:void(0)">Yeniden Adlandır</a></li>
                 <li onclick="media.deleteFile('@f.FileID');"><a href="javascript:void(0)">Sil</a></li>
             </ul>

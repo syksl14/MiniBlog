@@ -12,13 +12,23 @@ namespace MiniBlog.Controllers
         private AdminContext db = new AdminContext();
         // GET: Media
         [_SessionControl]
-        public ActionResult Index()
+        public ActionResult Index(string Browser)
         {
             MediaModel model = new MediaModel();
-            var files = from e in db.Files_V where e.Crud < 3 orderby e.FileName descending select e;
-            var folders = from e in db.Folders_V where e.Crud < 3 orderby e.FolderName descending select e;
-            model.Files = files.ToList();
-            model.Folders = folders.ToList();
+            if (Browser == "true")
+            {
+                var files = from e in db.Files_V where e.Crud < 3 && e.Privacy == "P" orderby e.FileName descending select e;
+                var folders = from e in db.Folders_V where e.Crud < 3 orderby e.FolderName descending select e;
+                model.Files = files.ToList();
+                model.Folders = folders.ToList();
+            }
+            else
+            {
+                var files = from e in db.Files_V where e.Crud < 3 orderby e.FileName descending select e;
+                var folders = from e in db.Folders_V where e.Crud < 3 orderby e.FolderName descending select e;
+                model.Files = files.ToList();
+                model.Folders = folders.ToList();
+            }
             return PartialView("_Index", model);
         }
 
@@ -70,6 +80,7 @@ namespace MiniBlog.Controllers
                     f.FolderID = folder.FolderID;
                     f.FileHash = Helper.CalculateMD5(Server.MapPath(filePath));
                     f.AuthorID = Convert.ToInt32(User.Identity.Name);
+                    f.Privacy = "P"; //Public
                     db.File.Add(f);
                     db.SaveChanges();
                     return Json(new { success = true, responseText = "OK" }, JsonRequestBehavior.AllowGet);
@@ -129,6 +140,7 @@ namespace MiniBlog.Controllers
                 return Json(new { success = false, errors = ModelState.Values.SelectMany(x => x.Errors).Select(x => x.ErrorMessage).ToList() }, JsonRequestBehavior.AllowGet);
             }
         }
+
         [_SessionControl]
         [HttpPost]
         [Route("Media/Folder/Save")]
@@ -149,6 +161,34 @@ namespace MiniBlog.Controllers
             else
             {
                 return Json(new { success = false, errors = ModelState.Values.SelectMany(x => x.Errors).Select(x => x.ErrorMessage).ToList() }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [_SessionControl]
+        [Route("Media/File/Share/{id:int}")]
+        public ActionResult FileShare(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var current = db.File.Find(id);
+            if (current != null)
+            {
+                if (current.Privacy == "P")
+                {
+                    current.Privacy = "H"; //Hidden file 
+                }
+                else
+                {
+                    current.Privacy = "P"; //Public shared file
+                }
+                db.SaveChanges();
+                return Json(new { success = true, responseText = "OK" }, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
             }
         }
 
@@ -209,10 +249,54 @@ namespace MiniBlog.Controllers
         [_SessionControl]
         [Route("Media/File/Download/{FolderID:int}/{FileID:int}/{hash}")]
         public FileResult FileDownload(int FolderID, int FileID, string hash)
-        {  
+        {
             var result = db.Files_V.Where(f => f.FileHash == hash && f.FolderID == FolderID && f.FileID == FileID).SingleOrDefault();
             byte[] file = System.IO.File.ReadAllBytes(Server.MapPath("~/" + result.FilePath));
             return File(file, System.Net.Mime.MediaTypeNames.Application.Octet, result.FileName);
+        }
+
+        [Route("Media/File/Preview/{FolderID:int}/{FileID:int}/{hash}")]
+        public FileResult FilePreview(int FolderID, int FileID, string hash)
+        {
+            var result = db.Files_V.Where(f => f.FileHash == hash && f.FolderID == FolderID && f.FileID == FileID && f.Privacy == "P").SingleOrDefault();
+            if (result == null)
+            {
+                return null;
+            }
+            else
+            {
+                byte[] file = System.IO.File.ReadAllBytes(Server.MapPath("~/" + result.FilePath));
+                String mimeType = "";
+                if (result.FileName.Contains(".pdf"))
+                {
+                    mimeType = "application/pdf";
+                }
+                else if (result.FileName.Contains(".mp4"))
+                {
+                    mimeType = "video/mp4";
+                }
+                else if (result.FileName.Contains(".mp3"))
+                {
+                    mimeType = "audio/mpeg";
+                }
+                else if (result.FileName.Contains(".jpg") || result.FileName.Contains(".jpeg"))
+                {
+                    mimeType = "image/jpeg";
+                }
+                else if (result.FileName.Contains(".png"))
+                {
+                    mimeType = "image/png";
+                }
+                else if (result.FileName.Contains(".gif"))
+                {
+                    mimeType = "image/gif";
+                }
+                else if (result.FileName.Contains(".svg"))
+                {
+                    mimeType = "image/svg+xml";
+                }
+                return base.File(file, mimeType);
+            }
         }
     }
 }

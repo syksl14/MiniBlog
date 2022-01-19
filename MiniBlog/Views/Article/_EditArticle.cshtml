@@ -81,8 +81,15 @@
     $(function () {
         $("textarea#Article").summernote({
             height: 250,
-            lang: 'tr-TR'
+            lang: 'tr-TR',
+            dialogsInBody: true
         });
         $("input#Keywords").tagsinput('items');
+        //initialize basic image select button 
+        $(".note-btn-group i.note-icon-picture").click(function () {
+            setTimeout(function () {
+                mediaPlugin.init();
+            }, 300);
+        });
     });
 </script>

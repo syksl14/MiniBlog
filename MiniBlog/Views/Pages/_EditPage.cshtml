@@ -58,7 +58,14 @@
     $(function () {
         $("textarea#Page").summernote({
             height: 250,
-            lang: 'tr-TR'
+            lang: 'tr-TR',
+            dialogsInBody: true
+        });
+        //initialize basic image select button 
+        $(".note-btn-group i.note-icon-picture").click(function () {
+            setTimeout(function () {
+                mediaPlugin.init();
+            }, 300);
         });
         $("input#Keywords").tagsinput('items');
     });

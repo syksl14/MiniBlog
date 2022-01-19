@@ -50,18 +50,21 @@
 
         <div class="file-manager-actions container-p-x py-2">
             <div>
-                <button type="button" class="btn btn-primary mr-2" id="btnFileUpload"><i class="fa fa-cloud-upload"></i>&nbsp; Yükle</button>
-                <button type="button" class="btn btn-secondary " disabled="" id="btnFileDownload"><i class="fa fa-cloud-download"></i></button>
-                <div class="btn-group mr-2">
-                    <button type="button" class="btn btn-default md-btn-flat dropdown-toggle dropdown-preferences px-2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fa fa-gear"></i>
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-left dropdown-preferences-menu">
-                        <li data-item="new-folder"><a href="javascript:void(0)">Yeni Klasör</a></li>
-                        <li><hr class="separator" /></li>
-                        <li data-item="items-delete" class="disabled"><a href="javascript:void(0)">Sil</a></li>
-                    </ul>
-                </div>
+                @if (ViewBag.Browser == "false")
+                {
+                    <button type="button" class="btn btn-primary mr-2" id="btnFileUpload"><i class="fa fa-cloud-upload"></i>&nbsp; Yükle</button>
+                    <button type="button" class="btn btn-secondary " disabled="" id="btnFileDownload"><i class="fa fa-cloud-download"></i></button>
+                    <div class="btn-group mr-2">
+                        <button type="button" class="btn btn-default md-btn-flat dropdown-toggle dropdown-preferences px-2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-gear"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-left dropdown-preferences-menu">
+                            <li data-item="new-folder"><a href="javascript:void(0)">Yeni Klasör</a></li>
+                            <li><hr class="separator" /></li>
+                            <li data-item="items-delete" class="disabled"><a href="javascript:void(0)">Sil</a></li>
+                        </ul>
+                    </div>
+                }
             </div>
             <div>
                 <div class="btn-group btn-group-toggle" data-toggle="buttons">
@@ -74,14 +77,37 @@
         <div class="panel panel-default" id="divMedia">
             <div class="panel-heading">/</div>
             <div class="panel-body">
-                <form action="/Media/File/Upload"
-                      class="dropzone dropzone-none-area"
-                      id="fileupload">
-                    <div class="file-manager-container file-manager-col-view"></div>
-                </form>
+                @if (ViewBag.Browser == "false")
+                {
+                    <form action="/Media/File/Upload"
+                          class="dropzone dropzone-none-area"
+                          id="fileupload">
+                        <div class="file-manager-container file-manager-col-view"></div>
+                    </form>
+                }
+                else
+                {
+                    <form action="javascript:">
+                        <div class="file-manager-container file-manager-col-view"></div>
+                    </form>
+                }
             </div>
         </div>
     </div>
 
 </div>
 <script src="~/scripts/pages/admin/media.js"></script>
+<script>
+    $(function () {
+        media.isBrowser = "@ViewBag.Browser";
+        if (media.isBrowser == "false") {
+            console.log("dropzone activated!");
+            Dropzone.autoDiscover = false;
+            media.fileUploadCreate();
+        } else {
+            localStorage.removeItem("file-path");
+            $(".navbar").remove();
+        }
+        media.load();
+    });
+</script>

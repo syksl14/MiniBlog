@@ -62,8 +62,9 @@ namespace MiniBlog.Controllers
         }
 
         [_SessionControl]
-        public ActionResult Media()
+        public ActionResult Media(string browser)
         {
+            ViewBag.Browser = browser;
             return View();
         }
 
