@@ -27,6 +27,8 @@ A small and lightweight blogging system in ASP.NET MVC is still under developmen
 ## DEMO
 https://www.selahattinyuksel.net (version 1.0)
 
+https://miniblog.selahattinyuksel.net/ (version 1.1 - Test App)
+
 -----------------------------------------------------------------------------------------------------------
 
 # MiniBlog
@@ -57,3 +59,6 @@ ASP.NET MVC'de küçük ve hafif bir bloglama sistemi halen geliştirilme aşama
 
 ## DEMO
 https://www.selahattinyuksel.net (version 1.0)
+
+https://miniblog.selahattinyuksel.net/ (version 1.1 - Test App)
+
