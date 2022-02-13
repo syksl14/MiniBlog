@@ -1,0 +1,17 @@
+﻿@model IEnumerable<MiniBlog.Models.Articles_V>
+
+
+@foreach (var item in Model)
+{
+    if (item.CoverPhoto == null)
+    {
+        item.CoverPhoto = "Content/imgs/no-image.png";
+    }
+    <a href="@Url.Action("Details", "Article", new { category = @Url.FriendlyURLTitle(item.CategoryName), title = @Url.FriendlyURLTitle(@item.Title), id = @item.ArticleID })">
+        <div class="post d-flex align-items-center">
+            <div class="image"><img src="@item.CoverPhoto" alt="..." class="img-fluid"></div>
+            <div class="title"><strong>@item.Title</strong><span class="date last-meta">@item.Date.ToString("dd MMMM, yyyy")</span></div>
+        </div>
+    </a> 
+}
+

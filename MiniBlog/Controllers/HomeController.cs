@@ -120,10 +120,10 @@ namespace MiniBlog.Controllers
             return PartialView("_Categories", categories.ToList());
         }
         [ChildActionOnly]
-        public ActionResult LatestArticles()
+        public ActionResult LatestArticles(int limit = 5)
         {
             var articles = from e in db.Articles_V where e.Privacy == "P" orderby e.ArticleID descending select e;
-            return PartialView("_LatestArticles", articles.Take(5));
+            return PartialView("_LatestArticles", articles.Take(limit));
         }
         [Route("SiteMap")]
         public ActionResult SiteMap()

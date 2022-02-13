@@ -2,25 +2,26 @@
 @using PagedList.Mvc
 @model IPagedList<MiniBlog.Models.Articles_V>
 
-        @foreach (var item in Model)
-        { 
-                <!-- Post preview-->
-                <div class="post-preview">
-                    <a href="@Url.Action("Details", "Article", new { category = @Url.FriendlyURLTitle(item.CategoryName), title = @Url.FriendlyURLTitle(@item.Title), id = @item.ArticleID })" title="@item.Title">
-                        <h2 class="post-title">@item.Title</h2>
-                        <h3 class="post-subtitle">@item.Summary</h3>
-                    </a>
-                    <p class="post-meta">
-                        Gönderen
-                        <a href="#!">@(item.Name + " " + item.Surname)</a>
-                        @if (item.UpdateDate != null)
-                        {@Html.Raw("| <i class='fas fa-pencil-alt'></i>&nbsp;" + Helper.TimeAgo(item.UpdateDate.Value) + " güncellendi.");
-                    }
-                    </p>
-                </div>
-                <!-- Divider-->
-                <hr class="my-4" /> 
+@foreach (var item in Model)
+{
+    <!-- Post preview-->
+    <div class="post-preview">
+        <a href="@Url.Action("Details", "Article", new { category = @Url.FriendlyURLTitle(item.CategoryName), title = @Url.FriendlyURLTitle(@item.Title), id = @item.ArticleID })" title="@item.Title">
+            <h2 class="post-title">@item.Title</h2>
+            <h3 class="post-subtitle">@item.Summary</h3>
+        </a>
+        <p class="post-meta">
+            Gönderen
+            <a href="#!">@(item.Name + " " + item.Surname)</a>
+            @if (item.UpdateDate != null)
+            {@Html.Raw("| <i class='fas fa-pencil-alt'></i>&nbsp;" + Helper.TimeAgo(item.UpdateDate.Value) + " güncellendi.");
         }
+        </p>
+    </div>
+    <!-- Divider-->
+    <hr class="my-4" />
+
+}
 
 <nav aria-label="Page navigation">
     @Html.PagedListPager(Model, page => Url.Action("", new { page }), PagedListRenderOptions.PageNumbersOnly)

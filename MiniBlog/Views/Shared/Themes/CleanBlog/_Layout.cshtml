@@ -28,9 +28,6 @@
                     <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/">Ana Sayfa</a></li>
                     @{ Html.RenderAction("Pages", "Home", new { listItemClass = "nav-item", textItemClass = "nav-link px-lg-3 py-3 py-lg-4" }); }
                     <li class="nav-item">
-                        <a class="nav-link px-lg-3 py-3 py-lg-4" href="@Url.Content("~/Home/About")">Hakkımda</a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link px-lg-3 py-3 py-lg-4" href="@Url.Content("~/Home/Contact")">İletişim</a>
                     </li>
                     @if (@HttpContext.Current.User.Identity.Name != "")

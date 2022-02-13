@@ -172,6 +172,7 @@ warning 6002: The table/view 'MyBlog.dbo.Articles_V' does not have a primary key
           <Property Name="UpdateDate" Type="datetime" />
           <Property Name="Privacy" Type="nvarchar" MaxLength="1" Nullable="false" />
           <Property Name="AuthorityLevel" Type="int" />
+          <Property Name="ProfilePicture" Type="nvarchar" MaxLength="255" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'MyBlog.dbo.Files_V' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -454,7 +455,8 @@ warning 6002: The table/view 'MyBlog.dbo.Users_V' does not have a primary key de
     [Articles_V].[CategoryName] AS [CategoryName], 
     [Articles_V].[UpdateDate] AS [UpdateDate], 
     [Articles_V].[Privacy] AS [Privacy], 
-    [Articles_V].[AuthorityLevel] AS [AuthorityLevel]
+    [Articles_V].[AuthorityLevel] AS [AuthorityLevel], 
+    [Articles_V].[ProfilePicture] AS [ProfilePicture]
     FROM [dbo].[Articles_V] AS [Articles_V]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="Files_V" EntityType="Self.Files_V" store:Type="Views" store:Schema="dbo">
@@ -669,6 +671,7 @@ warning 6002: The table/view 'MyBlog.dbo.Users_V' does not have a primary key de
           <Property Name="UpdateDate" Type="DateTime" Precision="3" />
           <Property Name="Privacy" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="true" />
           <Property Name="AuthorityLevel" Type="Int32" />
+          <Property Name="ProfilePicture" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_Articles_Authors">
           <End Role="Authors" Type="Self.Author" Multiplicity="1">
@@ -1084,6 +1087,7 @@ warning 6002: The table/view 'MyBlog.dbo.Users_V' does not have a primary key de
           <EntitySetMapping Name="Articles_V">
             <EntityTypeMapping TypeName="MyBlogModel.Articles_V">
               <MappingFragment StoreEntitySet="Articles_V">
+                <ScalarProperty Name="ProfilePicture" ColumnName="ProfilePicture" />
                 <ScalarProperty Name="AuthorityLevel" ColumnName="AuthorityLevel" />
                 <ScalarProperty Name="Privacy" ColumnName="Privacy" />
                 <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />

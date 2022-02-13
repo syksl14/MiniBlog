@@ -45,9 +45,6 @@
                     </li>
                     @{ Html.RenderAction("Pages", "Home", new { listItemClass = "", textItemClass = "" }); }
                     <li>
-                        <a href="@Url.Content("~/Home/About")">Hakkımda</a>
-                    </li>
-                    <li>
                         <a href="@Url.Content("~/Home/Contact")">İletişim</a>
                     </li> 
                     @if (@HttpContext.Current.User.Identity.Name != "")

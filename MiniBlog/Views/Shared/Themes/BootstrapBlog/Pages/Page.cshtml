@@ -1,0 +1,35 @@
+﻿@model MiniBlog.Models.Page
+@{
+    ViewBag.Keywords = Model.Keywords;
+    ViewBag.Title = Model.Title;
+}
+
+@if (Model.CoverPhoto == null)
+{
+    Model.CoverPhoto = "~/Content/imgs/no-image.png";
+}
+<section style="background: url(@Url.Content(Model.CoverPhoto)); background-size: cover; background-position: center center" class="hero">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-7">
+                <h1>@Model.Title</h1>
+                <h3>@Model.HeaderText</h3>
+            </div>
+        </div>
+    </div>
+</section>
+<main class="post blog-post">
+    <div class="container">
+        <div class="post-details">
+            @Html.Raw(Model.Page1)
+
+            <div class="post-tags">
+                @foreach (string key in Model.Keywords.Split(',').ToList())
+                {
+                    <a href="#" class="tag">#@key</a>
+                }
+            </div>
+        </div>
+    </div>
+
+</main>

@@ -28,7 +28,7 @@ var pages = {
             }, 'show');
             mbAjax.bindForm(this, function () {
                 helper.successForm($("#modalAddPageContent form"));
-                locaton.reload();
+                location.reload();
             });
         });
     },
@@ -39,7 +39,7 @@ var pages = {
             }, 'show');
             mbAjax.bindForm(this, function () {
                 helper.successForm($("#modalEditPageContent form"));
-                locaton.reload();
+                location.reload();
             });
         });
     },

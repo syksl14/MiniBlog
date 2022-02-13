@@ -1,5 +1,4 @@
 $(function () {
-
     $("#contactForm input,#contactForm textarea").jqBootstrapValidation({
         preventSubmit: true,
         submitError: function ($form, event, errors) {
@@ -53,7 +52,7 @@ $(function () {
                         $('#contactForm').trigger("reset");
                     }
                     $("#contactForm button[type='submit']").html("Gönder").removeAttr("disabled");
-                    if ($("#g-recaptcha").size() > 0) {
+                    if ($("#g-recaptcha").length > 0) {
                         grecaptcha.reset();
                     }
                 },

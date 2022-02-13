@@ -1,0 +1,76 @@
+﻿@using PagedList
+@using PagedList.Mvc
+@model IPagedList<MiniBlog.Models.Articles_V>
+<br />
+<h2 class="index-title"><b>@ViewBag.CategoryName</b> Yazıları</h2>
+<div class="featured-posts no-padding-top" style="margin-top: 50px;">
+    @{int i = 0;}
+    @foreach (var item in Model)
+    {
+        if (item.CoverPhoto == null)
+        {
+            item.CoverPhoto = "Content/imgs/no-image.png";
+        }
+        if (i == 0)
+        {
+            <div class="row d-flex align-items-stretch">
+                <div class="image col-lg-5" style="min-height: 346.781px;"><img src="@item.CoverPhoto" alt="..."></div>
+                <div class="text col-lg-7">
+                    <div class="text-inner d-flex align-items-center">
+                        <div class="content">
+                            <header class="post-header">
+                                <div class="category"><a href="#">@item.CategoryName</a></div><a href="@Url.Action("Details", "Article", new { category = @Url.FriendlyURLTitle(item.CategoryName), title = @Url.FriendlyURLTitle(@item.Title), id = @item.ArticleID })">
+                                    <h2 class="h4">@item.Title</h2>
+                                </a>
+                            </header>
+                            <p>@item.Summary</p>
+                            <footer class="post-footer d-flex align-items-center">
+                                <a href="#" class="author d-flex align-items-center flex-wrap">
+                                    @if (item.ProfilePicture == null)
+                                    {
+                                        item.ProfilePicture = "Content/imgs/user-pic.png";
+                                    }
+                                    <div class="avatar"><img src="@item.ProfilePicture?width=40&height=40&format=jpg&mode=crop" alt="..." class="img-fluid"></div>
+                                    <div class="title"><span>@(item.Name + " " + item.Surname)</span></div>
+                                </a>
+                                <div class="date"><i class="fa fa-clock-o"></i> @(Helper.TimeAgo(item.Date))</div>
+                            </footer>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            i = 1;
+        }
+        else
+        {
+            <div class="row d-flex align-items-stretch">
+                <div class="text col-lg-7">
+                    <div class="text-inner d-flex align-items-center">
+                        <div class="content">
+                            <header class="post-header">
+                                <div class="category"><a href="#">@item.CategoryName</a></div><a href="@Url.Action("Details", "Article", new { category = @Url.FriendlyURLTitle(item.CategoryName), title = @Url.FriendlyURLTitle(@item.Title), id = @item.ArticleID })">
+                                    <h2 class="h4">@item.Title</h2>
+                                </a>
+                            </header>
+                            <p>@item.Summary</p>
+                            <footer class="post-footer d-flex align-items-center">
+                                <a href="#" class="author d-flex align-items-center flex-wrap">
+                                    @if (item.ProfilePicture == null)
+                                    {
+                                        item.ProfilePicture = "Content/imgs/user-pic.png";
+                                    }
+                                    <div class="avatar"><img src="@item.ProfilePicture?width=40&height=40&format=jpg&mode=crop" alt="..." class="img-fluid"></div>
+                                    <div class="title"><span>@(item.Name + " " + item.Surname)</span></div>
+                                </a>
+                                <div class="date"><i class="fa fa-clock-o"></i> @(Helper.TimeAgo(item.Date))</div>
+                            </footer>
+                        </div>
+                    </div>
+                </div>
+                <div class="image col-lg-5" style="min-height: 346.781px;"><img src="@item.CoverPhoto" alt="..."></div>
+            </div>
+
+            i = 0;
+        }
+    }
+</div>

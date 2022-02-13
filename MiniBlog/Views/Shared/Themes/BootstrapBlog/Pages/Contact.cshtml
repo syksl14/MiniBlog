@@ -1,0 +1,79 @@
+﻿<div class="container">
+    <div class="row">
+        <main class="col-lg-12">
+            <section class="mb-4">
+
+                <!--Section heading-->
+                <h2 class="h1-responsive font-weight-bold text-center my-4">İletişim</h2>
+                <!--Section description-->
+                <p class="text-center w-responsive mx-auto mb-5">
+                    Sormak istediğiniz bir şey var mı? Lütfen doğrudan benimle iletişime geçmekten çekinmeyin. Size en kısa süre içinde size geri döneceğim.
+                </p>
+
+                <div class="row">
+
+                    <!--Grid column-->
+                    <div class="col-md-12 mb-md-0 mb-5">
+                        <form id="contactForm" name="contactForm">
+
+                            <!--Grid row-->
+                            <div class="row">
+
+                                <!--Grid column-->
+                                <div class="col-md-6">
+                                    <div class="md-form mb-0">
+                                        <input type="text" id="name" name="name" class="form-control">
+                                        <label for="name" class="">İsminiz</label>
+                                    </div>
+                                </div>
+                                <!--Grid column-->
+                                <!--Grid column-->
+                                <div class="col-md-6">
+                                    <div class="md-form mb-0">
+                                        <input type="text" id="email" name="email" class="form-control">
+                                        <label for="email" class="">E-Posta adresiniz</label>
+                                    </div>
+                                </div>
+                                <!--Grid column-->
+
+                            </div>
+                            <!--Grid row-->
+                            <div class="row">
+
+                                <!--Grid column-->
+                                <div class="col-md-12">
+
+                                    <div class="md-form">
+                                        <textarea type="text" id="message" name="message" rows="2" class="form-control md-textarea"></textarea>
+                                        <label for="message">Mesajınız</label>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                @if (System.Configuration.ConfigurationManager.AppSettings["reCaptcha_isEnable"].ToString() == "True")
+                                {
+                                    <div class="row control-group">
+                                        <div class="form-group col-xs-12 floating-label-form-group controls">
+                                            <input type="hidden" id="response_key" name="response_key" value="" />
+                                            <div id="g-recaptcha" data-sitekey="@System.Configuration.ConfigurationManager.AppSettings["reCaptcha_siteKey"].ToString()"></div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                            <!--Grid row-->
+                            <div class="text-center text-md-right">
+                                <button class="btn btn-primary" type="submit">Gönder</button>
+                            </div>
+                        </form> 
+                        <div class="status" id="success"></div>
+                    </div>
+                </div>
+
+            </section>
+        </main>
+    </div>
+</div>
+<script src="~/scripts/jqBootstrapValidation.js"></script>
+<script src="~/scripts/contact_me.js"></script>

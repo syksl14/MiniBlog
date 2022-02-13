@@ -1,16 +1,21 @@
 ﻿@model IEnumerable<MiniBlog.Models.Articles_V>
-
-<div class="panel panel-info divSonYazilar">
-    <div class="panel-heading">
-        <i class="fa fa-file"></i> Son Yazılar
+@if (!System.Configuration.ConfigurationManager.AppSettings["site_theme_page"].ToString().Contains("/Default"))
+{
+    @Html.Partial(System.Configuration.ConfigurationManager.AppSettings["site_theme"].ToString() + "/Pages/_LatestArticles.cshtml", Model)
+}
+else
+{
+    <div class="panel panel-info divSonYazilar">
+        <div class="panel-heading">
+            <i class="fa fa-file"></i> Son Yazılar
+        </div>
+        <div class="panel-body">
+            <ul>
+                @foreach (var item in Model)
+                {
+                    <li><a href="@Url.Action("Details", "Article", new { category = @Url.FriendlyURLTitle(item.CategoryName), title = @Url.FriendlyURLTitle(@item.Title), id = @item.ArticleID })">@item.Title</a></li>
+                }
+            </ul>
+        </div>
     </div>
-    <div class="panel-body">
-        <ul>
-            @foreach (var item in Model)
-            {
-                <li><a href="@Url.Action("Details", "Article", new { category = @Url.FriendlyURLTitle(item.CategoryName), title = @Url.FriendlyURLTitle(@item.Title), id = @item.ArticleID })">@item.Title</a></li>
-            }
-        </ul>
-    </div>
-</div>
-
+}

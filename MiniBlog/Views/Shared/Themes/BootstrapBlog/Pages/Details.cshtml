@@ -1,0 +1,95 @@
+﻿@model MiniBlog.Models.Article_V
+@if (Model.CoverPhoto == null)
+{
+    Model.CoverPhoto = "~/Content/imgs/no-image.png";
+}
+<div class="container">
+    <div class="row">
+        <main class="post blog-post col-lg-8">
+            <div class="container">
+                <div class="post-single">
+                    <div class="post-thumbnail"><img src="@Url.Content(Model.CoverPhoto)" alt="..." class="img-fluid"></div>
+                    <div class="post-details">
+                        <div class="post-meta d-flex justify-content-between">
+                            <div class="category"><a href="#">@Model.CategoryName</a></div>
+                        </div>
+                        <h1>@Model.Title</h1>
+                        <div class="post-footer d-flex align-items-center flex-column flex-sm-row">
+                            <a href="#" class="author d-flex align-items-center flex-wrap">
+                                @if (Model.ProfilePicture == null)
+                                {
+                                    Model.ProfilePicture = "Content/imgs/user-pic.png";
+                                }
+                                <div class="avatar"><img src="@Model.ProfilePicture" alt="..." class="img-fluid"></div>
+                                <div class="title"><span>@Model.Name @Model.Surname</span></div>
+                            </a>
+                            <div class="d-flex align-items-center flex-wrap">
+                                <div class="date"><i class="fa fa-clock-o"></i> @(Helper.TimeAgo(Model.Date))</div>
+                                <div class="views"><i class="fa fa-eye"></i> @Model.ReadNumber</div>
+                            </div>
+                        </div>
+                        <div class="post-body">
+                            @Html.Raw(Model.Article)
+                        </div>
+                        <div class="post-comments" id="disqus_thread">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <aside class="col-lg-4">
+            <!-- Widget [Search Bar Widget]-->
+            <div class="widget search">
+                <header>
+                    <h3 class="h6">Blog'da Ara</h3>
+                </header>
+                <form action="/Article/Search" class="search-form">
+                    <div class="form-group">
+                        <input type="search" name="content" maxlength="30" placeholder="Ne Arıyorsun?">
+                        <button type="submit" class="submit"><i class="fa fa-search"></i></button>
+                    </div>
+                </form>
+            </div>
+            <div class="widget latest-posts">
+                <header>
+                    <h3 class="h6">Son Gönderiler</h3>
+                </header>
+                <div class="blog-posts">
+
+                    @Html.Action("LatestArticles", "Home", new { limit = 6 })
+                </div>
+            </div>
+            <div class="widget categories">
+                <header>
+                    <h3 class="h6">Kategoriler</h3>
+                </header>
+                @Html.Action("Categories", "Home", new MiniBlog.Models.Category())
+            </div>
+            <div class="widget tags">
+                <header>
+                    <h3 class="h6">Taglar</h3>
+                </header>
+                <ul class="list-inline">
+                    @foreach (string key in Model.Keywords.Split(',').ToList())
+                    {
+                        <li class="list-inline-item">@Html.ActionLink(key, "Tag", new { keyword = key }, new { @class = "tag" })</li>
+
+                    }
+                </ul>
+            </div>
+        </aside>
+    </div>
+</div>
+<script>
+    var disqus_config = function () {
+        this.page.url = location.href;
+        this.page.identifier = @Model.ArticleID;
+    };
+    (function() {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://pocketkafe.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>

@@ -1,0 +1,8 @@
+﻿@model IEnumerable<MiniBlog.Models.Category>
+
+
+@foreach (var c in Model)
+{
+    <div class="item d-flex justify-content-between"><a href="@Url.Action("Category", "Article", new { category = @Url.FriendlyURLTitle(c.CategoryName), CategoryID = @c.CategoryID})">@c.CategoryName</a></div>
+}
+
