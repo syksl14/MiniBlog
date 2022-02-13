@@ -52,9 +52,16 @@ namespace MiniBlog.Controllers
         {
             var item = admin.Pages
                    .OrderByDescending(p => p.PageID)
-                   .FirstOrDefault();  
+                   .FirstOrDefault();
             PageModel model = new PageModel();
-            model.PageOrder = item.PageOrder + 1;
+            if (item != null)
+            {
+                model.PageOrder = item.PageOrder + 1;
+            }
+            else
+            {
+                model.PageOrder = 1;
+            }
             return PartialView("_NewPage", model);
         }
 
@@ -141,7 +148,7 @@ namespace MiniBlog.Controllers
             }
         }
 
-        [_SessionControl] 
+        [_SessionControl]
         public ActionResult Delete(int? id)
         {
             if (id == null)
