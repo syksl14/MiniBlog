@@ -67,6 +67,7 @@ namespace MiniBlog.Views
             model.Mail_IsEnableSSL = Convert.ToBoolean(ConfigurationManager.AppSettings["Mail_IsEnableSSL"]);
             model.Mail_Password = ConfigurationManager.AppSettings["Mail_Password"].ToString();
             model.Mail_UserName = ConfigurationManager.AppSettings["Mail_UserName"].ToString();
+            model.Mail_Address = ConfigurationManager.AppSettings["Mail_Address"].ToString();
             model.Mail_Port = Convert.ToInt32(ConfigurationManager.AppSettings["Mail_Port"].ToString());
             return PartialView("_Email", model);
         }
@@ -89,6 +90,7 @@ namespace MiniBlog.Views
                     config.AppSettings.Settings["Mail_Password"].Value = model.Mail_Password;
                     config.AppSettings.Settings["Mail_UserName"].Value = model.Mail_UserName;
                     config.AppSettings.Settings["Mail_Port"].Value = model.Mail_Port.ToString();
+                    config.AppSettings.Settings["Mail_Address"].Value = model.Mail_Address.ToString();
                     config.Save(ConfigurationSaveMode.Modified);
                     return Json(new { success = true, responseText = "OK" }, JsonRequestBehavior.AllowGet);
                 }

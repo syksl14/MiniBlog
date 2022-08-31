@@ -19,6 +19,10 @@
         <label class="form-check-label" for="Mail_IsEnableSSL">E-Posta Sunucusu SSL Aktif</label>
     </div>
     <div class="form-group">
+        @Html.LabelFor(m => m.Mail_Address)
+        @Html.TextBoxFor(m => m.Mail_Address, new { @class = "form-control", required = "required", type = "email", value = Model.Mail_Address })
+    </div>
+    <div class="form-group">
         @Html.LabelFor(m => m.Mail_UserName)
         @Html.TextBoxFor(m => m.Mail_UserName, new { @class = "form-control", type = "text", value = Model.Mail_UserName })
     </div>

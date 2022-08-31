@@ -248,16 +248,17 @@ namespace MiniBlog
             {
                 if (model == null)
                 {
-                    model = new Models.EmailModel();
+                    model = new EmailModel();
                     model.Mail_Host = ConfigurationManager.AppSettings["Mail_Host"].ToString();
                     model.Mail_Port = Convert.ToInt32(ConfigurationManager.AppSettings["Mail_Port"]);
                     model.Mail_IsEnableSSL = Convert.ToBoolean(ConfigurationManager.AppSettings["Mail_IsEnableSSL"]);
                     model.Mail_From = ConfigurationManager.AppSettings["Mail_From"].ToString();
+                    model.Mail_Address = ConfigurationManager.AppSettings["Mail_Address"].ToString();
                     model.Mail_UserName = ConfigurationManager.AppSettings["Mail_UserName"].ToString();
                     model.Mail_Password = ConfigurationManager.AppSettings["Mail_Password"].ToString();
                 }
                 var message = new MailMessage();
-                message.From = new MailAddress(model.Mail_UserName);
+                message.From = new MailAddress(model.Mail_Address);
                 message.To.Add(new MailAddress(model.Mail_From));
                 message.Subject = title + " - " + ConfigurationManager.AppSettings["site_header_name"].ToString();
                 message.Body = body;
@@ -270,12 +271,12 @@ namespace MiniBlog
                         UserName = model.Mail_UserName,
                         Password = model.Mail_Password
                     };
+                    smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
                     smtp.UseDefaultCredentials = false;
                     smtp.Credentials = credential;
                     smtp.Host = model.Mail_Host;
                     smtp.Port = model.Mail_Port;
                     smtp.EnableSsl = model.Mail_IsEnableSSL;
-                    smtp.Timeout = 5000;
                     await smtp.SendMailAsync(message);
                     response.Result = "OK";
                 }
